@@ -126,6 +126,7 @@ function minimapClick(rn) { if (rn <= Game.state.currentRoom || Game.state.roomC
 function toggleHint(e) { const btn = e?.currentTarget ?? document.getElementById('btn-hint'); if (btn) { btn.classList.add('solving'); setTimeout(() => btn.classList.remove('solving'), 1000); } }
 function toggleSound(e) { Game.state.soundEnabled = !Game.state.soundEnabled; const btn = document.getElementById('btn-sound'); if (btn) btn.textContent = Game.state.soundEnabled ? 'SOUND ON' : 'SOUND OFF'; }
 function saveGame() { localStorage.setItem('escapeRoomState', JSON.stringify(Game.state)); const btn = document.getElementById('btn-save'); if (btn) { const orig = btn.textContent; btn.textContent = 'SAVED'; setTimeout(() => btn.textContent = orig, 1500); } }
+function clearSave() { localStorage.removeItem('escapeRoomState'); localStorage.removeItem('escapeRoomBest'); const btn = document.getElementById('btn-clear-save'); if (btn) { btn.textContent = 'CLEARED'; btn.disabled = true; } setTimeout(() => location.reload(), 800); }
 function playSound(type) { if (!Game.state.soundEnabled) return; try { const ac = new (window.AudioContext || window.webkitAudioContext)(); const osc = ac.createOscillator(); const gain = ac.createGain(); osc.connect(gain); gain.connect(ac.destination); if (type === 'correct') { osc.frequency.value = 880; gain.gain.setValueAtTime(0.1, ac.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, ac.currentTime + 0.2); osc.start(); osc.stop(ac.currentTime + 0.2); } else { osc.frequency.value = 220; gain.gain.setValueAtTime(0.1, ac.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, ac.currentTime + 0.3); osc.start(); osc.stop(ac.currentTime + 0.3); } } catch(e) {} }
 function initParticles() { const canvas = document.getElementById('particle-canvas'); if (!canvas) return; const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = window.innerHeight; const particles = Array.from({length: 40}, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 2 + 0.5, speedX: (Math.random() - 0.5) * 0.3, speedY: -Math.random() * 0.3 - 0.1, opacity: Math.random() * 0.5 + 0.1 })); function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.x += p.speedX; p.y += p.speedY; if (p.y < 0) p.y = canvas.height; if (p.x < 0 || p.x > canvas.width) p.x = Math.random() * canvas.width; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(0,255,136,${p.opacity})`; ctx.fill(); }); requestAnimationFrame(animate); } animate(); window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }); }
 
@@ -166,7 +167,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderFinalCode();
 
     const best = JSON.parse(localStorage.getItem('escapeRoomBest') || '{}');
+    const hasSave = !!localStorage.getItem('escapeRoomState') || !!best.score;
     if (best.score) { const bd = document.getElementById('best-score-display'); if (bd) { bd.style.display = 'block'; document.getElementById('best-score-val').textContent = best.score; document.getElementById('best-time-val').textContent = best.time || '--:--'; } }
+    const clrBtn = document.getElementById('btn-clear-save'); if (clrBtn) clrBtn.style.display = hasSave ? 'inline-block' : 'none';
     
     document.addEventListener('keydown', e => {
       const active = document.querySelector('.puzzle-panel.active-page');

@@ -699,6 +699,6 @@
     "victoryTitle": "Congratulations, you are now a fully certified Food Safety Agent!",
     "victorySubtitle": "You have escaped the facility before total contamination",
     "victoryText": "<strong>Key Learnings:</strong> You demonstrated mastery of biofilm formation, thermal destruction principles, hurdle technology, novel processing methods, biocontrol agents, antimicrobial resistance, and emerging food safety challenges.",
-    "version": "v1.1.0"
+    "version": "v1.2.0"
   }
 }
