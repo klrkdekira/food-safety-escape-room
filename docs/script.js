@@ -136,6 +136,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.title = Game.config.pageTitle;
     document.getElementById('title-logo').textContent = Game.config.titleLogo;
     document.getElementById('title-sub').textContent = Game.config.titleSub;
+    if (Game.config.version && document.getElementById('version-display')) {
+      document.getElementById('version-display').textContent = Game.config.version;
+    }
 
     const minimap = document.getElementById('minimap');
     const minimapRoomsHtml = Game.config.minimapRooms.map((text, i) => 

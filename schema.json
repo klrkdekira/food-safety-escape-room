@@ -20,7 +20,8 @@
         "finalEscapeTerminalText": { "type": "string" },
         "victoryTitle": { "type": "string" },
         "victorySubtitle": { "type": "string" },
-        "victoryText": { "type": "string" }
+        "victoryText": { "type": "string" },
+        "version": { "type": "string" }
       },
       "required": ["pageTitle", "titleLogo", "titleSub", "minimapTitle", "minimapRooms", "missionBriefingTitle", "missionBriefingText"]
     },
