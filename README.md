@@ -1,6 +1,6 @@
 # Food Safety Escape Room
 
-A data-driven, browser-based educational game that teaches Topic 6 of a food microbiology course as a 4-room escape room. 
+A data-driven, browser-based educational game that teaches a food microbiology course as a 4-room escape room. 
 
 ## Overview
 

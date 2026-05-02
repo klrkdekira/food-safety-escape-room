@@ -18,6 +18,7 @@
         "missionBriefingText": { "type": "string" },
         "finalEscapeTerminalTitle": { "type": "string" },
         "finalEscapeTerminalText": { "type": "string" },
+        "finalCode": { "type": "string" },
         "victoryTitle": { "type": "string" },
         "victorySubtitle": { "type": "string" },
         "victoryText": { "type": "string" },
