@@ -91,12 +91,9 @@
       ]
     },
     "3": {
-      "type": "multiselect",
+      "type": "mcq",
       "room": 1,
-      "correct": [
-        "a",
-        "c"
-      ],
+      "correct": "a",
       "points": 100,
       "hint": "Topic 6 names Bacillus cereus and Clostridium perfringens as the spore-forming examples.",
       "explanation": "Topic 6 specifically names Bacillus cereus and Clostridium perfringens as spore-forming pathogens of concern. Salmonella and Staphylococcus aureus are non-spore-formers.",
