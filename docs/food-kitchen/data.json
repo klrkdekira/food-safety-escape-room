@@ -9,9 +9,9 @@
     "timeElapsed": 0,
     "activePuzzles": {
       "1": 1,
-      "2": 4,
-      "3": 7,
-      "4": 10
+      "2": 8,
+      "3": 12,
+      "4": 16
     },
     "codes": {
       "1": false,
@@ -46,6 +46,38 @@
       "explanation": "Mayonnaise is an oil-in-water (O/W) emulsion. Water forms the continuous phase that surrounds dispersed oil droplets. Lecithin from egg yolk acts as the emulsifier, adsorbing at the oil–water interface to stabilise the system and prevent coalescence."
     },
     "2": {
+      "type": "mcq",
+      "room": 1,
+      "points": 80,
+      "title": "EMULSIFIER MECHANISM",
+      "question": "How does <strong>lecithin</strong> stabilise an emulsion?",
+      "options": [
+        { "key": "a", "text": "Increases particle size" },
+        { "key": "b", "text": "Reduces surface tension between oil and water" },
+        { "key": "c", "text": "Converts oil into solid" },
+        { "key": "d", "text": "Evaporates the water phase" }
+      ],
+      "correct": "b",
+      "hint": "Lecithin is amphiphilic — it has a hydrophilic head and a hydrophobic tail. Think about where it sits and what that does to the interface.",
+      "explanation": "Lecithin is an amphiphilic molecule: its hydrophilic phosphate head group orients toward water and its hydrophobic fatty acid tails orient toward oil. This adsorption at the oil–water interface reduces interfacial tension, lowering the energy cost of creating and maintaining small droplets and forming a physical barrier that prevents coalescence."
+    },
+    "3": {
+      "type": "mcq",
+      "room": 1,
+      "points": 80,
+      "title": "EMULSION TYPE",
+      "question": "<strong>Milk</strong> is best classified as which type of emulsion?",
+      "options": [
+        { "key": "a", "text": "Water-in-oil (W/O)" },
+        { "key": "b", "text": "Oil-in-water (O/W)" },
+        { "key": "c", "text": "Gas-in-liquid" },
+        { "key": "d", "text": "Solid-in-liquid" }
+      ],
+      "correct": "b",
+      "hint": "Milk is predominantly water (~87%). The fat is the minor phase — think about which phase is dispersed and which is continuous.",
+      "explanation": "Milk is an oil-in-water (O/W) emulsion: fat globules (dispersed phase, ~3.5–5% fat) are suspended in an aqueous continuous phase (~87% water). Milk proteins, particularly casein micelles and whey proteins, adsorb at the fat globule membrane and provide electrostatic and steric stabilisation against coalescence."
+    },
+    "4": {
       "type": "order",
       "room": 1,
       "points": 100,
@@ -60,7 +92,39 @@
       "hint": "First the two phases must be brought together, then mechanical energy breaks droplets apart, then they are stabilised.",
       "explanation": "Emulsion formation proceeds in 3 stages: (1) Dispersion — the two immiscible phases are brought together, (2) Droplet disruption — mechanical energy (homogenisation, shear) breaks the dispersed phase into fine droplets, (3) Stabilisation — emulsifiers adsorb at the interface and form a protective film to prevent coalescence."
     },
-    "3": {
+    "5": {
+      "type": "mcq",
+      "room": 1,
+      "points": 80,
+      "title": "FACTORS AFFECTING EMULSION",
+      "question": "Which factor is <strong>NOT</strong> directly important in emulsion formation and stability?",
+      "options": [
+        { "key": "a", "text": "Temperature" },
+        { "key": "b", "text": "Energy input" },
+        { "key": "c", "text": "Phase ratio (oil : water)" },
+        { "key": "d", "text": "Colour of the mixture" }
+      ],
+      "correct": "d",
+      "hint": "Three of these factors alter the physical or chemical environment during emulsification. The fourth is purely an aesthetic attribute.",
+      "explanation": "Temperature affects viscosity, interfacial tension, and emulsifier adsorption rate. Energy input (homogenisation, ultrasound) determines droplet size. Phase ratio determines the volume fraction of dispersed phase and influences stability limits (e.g. phase inversion). Colour is an aesthetic property with no effect on the physicochemical processes governing emulsion formation or stability."
+    },
+    "6": {
+      "type": "mcq",
+      "room": 1,
+      "points": 80,
+      "title": "DROPLET SIZE & STABILITY",
+      "question": "In an emulsion, <strong>smaller droplet size</strong> generally leads to:",
+      "options": [
+        { "key": "a", "text": "Faster phase separation" },
+        { "key": "b", "text": "Increased sedimentation" },
+        { "key": "c", "text": "Better stability and slower separation" },
+        { "key": "d", "text": "Immediate coalescence" }
+      ],
+      "correct": "c",
+      "hint": "Recall Stokes' Law — the rate of creaming or sedimentation depends on the square of the droplet radius.",
+      "explanation": "According to Stokes' Law, the creaming/sedimentation velocity is proportional to r² (droplet radius squared). Smaller droplets therefore rise or settle far more slowly, giving better kinetic stability. Smaller droplets also present a greater surface area-to-volume ratio, allowing more emulsifier coverage per unit volume, further resisting coalescence and Ostwald ripening."
+    },
+    "7": {
       "type": "match",
       "room": 1,
       "points": 100,
@@ -93,7 +157,7 @@
       "hint": "Creaming = gravity; Flocculation = loose clusters (reversible); Coalescence = permanent fusion; Ostwald = solubility gradient; Phase inversion = O/W becomes W/O; Breaking = total collapse.",
       "explanation": "Six instability mechanisms: Creaming — droplets rise (or sediment) due to density difference with continuous phase; Flocculation — droplets aggregate loosely but remain intact (reversible); Coalescence — droplets merge permanently reducing interfacial area; Ostwald ripening — molecules migrate from small to large droplets via continuous phase; Phase inversion — O/W switches to W/O or vice versa; Breaking — complete irreversible separation of oil and water."
     },
-    "4": {
+    "8": {
       "type": "mcq",
       "room": 2,
       "points": 80,
@@ -109,7 +173,23 @@
       "hint": "A gel behaves like a solid because of a continuous 3D framework — not because of the liquid it traps.",
       "explanation": "In a gel, the solid polymer network (crosslinked biopolymer chains) forms the continuous phase that gives the gel its solid-like mechanical properties. The liquid (water or solvent) is immobilised within this network. This is why gels exhibit viscoelastic behaviour — they resist deformation like a solid yet show some flow characteristics."
     },
-    "5": {
+    "9": {
+      "type": "mcq",
+      "room": 2,
+      "points": 80,
+      "title": "GEL TYPE",
+      "question": "Which description best characterises a <strong>homogeneous gel</strong>?",
+      "options": [
+        { "key": "a", "text": "Visible phase separation between components" },
+        { "key": "b", "text": "Uniform molecular network throughout" },
+        { "key": "c", "text": "Oil and water layers present" },
+        { "key": "d", "text": "Gas bubbles trapped in solid matrix" }
+      ],
+      "correct": "b",
+      "hint": "Homogeneous means consistent and uniform at the molecular level — no visible regions of different composition.",
+      "explanation": "A homogeneous gel features a uniform molecular network in which biopolymer chains are crosslinked or entangled evenly throughout the continuous phase, with no visible phase separation. Examples include gelatin gels and agar gels. Heterogeneous gels, by contrast, have regions of varying polymer concentration or phase composition visible at the micro- or macroscale."
+    },
+    "10": {
       "type": "match",
       "room": 2,
       "points": 100,
@@ -136,7 +216,7 @@
       "hint": "Ionic crosslinking needs divalent cations (e.g. Ca²⁺). Hydrophobic = non-polar regions avoiding water.",
       "explanation": "Gel networks form via four mechanisms: Hydrogen bonding — polar –OH and –NH groups attract through water bridges (e.g. gelatin, starch); Ionic crosslinking — divalent cations like Ca²⁺ bridge negatively charged polymer chains (e.g. alginate gelation); Hydrophobic interaction — non-polar segments minimise contact with water by clustering together (e.g. casein micelles); Chain entanglement — long polymer chains become physically interlocked at sufficient concentration."
     },
-    "6": {
+    "11": {
       "type": "mcq",
       "room": 2,
       "points": 80,
@@ -152,7 +232,7 @@
       "hint": "Three of these factors alter the physical environment of the polymer chains — the fourth is only an aesthetic property.",
       "explanation": "pH affects the ionisation of functional groups on biopolymers, altering charge and crosslinking potential. Ionic strength screens electrostatic repulsion, allowing closer chain–chain interaction. Sugar competes for water, reducing water activity and promoting network formation. Colour intensity is an aesthetic attribute with no effect on the molecular interactions driving gelation."
     },
-    "7": {
+    "12": {
       "type": "mcq",
       "room": 3,
       "points": 80,
@@ -168,7 +248,7 @@
       "hint": "Whipped cream is still pourable/spreadable — its matrix has not set solid. The bubbles are the dispersed phase.",
       "explanation": "Whipped cream is a gas-in-liquid foam: air bubbles (dispersed phase) are incorporated into liquid cream (continuous phase). Partially crystallised fat globules and adsorbed milk proteins stabilise the air–liquid interface. The foam remains fluid enough to spread yet holds its aerated structure temporarily."
     },
-    "8": {
+    "13": {
       "type": "mcq",
       "room": 3,
       "points": 80,
@@ -184,7 +264,7 @@
       "hint": "Baking sets the bread structure — what was liquid during proving becomes solid in the oven.",
       "explanation": "Bread is a gas-in-solid foam. During proving, yeast fermentation produces CO₂ gas bubbles dispersed in the liquid dough. Baking gelatinises starch and denatures gluten proteins, setting a solid continuous matrix around the gas cells. The result is a permanent solid foam with characteristic porous crumb structure."
     },
-    "9": {
+    "14": {
       "type": "order",
       "room": 3,
       "points": 100,
@@ -199,7 +279,23 @@
       "hint": "Air must enter first, then molecules rush to the interface, then a lasting film develops.",
       "explanation": "Foam formation occurs in 3 stages: (1) Bubble incorporation — air or gas is introduced into the liquid phase by mechanical agitation (whipping, beating), (2) Surface stabilisation — amphiphilic molecules (proteins, surfactants) rapidly adsorb at the air–liquid interface, lowering surface tension, (3) Film formation — a coherent, elastic interfacial film develops between adjacent bubbles, resisting drainage and coalescence to maintain foam structure."
     },
-    "10": {
+    "15": {
+      "type": "mcq",
+      "room": 3,
+      "points": 80,
+      "title": "FOAM STABILITY FACTORS",
+      "question": "Which factor <strong>improves</strong> food foam stability?",
+      "options": [
+        { "key": "a", "text": "Low continuous-phase viscosity" },
+        { "key": "b", "text": "Weak protein film at the interface" },
+        { "key": "c", "text": "Strong interfacial protein layer" },
+        { "key": "d", "text": "High temperature always improves stability" }
+      ],
+      "correct": "c",
+      "hint": "Foam collapses when the thin film between bubbles drains or ruptures — what prevents that?",
+      "explanation": "A strong, elastic interfacial protein layer is the primary stabilising factor in food foams. Denatured proteins (e.g. egg white albumin) unfold and cross-link at the air–water interface, forming a viscoelastic film that resists drainage, bubble coalescence, and disproportionation. Low continuous-phase viscosity accelerates drainage; a weak protein film offers little mechanical resistance; high temperature typically destabilises foams by reducing surface viscosity and accelerating drainage."
+    },
+    "16": {
       "type": "mcq",
       "room": 4,
       "points": 80,
@@ -215,7 +311,23 @@
       "hint": "Colloids contain dispersed particles in the 1–1000 nm range. A dissolved crystal creates ions far smaller than this.",
       "explanation": "Sols, emulsions, and foams are all colloidal dispersions with dispersed particles or droplets in the 1–1000 nm size range. A crystalline salt solution is a true molecular solution — the ions (e.g. Na⁺, Cl⁻) are dissolved at sub-nanometre scale and are not colloidal particles. It therefore falls outside the colloidal classification."
     },
-    "11": {
+    "17": {
+      "type": "mcq",
+      "room": 4,
+      "points": 80,
+      "title": "COLLOID CLASSIFICATION",
+      "question": "<strong>Hydrophilic colloids</strong> are best described as:",
+      "options": [
+        { "key": "a", "text": "Water-repelling colloidal systems" },
+        { "key": "b", "text": "Water-attracting colloidal systems" },
+        { "key": "c", "text": "Always thermodynamically unstable systems" },
+        { "key": "d", "text": "Always gas-based systems" }
+      ],
+      "correct": "b",
+      "hint": "Break the word down — 'hydro' means water, 'philic' means loving. What does that tell you about their interaction with water?",
+      "explanation": "Hydrophilic colloids (literally 'water-loving') are colloidal systems whose dispersed phase has a strong affinity for water. Biopolymers such as proteins and polysaccharides form hydrophilic colloids because their polar and charged groups interact favourably with water molecules, keeping them dispersed. These systems are generally more stable than hydrophobic colloids because the water–particle interaction reduces the tendency for aggregation."
+    },
+    "18": {
       "type": "mcq",
       "room": 4,
       "points": 80,
@@ -231,7 +343,7 @@
       "hint": "This process is named after a Nobel laureate and is driven by the Kelvin effect — small particles have higher chemical potential than large ones.",
       "explanation": "Ostwald ripening is a thermodynamically driven process based on the Kelvin (Gibbs–Thomson) effect: smaller droplets/particles have a higher chemical potential than larger ones due to their greater curvature. Molecules diffuse through the continuous phase from small to large particles, causing small ones to shrink and disappear while large ones grow, progressively coarsening the dispersion."
     },
-    "12": {
+    "19": {
       "type": "mcq",
       "room": 4,
       "points": 80,
@@ -300,13 +412,13 @@
       "R4: Colloids Lab"
     ],
     "missionBriefingTitle": "MISSION BRIEFING",
-    "missionBriefingText": "<p>The Food Colloids Kitchen has suffered a catastrophic system failure. Emulsions are breaking, gels have collapsed, foams have drained, and the master colloid database is corrupted. Your mission: navigate through 4 laboratory rooms, solve food colloid puzzles, and restore stability before the system shuts down permanently.</p>\n<ul><li>Solve <strong>the puzzles per room</strong> to unlock the exit code</li><li>Enter codes correctly to proceed between rooms</li><li>Complete all 4 rooms to unlock the final clearance</li><li>Score points for correct answers; hints cost 10 points each</li></ul>\n<p style=\"margin-top:12px;color:var(--green)\">Good luck, Colloid Scientist.</p>",
+    "missionBriefingText": "<p>The Food Colloids Kitchen has suffered a catastrophic system failure. Emulsions are breaking, gels have collapsed, foams have drained, and the master colloid database is corrupted. Your mission: navigate through 4 laboratory rooms, solve food colloid puzzles, and restore stability before the system shuts down permanently.</p>\n<ul><li>Solve <strong>all puzzles per room</strong> to unlock the exit code</li><li>Enter codes correctly to proceed between rooms</li><li>Complete all 4 rooms to unlock the final clearance</li><li>Score points for correct answers; hints cost 10 points each</li></ul>\n<p style=\"margin-top:12px;color:var(--green)\">Good luck, Colloid Scientist.</p>",
     "finalEscapeTerminalTitle": "FINAL ESCAPE TERMINAL",
     "finalEscapeTerminalText": "Enter the <strong>MASTER CLEARANCE CODE</strong> to restore the colloid system.<br>\n<span style=\"font-size: 13px; opacity: 0.8\">(Hint: What 12-letter compound term names the scientific field covering emulsions, gels, foams, and sols in food systems?)</span>",
     "finalCode": "FOODCOLLOIDS",
     "victoryTitle": "Colloid system restored! You are a certified Food Colloid Scientist.",
     "victorySubtitle": "All four laboratories have been stabilised and the kitchen is back online",
-    "victoryText": "<strong>Key Learnings:</strong> You demonstrated mastery of emulsion phases and instability mechanisms, gel network formation and crosslinking, foam classification and formation stages, colloid types, Ostwald ripening, and hydrocolloid selection criteria.",
-    "version": "v1.0.0"
+    "victoryText": "<strong>Key Learnings:</strong> You demonstrated mastery of emulsion phases, emulsifier mechanisms, emulsion types, formation stages, stability factors, droplet size effects and instability mechanisms, gel structure, gel types, network formation crosslinking and gelation factors, foam classification, formation stages and stability factors, colloid types, hydrophilic classifications, Ostwald ripening, and hydrocolloid selection criteria.",
+    "version": "v1.3.0"
   }
 }
