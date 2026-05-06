@@ -36,10 +36,19 @@
       "title": "CONTINUOUS & DISPERSED PHASE",
       "question": "In a <strong>mayonnaise</strong> system, which statement correctly identifies the continuous and dispersed phases?",
       "options": [
-        { "key": "a", "text": "Oil = continuous phase, water = dispersed phase" },
-        { "key": "b", "text": "Water = continuous phase, oil = dispersed phase" },
+        {
+          "key": "a",
+          "text": "Oil = continuous phase, water = dispersed phase"
+        },
+        {
+          "key": "b",
+          "text": "Water = continuous phase, oil = dispersed phase"
+        },
         { "key": "c", "text": "Gas = continuous phase, oil = dispersed phase" },
-        { "key": "d", "text": "Solid = continuous phase, water = dispersed phase" }
+        {
+          "key": "d",
+          "text": "Solid = continuous phase, water = dispersed phase"
+        }
       ],
       "correct": "b",
       "hint": "Mayonnaise is an oil-in-water (O/W) emulsion. Think about which phase surrounds the droplets.",
@@ -142,7 +151,10 @@
         { "id": "fuse", "text": "Droplets fuse permanently" },
         { "id": "cluster", "text": "Reversible clustering of droplets" },
         { "id": "rise", "text": "Droplets rise due to density difference" },
-        { "id": "grow", "text": "Growth of large droplets at expense of small ones" },
+        {
+          "id": "grow",
+          "text": "Growth of large droplets at expense of small ones"
+        },
         { "id": "switch", "text": "Continuous phase changes" },
         { "id": "separate", "text": "Complete separation of phases" }
       ],
@@ -204,7 +216,10 @@
       "rightItems": [
         { "id": "alginate", "text": "Alginate + calcium ions" },
         { "id": "interwoven", "text": "Polymer chains physically interwoven" },
-        { "id": "polar", "text": "Water-mediated attraction between polar groups" },
+        {
+          "id": "polar",
+          "text": "Water-mediated attraction between polar groups"
+        },
         { "id": "nonpolar", "text": "Non-polar regions cluster together" }
       ],
       "correct": {
@@ -419,6 +434,6 @@
     "victoryTitle": "Colloid system restored! You are a certified Food Colloid Scientist.",
     "victorySubtitle": "All four laboratories have been stabilised and the kitchen is back online",
     "victoryText": "<strong>Key Learnings:</strong> You demonstrated mastery of emulsion phases, emulsifier mechanisms, emulsion types, formation stages, stability factors, droplet size effects and instability mechanisms, gel structure, gel types, network formation crosslinking and gelation factors, foam classification, formation stages and stability factors, colloid types, hydrophilic classifications, Ostwald ripening, and hydrocolloid selection criteria.",
-    "version": "v1.3.0"
+    "version": "v1.3.1"
   }
 }
