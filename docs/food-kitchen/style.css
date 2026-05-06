@@ -146,7 +146,7 @@ body::after{display:none}
 .victory-rank.a{color:var(--green);text-shadow:0 0 20px var(--green-glow)}
 .victory-rank.b{color:var(--yellow);text-shadow:0 0 20px var(--yellow-glow)}
 .victory-rank.c{color:#ff6644}
-.victory-rank.d{color:var(--red)}
+.victory-rank.d{color:var(--red)}.victory-rank.e{color:var(--red);opacity:.6}
 .terminal-kicker{font-family:var(--font-display);font-size:12px;color:var(--text-dim);letter-spacing:.18em;text-transform:uppercase;line-height:1.2}
 @media(max-width:768px){.title-logo{font-size:clamp(28px,11vw,38px)}.title-instructions,.narrative-box{font-size:14px;line-height:1.75}.room-title{font-size:clamp(22px,7vw,26px)}.victory-stats{grid-template-columns:1fr}.code-slots{flex-direction:column}.minimap-container{display:none}.puzzle-panel{padding:16px}.code-buttons{grid-template-columns:repeat(4,1fr)}}
 .ambient-glow{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,var(--green-glow) 0%,transparent 70%);pointer-events:none;z-index:0;opacity:.15;animation:ambientPulse 4s ease-in-out infinite alternate}
