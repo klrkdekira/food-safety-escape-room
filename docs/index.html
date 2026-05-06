@@ -4,123 +4,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FOOD SAFETY FACILITY - Escape Room</title>
-  <meta name="description"
-    content="Food Safety Facility Escape Room — a browser game teaching food microbiology through 4 puzzle-based containment zones. Solve biofilm, thermal destruction, hurdle technology, and AMR challenges.">
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0e17'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2300ff99' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%2300ff99'/%3E%3C/svg%3E">
+  <title>FOOD SAFETY ESCAPE ROOMS</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
     rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <link rel="stylesheet" href="style.css?">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html,body{width:100%;min-height:100vh;background:#0d121d;color:#d9e2f0;font-family:'Share Tech Mono',monospace}
+    ::selection{background:#00ff99;color:#0d121d}
+    a{color:inherit;text-decoration:none}
 
+    .page{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;gap:48px}
+
+    .title{font-family:'Orbitron',sans-serif;font-size:clamp(28px,5vw,48px);font-weight:900;color:#00ff99;text-shadow:0 0 18px rgba(0,255,153,0.35);letter-spacing:.12em;text-align:center;text-wrap:balance}
+
+    .subtitle{font-size:14px;color:#b6c1d0;letter-spacing:.28em;text-transform:uppercase;text-align:center}
+
+    .divider{width:300px;height:1px;background:linear-gradient(90deg,transparent,#00ff99,transparent)}
+
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:800px;width:100%}
+
+    .card{display:block;background:#151d2d;border:1px solid #3a475d;border-radius:8px;padding:32px 28px;position:relative;overflow:hidden;transition:all .3s}
+    .card:hover{border-color:#00ff99;box-shadow:0 0 24px rgba(0,255,153,0.18);transform:translateY(-2px)}
+    .card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,#00ff99,transparent);opacity:0;transition:opacity .3s}
+    .card:hover::before{opacity:1}
+
+    .card-label{font-size:11px;color:#8694a8;letter-spacing:.22em;text-transform:uppercase}
+    .card-title{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:700;color:#00ff99;margin:12px 0 8px;line-height:1.1}
+    .card-desc{font-size:14px;color:#b6c1d0;line-height:1.7}
+    .card-badge{display:inline-block;margin-top:16px;padding:4px 12px;font-size:11px;border:1px solid #3a475d;border-radius:4px;color:#8694a8;letter-spacing:.08em;text-transform:uppercase}
+    .card:hover .card-badge{border-color:#00ff99;color:#00ff99}
+
+    body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px)}
+  </style>
 </head>
 
 <body>
-
-  <svg style="display:none">
-    <defs>
-      <filter id="crt-distortion">
-        <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="3" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1" />
-      </filter>
-      <filter id="glow-green">
-        <feGaussianBlur stdDeviation="3" />
-        <feMerge>
-          <feMergeNode />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-  </svg>
-
-  <div class="enhanced-crt-overlay"></div>
-  <div class="scanline-overlay"></div>
-  <canvas id="particle-canvas"></canvas>
-  <div class="ambient-glow"></div>
-
-  <div class="minimap-container" id="minimap">
-  </div>
-
-  <div id="title-screen" class="screen active">
-    <div class="title-logo" id="title-logo"></div>
-    <div class="title-sub" id="title-sub"></div>
-    <div class="title-divider"></div>
-    <div id="best-score-display"
-      style="display:none;font-family:var(--font-display);font-size:13px;color:var(--text-dim);letter-spacing:.12em;text-align:center">
-      BEST: <span id="best-score-val">0</span> pts in <span id="best-time-val">00:00</span></div>
-    <div class="title-instructions" id="title-instructions">
-    </div>
-    <button class="btn-primary" onclick="startGame()">ENTER FACILITY</button>
-    <button class="btn-secondary" id="btn-clear-save" onclick="clearSave()" style="margin-top:10px;display:none">CLEAR SAVE</button>
-  </div>
-
-  <div id="game-container" style="display:none">
-
-    <div id="hud">
-      <div style="display:flex;flex-direction:column;gap:2px">
-        <div class="hud-item"><span class="hud-label">SCORE</span><span class="hud-value" id="hud-score">0</span></div>
-        <div class="progress-bar-container">
-          <div class="progress-bar-fill" id="progress-bar"></div>
+  <div class="page">
+    <div class="title">FOOD SAFETY ESCAPE ROOMS</div>
+    <div class="subtitle">Select a facility to begin</div>
+    <div class="divider"></div>
+    <div class="cards">
+      <a class="card" href="microb/index.html">
+        <div class="card-label">Zone A</div>
+        <div class="card-title">Food Safety Facility</div>
+        <div class="card-desc">
+          Four containment zones covering biofilm dynamics, thermal destruction kinetics, hurdle technology, and antimicrobial resistance.
         </div>
-      </div>
-      <div style="display:flex;gap:20px;align-items:center">
-        <div class="hud-item"><span class="hud-label">ROOM</span><span class="hud-value" id="hud-room">1</span></div>
-        <div class="hud-item"><span class="hud-label">TIME</span><span class="hud-value" id="hud-time">00:00</span>
+        <div class="card-badge">Food Microbiology</div>
+      </a>
+      <a class="card" href="food-kitchen/index.html">
+        <div class="card-label">Zone B</div>
+        <div class="card-title">Kitchen Safety Facility</div>
+        <div class="card-desc">
+          Four zones covering proper food storage, personal hygiene, cooking temperatures, and cold chain management.
         </div>
-        <div class="hud-item"><span class="hud-label">PUZZLES</span><span class="hud-value" id="hud-puzzles">0/16</span>
-        </div>
-      </div>
-      <div id="hud-buttons">
-        <button class="hud-btn" id="btn-debug" onclick="debugNext()" style="display:none; color:var(--red); border-color:var(--red);">DEV NEXT</button>
-        <button class="hud-btn" id="btn-hint" onclick="toggleHint(event)">HINT</button>
-        <button class="hud-btn" id="btn-sound" onclick="toggleSound(event)">SOUND ON</button>
-        <button class="hud-btn" id="btn-save" onclick="saveGame()">SAVE</button>
-      </div>
+        <div class="card-badge">Kitchen Safety</div>
+      </a>
     </div>
-
-    <div id="rooms-container"></div>
-
-    <div id="final-code-panel" class="screen">
-      <div class="final-code-panel">
-        <h3 id="final-escape-title"></h3>
-        <p id="final-escape-text" style="color:var(--text-secondary);margin-bottom:20px;line-height:1.6">
-        </p>
-        <div id="final-code-content"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== VICTORY ===== -->
-  <div id="victory-screen" class="screen">
-    <div class="victory-title" id="victory-title"></div>
-    <div class="victory-subtitle" id="victory-subtitle"></div>
-    <div class="victory-rank" id="victory-rank">S</div>
-    <div class="victory-stats">
-      <div class="victory-stat">
-        <div class="victory-stat-label">FINAL SCORE</div>
-        <div class="victory-stat-value" id="victory-score">0</div>
-      </div>
-      <div class="victory-stat">
-        <div class="victory-stat-label">TIME ELAPSED</div>
-        <div class="victory-stat-value" id="victory-time">00:00</div>
-      </div>
-      <div class="victory-stat">
-        <div class="victory-stat-label">PUZZLES SOLVED</div>
-        <div class="victory-stat-value" id="victory-puzzles">16</div>
-      </div>
-    </div>
-    <p id="victory-text" style="color:var(--text-secondary);max-width:500px;line-height:1.6">
-    </p>
-    <button class="btn-primary" onclick="location.reload()" style="margin-top:20px">PLAY AGAIN</button>
-  </div>
-
-  </div><!-- end game-container -->
-  <div id="version-display"
-    style="position:fixed; bottom:5px; right:10px; font-family:var(--font-mono); font-size:12px; color:var(--text-dim); opacity:0.6; pointer-events:none; z-index:9999;">
   </div>
 </body>
-
-<script src="script.js?"></script>
 
 </html>

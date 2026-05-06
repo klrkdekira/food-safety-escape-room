@@ -35,13 +35,74 @@
       "additionalProperties": {
         "type": "object",
         "properties": {
-          "type": { "type": "string", "enum": ["order", "mcq", "multiselect"] },
+          "type": { "type": "string", "enum": ["order", "mcq", "multiselect", "match"] },
           "room": { "type": "integer" },
           "points": { "type": "integer" },
           "hint": { "type": "string" },
           "explanation": { "type": "string" },
           "title": { "type": "string" },
-          "question": { "type": "string" }
+          "question": { "type": "string" },
+          "options": {
+            "type": "array",
+            "description": "Used by mcq and multiselect types",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": { "type": "string" },
+                "text": { "type": "string" }
+              },
+              "required": ["key", "text"]
+            }
+          },
+          "items": {
+            "type": "array",
+            "description": "Used by order type — items to drag into sequence",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "text": { "type": "string" }
+              },
+              "required": ["id", "text"]
+            }
+          },
+          "correctOrder": {
+            "type": "array",
+            "description": "Used by order type — correct sequence of item ids",
+            "items": { "type": "string" }
+          },
+          "correct": {
+            "description": "For mcq: string key. For multiselect: array of keys. For match: object mapping leftItem ids to rightItem ids.",
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } },
+              { "type": "object", "additionalProperties": { "type": "string" } }
+            ]
+          },
+          "leftItems": {
+            "type": "array",
+            "description": "Used by match type — left column items to be matched",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "text": { "type": "string" }
+              },
+              "required": ["id", "text"]
+            }
+          },
+          "rightItems": {
+            "type": "array",
+            "description": "Used by match type — right column options to match against",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "text": { "type": "string" }
+              },
+              "required": ["id", "text"]
+            }
+          }
         },
         "required": ["type", "room", "points", "title", "question"]
       }

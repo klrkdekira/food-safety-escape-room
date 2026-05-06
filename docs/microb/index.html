@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FOOD SAFETY FACILITY - Escape Room</title>
+  <meta name="description"
+    content="Food Safety Facility Escape Room — a browser game teaching food microbiology through 4 puzzle-based containment zones. Solve biofilm, thermal destruction, hurdle technology, and AMR challenges.">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0e17'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2300ff99' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%2300ff99'/%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <link rel="stylesheet" href="style.css?">
+
+</head>
+
+<body>
+
+  <svg style="display:none">
+    <defs>
+      <filter id="crt-distortion">
+        <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1" />
+      </filter>
+      <filter id="glow-green">
+        <feGaussianBlur stdDeviation="3" />
+        <feMerge>
+          <feMergeNode />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="enhanced-crt-overlay"></div>
+  <div class="scanline-overlay"></div>
+  <canvas id="particle-canvas"></canvas>
+  <div class="ambient-glow"></div>
+
+  <div class="minimap-container" id="minimap">
+  </div>
+
+  <div id="title-screen" class="screen active">
+    <div class="title-logo" id="title-logo"></div>
+    <div class="title-sub" id="title-sub"></div>
+    <div class="title-divider"></div>
+    <div id="best-score-display"
+      style="display:none;font-family:var(--font-display);font-size:13px;color:var(--text-dim);letter-spacing:.12em;text-align:center">
+      BEST: <span id="best-score-val">0</span> pts in <span id="best-time-val">00:00</span></div>
+    <div class="title-instructions" id="title-instructions">
+    </div>
+    <button class="btn-primary" onclick="startGame()">ENTER FACILITY</button>
+    <button class="btn-secondary" id="btn-clear-save" onclick="clearSave()" style="margin-top:10px;display:none">CLEAR SAVE</button>
+  </div>
+
+  <div id="game-container" style="display:none">
+
+    <div id="hud">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <div class="hud-item"><span class="hud-label">SCORE</span><span class="hud-value" id="hud-score">0</span></div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:20px;align-items:center">
+        <div class="hud-item"><span class="hud-label">ROOM</span><span class="hud-value" id="hud-room">1</span></div>
+        <div class="hud-item"><span class="hud-label">TIME</span><span class="hud-value" id="hud-time">00:00</span>
+        </div>
+        <div class="hud-item"><span class="hud-label">PUZZLES</span><span class="hud-value" id="hud-puzzles">0/16</span>
+        </div>
+      </div>
+      <div id="hud-buttons">
+        <button class="hud-btn" id="btn-debug" onclick="debugNext()" style="display:none; color:var(--red); border-color:var(--red);">DEV NEXT</button>
+        <button class="hud-btn" id="btn-hint" onclick="toggleHint(event)">HINT</button>
+        <button class="hud-btn" id="btn-sound" onclick="toggleSound(event)">SOUND ON</button>
+        <button class="hud-btn" id="btn-save" onclick="saveGame()">SAVE</button>
+      </div>
+    </div>
+
+    <div id="rooms-container"></div>
+
+    <div id="final-code-panel" class="screen">
+      <div class="final-code-panel">
+        <h3 id="final-escape-title"></h3>
+        <p id="final-escape-text" style="color:var(--text-secondary);margin-bottom:20px;line-height:1.6">
+        </p>
+        <div id="final-code-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== VICTORY ===== -->
+  <div id="victory-screen" class="screen">
+    <div class="victory-title" id="victory-title"></div>
+    <div class="victory-subtitle" id="victory-subtitle"></div>
+    <div class="victory-rank" id="victory-rank">S</div>
+    <div class="victory-stats">
+      <div class="victory-stat">
+        <div class="victory-stat-label">FINAL SCORE</div>
+        <div class="victory-stat-value" id="victory-score">0</div>
+      </div>
+      <div class="victory-stat">
+        <div class="victory-stat-label">TIME ELAPSED</div>
+        <div class="victory-stat-value" id="victory-time">00:00</div>
+      </div>
+      <div class="victory-stat">
+        <div class="victory-stat-label">PUZZLES SOLVED</div>
+        <div class="victory-stat-value" id="victory-puzzles">16</div>
+      </div>
+    </div>
+    <p id="victory-text" style="color:var(--text-secondary);max-width:500px;line-height:1.6">
+    </p>
+    <button class="btn-primary" onclick="location.reload()" style="margin-top:20px">PLAY AGAIN</button>
+  </div>
+
+  </div><!-- end game-container -->
+  <div id="version-display"
+    style="position:fixed; bottom:5px; right:10px; font-family:var(--font-mono); font-size:12px; color:var(--text-dim); opacity:0.6; pointer-events:none; z-index:9999;">
+  </div>
+</body>
+
+<script src="script.js?"></script>
+
+</html>

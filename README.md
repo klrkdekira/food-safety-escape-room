@@ -1,25 +1,70 @@
 # Food Safety Escape Room
 
-A data-driven, browser-based educational game that teaches a food microbiology course as a 4-room escape room. 
+A collection of data-driven, browser-based educational games that teach food safety topics as escape rooms. Each quiz is fully self-contained — no build step, no server required.
 
 ## Overview
 
-The project is designed to be easily configurable and maintainable. It operates entirely client-side with no build step required. The game engine dynamically renders puzzles based on configuration files, keeping content distinct from code logic.
+The project uses a shared engine architecture: each quiz directory contains its own `index.html`, `style.css`, `script.js`, and `data.json`. The engine dynamically renders puzzles from the data file, keeping content entirely separate from code logic. Adding a new puzzle is a data-only change.
 
-## Project Structure
+## Quizzes
 
-- `docs/index.html`: The main entry point template for the escape room.
-- `docs/style.css`: Cyberpunk-terminal aesthetic styling.
-- `docs/script.js`: The core game engine and application logic.
-- `docs/data.json`: The complete dataset of puzzles, rooms, and game content.
-- `schema.json`: JSON schema defining the required structure for `data.json`.
-- `scripts/`: Python utility scripts (e.g., validation script for `data.json` against `schema.json`).
-- `AGENTS.md` / `SPEC.md` / `TODO.md`: Detailed project guidelines, architecture specifications, and backlog.
+| Directory | Title | Topic | Rooms |
+|---|---|---|---|
+| [docs/microb/](docs/microb/) | Food Safety Facility | Food microbiology (biofilm, thermal destruction, hurdle technology, AMR) | 4 |
+| [docs/food-kitchen/](docs/food-kitchen/) | Kitchen Safety Facility | Kitchen food safety (storage, hygiene, cooking temperatures, cold chain) | 4 |
 
 ## How to Play
 
-No local server is required. Simply open `docs/index.html` in any modern web browser to start playing.
+No local server is required. Open the `index.html` in any modern web browser:
 
-## Development & Modification
+- **Microbiology quiz**: open `docs/microb/index.html`
+- **Kitchen safety quiz**: open `docs/food-kitchen/index.html`
 
-To modify game content, update `docs/data.json`. The game will automatically read the updated content on the next reload. Ensure that `data.json` adheres to the constraints outlined in `schema.json` to prevent application errors.
+## Puzzle Types
+
+The engine supports four puzzle types:
+
+| Type | Description |
+|---|---|
+| `mcq` | Multiple choice — single correct answer |
+| `multiselect` | Multiple choice — select all that apply |
+| `order` | Drag-and-drop or arrow-button sequencing |
+| `match` | Two-column click-to-pair matching (mix and match) |
+
+## Project Structure
+
+```
+docs/
+  microb/           Food microbiology escape room
+    index.html
+    style.css
+    script.js
+    data.json
+  food-kitchen/     Kitchen food safety escape room
+    index.html
+    style.css        (includes match puzzle CSS)
+    script.js        (includes match puzzle rendering + checking)
+    data.json
+schema.json         JSON schema for data.json validation
+scripts/            Python utility scripts (e.g. validate.py)
+AGENTS.md           AI agent operational guide
+SPEC.md             Architecture and content specification
+TODO.md             Prioritized backlog
+```
+
+## Development
+
+To modify game content, edit `data.json` in the relevant quiz directory. The game reads the file on load — no rebuild needed.
+
+To add a new quiz:
+1. Create a new subdirectory under `docs/`
+2. Copy engine files from an existing quiz
+3. Write a new `data.json` following [schema.json](schema.json)
+
+To validate `data.json` against the schema:
+
+```bash
+python scripts/validate.py docs/food-kitchen/data.json
+```
+
+See [AGENTS.md](AGENTS.md) for editing conventions and [SPEC.md](SPEC.md) for full architecture details.
