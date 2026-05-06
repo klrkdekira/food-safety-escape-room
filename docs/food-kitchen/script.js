@@ -73,10 +73,10 @@ function renderRoom(roomNum) {
         <div class="code-hint" style="margin-bottom: 15px; color: var(--green); text-align: center; font-size: 14px; opacity: 0.9;">${rData.codeHint ?? ''}</div>
         <div class="code-display" id="code-display-${roomNum}"></div>
         <div class="code-buttons" id="code-buttons-${roomNum}"></div>
-        <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;width:100%;max-width:300px">
-          <button class="btn-secondary" style="flex:1" onclick="backspaceCode(${roomNum})">BACK</button>
-          <button class="btn-secondary" style="flex:1" onclick="clearCode(${roomNum})">CLEAR</button>
-          <button class="btn-primary" style="flex:1" onclick="submitCode(${roomNum})">ENTER</button>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;width:100%;max-width:420px">
+          <button class="btn-secondary" style="flex:1;min-width:0" onclick="backspaceCode(${roomNum})">BACK</button>
+          <button class="btn-secondary" style="flex:1;min-width:0" onclick="clearCode(${roomNum})">CLEAR</button>
+          <button class="btn-primary" style="flex:1;min-width:0" onclick="submitCode(${roomNum})">ENTER</button>
         </div>
       </div>
     </div>
@@ -92,10 +92,10 @@ function renderFinalCode() {
     <div class="code-slots" id="code-slots"></div>
     <div class="code-display" id="final-code-display" style="margin-top:30px"></div>
     <div class="code-buttons" id="final-code-buttons" style="margin-top:30px"></div>
-    <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;width:100%;max-width:300px">
-      <button class="btn-secondary" style="flex:1" onclick="finalBackspace()">BACK</button>
-      <button class="btn-secondary" style="flex:1" onclick="finalClear()">CLEAR</button>
-      <button class="btn-primary" style="flex:1" onclick="finalSubmit()">ENTER</button>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;width:100%;max-width:420px">
+      <button class="btn-secondary" style="flex:1;min-width:0" onclick="finalBackspace()">BACK</button>
+      <button class="btn-secondary" style="flex:1;min-width:0" onclick="finalClear()">CLEAR</button>
+      <button class="btn-primary" style="flex:1;min-width:0" onclick="finalSubmit()">ENTER</button>
     </div>
   `;
 }
