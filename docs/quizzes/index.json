@@ -1,0 +1,18 @@
+[
+  {
+    "id": "food-kitchen",
+    "pageTitle": "FOOD COLLOIDS KITCHEN - Escape Room",
+    "titleLogo": "FOOD COLLOIDS KITCHEN",
+    "titleSub": "Escape Room Challenge",
+    "version": "v1.3.1",
+    "path": "quizzes/food-kitchen.json"
+  },
+  {
+    "id": "microb",
+    "pageTitle": "FOOD SAFETY FACILITY - Escape Room",
+    "titleLogo": "FOOD SAFETY FACILITY",
+    "titleSub": "Escape Room Challenge",
+    "version": "v1.2.0",
+    "path": "quizzes/microb.json"
+  }
+]

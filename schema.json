@@ -1,131 +1,462 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Escape Room Data",
   "type": "object",
   "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
     "config": {
       "type": "object",
       "properties": {
-        "pageTitle": { "type": "string" },
-        "titleLogo": { "type": "string" },
-        "titleSub": { "type": "string" },
-        "minimapTitle": { "type": "string" },
+        "pageTitle": {
+          "type": "string"
+        },
+        "titleLogo": {
+          "type": "string"
+        },
+        "titleSub": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string",
+          "enum": [
+            "cyberpunk",
+            "sugary",
+            "laboratory",
+            "retro"
+          ]
+        },
+        "wrongPenalty": {
+          "type": "integer",
+          "default": 0
+        },
+        "rankMode": {
+          "type": "string",
+          "enum": [
+            "absolute",
+            "percent"
+          ],
+          "default": "absolute"
+        },
+        "roomLabel": {
+          "type": "string",
+          "default": "Room"
+        },
+        "absoluteRanks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "rank": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "min",
+              "rank"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "percentRanks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "rank": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "min",
+              "rank"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "minimapTitle": {
+          "type": "string"
+        },
         "minimapRooms": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "missionBriefingTitle": { "type": "string" },
-        "missionBriefingText": { "type": "string" },
-        "finalEscapeTerminalTitle": { "type": "string" },
-        "finalEscapeTerminalText": { "type": "string" },
-        "finalCode": { "type": "string" },
-        "victoryTitle": { "type": "string" },
-        "victorySubtitle": { "type": "string" },
-        "victoryText": { "type": "string" },
-        "version": { "type": "string" }
+        "missionBriefingTitle": {
+          "type": "string"
+        },
+        "missionBriefingText": {
+          "type": "string"
+        },
+        "finalEscapeTerminalTitle": {
+          "type": "string"
+        },
+        "finalEscapeTerminalText": {
+          "type": "string"
+        },
+        "finalCode": {
+          "type": "string"
+        },
+        "victoryTitle": {
+          "type": "string"
+        },
+        "victorySubtitle": {
+          "type": "string"
+        },
+        "victoryText": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
       },
-      "required": ["pageTitle", "titleLogo", "titleSub", "minimapTitle", "minimapRooms", "missionBriefingTitle", "missionBriefingText"]
+      "required": [
+        "pageTitle",
+        "titleLogo",
+        "titleSub",
+        "minimapTitle",
+        "minimapRooms",
+        "missionBriefingTitle",
+        "missionBriefingText"
+      ],
+      "additionalProperties": false
     },
     "state": {
       "type": "object",
-      "description": "Initial game state"
+      "additionalProperties": {}
     },
     "puzzleData": {
       "type": "object",
       "additionalProperties": {
-        "type": "object",
-        "properties": {
-          "type": { "type": "string", "enum": ["order", "mcq", "multiselect", "match"] },
-          "room": { "type": "integer" },
-          "points": { "type": "integer" },
-          "hint": { "type": "string" },
-          "explanation": { "type": "string" },
-          "title": { "type": "string" },
-          "question": { "type": "string" },
-          "options": {
-            "type": "array",
-            "description": "Used by mcq and multiselect types",
-            "items": {
-              "type": "object",
-              "properties": {
-                "key": { "type": "string" },
-                "text": { "type": "string" }
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "room": {
+                "type": "integer"
               },
-              "required": ["key", "text"]
-            }
-          },
-          "items": {
-            "type": "array",
-            "description": "Used by order type — items to drag into sequence",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": { "type": "string" },
-                "text": { "type": "string" }
+              "points": {
+                "type": "integer"
               },
-              "required": ["id", "text"]
-            }
-          },
-          "correctOrder": {
-            "type": "array",
-            "description": "Used by order type — correct sequence of item ids",
-            "items": { "type": "string" }
-          },
-          "correct": {
-            "description": "For mcq: string key. For multiselect: array of keys. For match: object mapping leftItem ids to rightItem ids.",
-            "oneOf": [
-              { "type": "string" },
-              { "type": "array", "items": { "type": "string" } },
-              { "type": "object", "additionalProperties": { "type": "string" } }
-            ]
-          },
-          "leftItems": {
-            "type": "array",
-            "description": "Used by match type — left column items to be matched",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": { "type": "string" },
-                "text": { "type": "string" }
+              "hint": {
+                "type": "string"
               },
-              "required": ["id", "text"]
-            }
-          },
-          "rightItems": {
-            "type": "array",
-            "description": "Used by match type — right column options to match against",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": { "type": "string" },
-                "text": { "type": "string" }
+              "explanation": {
+                "type": "string"
               },
-              "required": ["id", "text"]
-            }
+              "title": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "mcq"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "correct": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "room",
+              "points",
+              "title",
+              "question",
+              "type",
+              "options",
+              "correct"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "room": {
+                "type": "integer"
+              },
+              "points": {
+                "type": "integer"
+              },
+              "hint": {
+                "type": "string"
+              },
+              "explanation": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "multiselect"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "correct": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "room",
+              "points",
+              "title",
+              "question",
+              "type",
+              "options",
+              "correct"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "room": {
+                "type": "integer"
+              },
+              "points": {
+                "type": "integer"
+              },
+              "hint": {
+                "type": "string"
+              },
+              "explanation": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "order"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "correctOrder": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "room",
+              "points",
+              "title",
+              "question",
+              "type",
+              "items",
+              "correctOrder"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "room": {
+                "type": "integer"
+              },
+              "points": {
+                "type": "integer"
+              },
+              "hint": {
+                "type": "string"
+              },
+              "explanation": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "match"
+              },
+              "leftItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "rightItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "text"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "correct": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "room",
+              "points",
+              "title",
+              "question",
+              "type",
+              "leftItems",
+              "rightItems",
+              "correct"
+            ],
+            "additionalProperties": false
           }
-        },
-        "required": ["type", "room", "points", "title", "question"]
+        ]
       }
     },
     "roomCodes": {
       "type": "object",
-      "additionalProperties": { "type": "string" }
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "roomData": {
       "type": "object",
       "additionalProperties": {
         "type": "object",
         "properties": {
-          "number": { "type": "string" },
-          "title": { "type": "string" },
-          "subtitle": { "type": "string" },
-          "svg": { "type": "string" },
-          "narrative": { "type": "string" },
-          "codeHint": { "type": "string" }
+          "number": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "svg": {
+            "type": "string"
+          },
+          "narrative": {
+            "type": "string"
+          },
+          "codeHint": {
+            "type": "string"
+          }
         },
-        "required": ["number", "title", "subtitle", "svg", "narrative"]
+        "required": [
+          "number",
+          "title",
+          "subtitle",
+          "svg",
+          "narrative"
+        ],
+        "additionalProperties": false
       }
     }
   },
-  "required": ["config", "state", "puzzleData", "roomCodes", "roomData"]
+  "required": [
+    "config",
+    "state",
+    "puzzleData",
+    "roomCodes",
+    "roomData"
+  ],
+  "additionalProperties": false,
+  "$schema": "http://json-schema.org/draft-07/schema#"
 }

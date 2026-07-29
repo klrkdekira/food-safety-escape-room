@@ -1,70 +1,95 @@
-# Food Safety Escape Room
+# Food Safety Escape Room Platform
 
-A collection of data-driven, browser-based educational games that teach food safety topics as escape rooms. Each quiz is fully self-contained — no build step, no server required.
+A data-driven, browser-based educational escape room platform for food science curricula. Built on a shared framework-free TypeScript engine with an interactive browser authoring studio and automated Zod validation.
+
+---
 
 ## Overview
 
-The project uses a shared engine architecture: each quiz directory contains its own `index.html`, `style.css`, `script.js`, and `data.json`. The engine dynamically renders puzzles from the data file, keeping content entirely separate from code logic. Adding a new puzzle is a data-only change.
+The platform uses a decoupled, data-driven architecture:
+- **Game Engine**: Pure vanilla TypeScript (`src/engine/`) compiled into a lightweight ~26 kB production bundle. No runtime frameworks or external dependencies.
+- **Authoring Studio**: Built with React 19 and Immer (`src/editor/`) at `author/index.html`, allowing non-technical authors to create, edit, validate, live-preview, and export quiz JSON data.
+- **Data Schemas**: Quiz structure and referential integrity are enforced by a single-source-of-truth Zod schema (`src/schema/quiz.ts`).
 
-## Quizzes
+---
 
-| Directory | Title | Topic | Rooms |
+## Active Quizzes
+
+| Quiz ID | Title | Topic | Rooms |
 |---|---|---|---|
-| [docs/microb/](docs/microb/) | Food Safety Facility | Food microbiology (biofilm, thermal destruction, hurdle technology, AMR) | 4 |
-| [docs/food-kitchen/](docs/food-kitchen/) | Kitchen Safety Facility | Kitchen food safety (storage, hygiene, cooking temperatures, cold chain) | 4 |
+| `microb` | Food Safety Facility | Food microbiology (biofilm, thermal destruction, hurdle technology, AMR, ATR, water activity) | 4 |
+| `food-kitchen` | Food Colloids Kitchen | Food colloids (emulsions, gels, foams, colloidal stability, rheology, PIT, thixotropy) | 4 |
 
-## How to Play
+---
 
-No local server is required. Open the `index.html` in any modern web browser:
+## Quick Start & Development Commands
 
-- **Microbiology quiz**: open `docs/microb/index.html`
-- **Kitchen safety quiz**: open `docs/food-kitchen/index.html`
+Using `pnpm` or `make`:
+
+```bash
+# Start local development server
+make dev        # or pnpm dev
+
+# Run all test gates (Zod validation + tsc + Oxlint + Oxfmt + html-validate)
+make test       # or pnpm test
+
+# Build for GitHub Pages (emits to docs/, including docs/offline/ bundles)
+make build      # or pnpm build
+
+# Regenerate the offline bundles on their own
+make gen-offline # or pnpm run gen-offline
+
+# Re-download the self-hosted fonts (needs network; output is committed)
+pnpm fetch-fonts
+```
+
+---
 
 ## Puzzle Types
 
-The engine supports four puzzle types:
+The engine dynamically renders four puzzle types defined in `puzzleData`:
 
-| Type | Description |
-|---|---|
-| `mcq` | Multiple choice — single correct answer |
-| `multiselect` | Multiple choice — select all that apply |
-| `order` | Drag-and-drop or arrow-button sequencing |
-| `match` | Two-column click-to-pair matching (mix and match) |
+| Type | Description | Accessibility |
+|---|---|---|
+| `mcq` | Single-answer multiple choice | Native `<fieldset>` + radio buttons |
+| `multiselect` | Multiple-answer checkbox | Native `<fieldset>` + checkboxes |
+| `order` | Sequence reordering | Accessible move buttons + `Element.moveBefore()` |
+| `match` | Pairing / classification | Native `<select>` dropdown per row (WCAG 2.2 AA) |
 
-## Project Structure
+---
+
+## Repository Structure
 
 ```
-docs/
-  microb/           Food microbiology escape room
-    index.html
-    style.css
-    script.js
-    data.json
-  food-kitchen/     Kitchen food safety escape room
-    index.html
-    style.css        (includes match puzzle CSS)
-    script.js        (includes match puzzle rendering + checking)
-    data.json
-schema.json         JSON schema for data.json validation
-scripts/            Python utility scripts (e.g. validate.py)
-AGENTS.md           AI agent operational guide
-SPEC.md             Architecture and content specification
-TODO.md             Prioritized backlog
+src/
+  engine/           Framework-free game engine (vanilla TS, 26 kB bundle)
+    puzzles/        Modular puzzle handlers (mcq, multiselect, order, match)
+    utils/          HTML escaping helper (XSS protection)
+  editor/           Browser Author Studio (React 19 + Immer + IDB autosave)
+  schema/           Single-source-of-truth Zod schema (quiz.ts)
+public/
+  quizzes/          Quiz JSON data files (microb.json, food-kitchen.json)
+author/             Authoring studio HTML entry point
+docs/               Production GitHub Pages build target
+tools/              CLI validation, schema export, manifest, and offline generators
+Makefile            Standardized build and test workflow commands
+schema.json         Draft-07 JSON Schema exported from Zod definition
 ```
 
-## Development
+---
 
-To modify game content, edit `data.json` in the relevant quiz directory. The game reads the file on load — no rebuild needed.
+## Authoring & Validation
 
-To add a new quiz:
-1. Create a new subdirectory under `docs/`
-2. Copy engine files from an existing quiz
-3. Write a new `data.json` following [schema.json](schema.json)
-
-To validate `data.json` against the schema:
+To validate quiz JSON files against the Zod schema and referential integrity rules:
 
 ```bash
-python scripts/validate.py docs/food-kitchen/data.json
+pnpm validate
 ```
 
-See [AGENTS.md](AGENTS.md) for editing conventions and [SPEC.md](SPEC.md) for full architecture details.
+To export an updated Draft-07 `schema.json`:
+
+```bash
+pnpm gen-schema
+```
+
+See [AGENTS.md](AGENTS.md) for strict editing conventions and [PROPOSAL.md](PROPOSAL.md) for complete architectural specifications.

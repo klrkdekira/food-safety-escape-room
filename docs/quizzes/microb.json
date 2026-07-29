@@ -1,0 +1,793 @@
+{
+  "schemaVersion": 1,
+  "state": {
+    "currentRoom": 0,
+    "score": 0,
+    "puzzlesCompleted": 0,
+    "hintsUsed": 0,
+    "maxHints": 3,
+    "soundEnabled": true,
+    "timeElapsed": 0,
+    "activePuzzles": {
+      "1": 1,
+      "2": 4,
+      "3": 7,
+      "4": 10
+    },
+    "codes": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": false
+    },
+    "roomCompleted": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": false
+    },
+    "puzzleSolved": {},
+    "puzzleAttempts": {}
+  },
+  "puzzleData": {
+    "1": {
+      "type": "order",
+      "room": 1,
+      "correctOrder": [
+        "attachment",
+        "growth",
+        "maturation",
+        "detachment"
+      ],
+      "points": 100,
+      "hint": "Bacteria first attach, then grow into microcolonies, form mature community, finally release cells.",
+      "explanation": "Biofilms form in 4 stages: (1) Attachment \u2014 initial contact with surface, (2) Growth/Microcolonies \u2014 irreversible colonisation, (3) Maturation \u2014 full 3D EPS matrix community, (4) Detachment/Dispersal \u2014 cells released to spread contamination.",
+      "title": "BIOFILM STAGES",
+      "question": "Arrange the 4 stages of <strong>biofilm formation</strong> in the correct order:",
+      "items": [
+        {
+          "id": "growth",
+          "text": "Growth / Microcolonies"
+        },
+        {
+          "id": "attachment",
+          "text": "Attachment"
+        },
+        {
+          "id": "maturation",
+          "text": "Maturation"
+        },
+        {
+          "id": "detachment",
+          "text": "Detachment / Dispersal"
+        }
+      ]
+    },
+    "2": {
+      "type": "mcq",
+      "room": 1,
+      "correct": "b",
+      "points": 80,
+      "hint": "This organism survives in refrigerators. Its name means \"living in lists\".",
+      "explanation": "Listeria monocytogenes is a psychrotroph \u2014 it grows at temperatures as low as 0\u00b0C. This makes it a major hazard in refrigerated RTE foods. E. coli O157:H7 does not grow well at refrigeration temperatures.",
+      "title": "SURVIVAL MECHANISMS",
+      "question": "Which organism is known as a <strong>psychrotroph</strong> (cold-adapted) that can survive and grow in refrigerated food?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Escherichia coli O157:H7"
+        },
+        {
+          "key": "b",
+          "text": "Listeria monocytogenes"
+        },
+        {
+          "key": "c",
+          "text": "Saccharomyces cerevisiae"
+        },
+        {
+          "key": "d",
+          "text": "Lactobacillus acidophilus"
+        }
+      ]
+    },
+    "3": {
+      "type": "multiselect",
+      "room": 1,
+      "correct": [
+        "a",
+        "c"
+      ],
+      "points": 100,
+      "hint": "Bacillus cereus and Clostridium perfringens as the spore-forming examples.",
+      "explanation": "The material specifically names Bacillus cereus and Clostridium perfringens as spore-forming pathogens of concern. Salmonella and Staphylococcus aureus are non-spore-formers.",
+      "title": "SPORE-FORMING PATHOGENS",
+      "question": "Which of these are examples of <strong>spore-forming pathogens</strong>? (Select all that apply)",
+      "options": [
+        {
+          "key": "a",
+          "text": "Bacillus cereus"
+        },
+        {
+          "key": "b",
+          "text": "Salmonella enterica"
+        },
+        {
+          "key": "c",
+          "text": "Clostridium perfringens"
+        },
+        {
+          "key": "d",
+          "text": "Staphylococcus aureus"
+        }
+      ]
+    },
+    "4": {
+      "type": "mcq",
+      "room": 2,
+      "correct": "b",
+      "points": 80,
+      "hint": "Each D-value = 90% reduction. For 5-log reduction, multiply D-value by 5.",
+      "explanation": "A 5-log reduction requires 5 \u00d7 D-value = 5 \u00d7 1 min = 5 minutes. Each D-value achieves one additional log (90%) reduction \u2014 the basis of most pasteurisation standards.",
+      "title": "THERMAL DESTRUCTION",
+      "question": "The D-value represents the time required for a <strong>one-log (90%) reduction</strong> in microbial population at a given temperature. If a pathogen has a D-value of 1 minute at 70°C, how long to achieve a 5-log reduction?",
+      "options": [
+        {
+          "key": "a",
+          "text": "1 minute"
+        },
+        {
+          "key": "b",
+          "text": "5 minutes"
+        },
+        {
+          "key": "c",
+          "text": "10 minutes"
+        },
+        {
+          "key": "d",
+          "text": "30 minutes"
+        }
+      ]
+    },
+    "5": {
+      "type": "mcq",
+      "room": 2,
+      "correct": "a",
+      "points": 80,
+      "hint": "This rapid test uses the energy molecule Adenosine Triphosphate to generate light.",
+      "explanation": "ATP bioluminescence measures Adenosine Triphosphate, the energy molecule in living cells. It provides an immediate reading (in RLU) of total organic residue (both food soil and microbes), making it an effective rapid control measure for sanitation.",
+      "title": "SANITATION VERIFICATION",
+      "question": "Which rapid sanitation control measure uses the detection of cellular energy molecules to quantify organic residue on food contact surfaces?",
+      "options": [
+        {
+          "key": "a",
+          "text": "ATP Bioluminescence Assay"
+        },
+        {
+          "key": "b",
+          "text": "Total Viable Plate Count"
+        },
+        {
+          "key": "c",
+          "text": "Visual Inspection"
+        },
+        {
+          "key": "d",
+          "text": "Chlorine Titration"
+        }
+      ]
+    },
+    "6": {
+      "type": "order",
+      "room": 2,
+      "correctOrder": [
+        "raw",
+        "clean",
+        "processing",
+        "pack"
+      ],
+      "points": 100,
+      "hint": "Think: raw materials enter \u2192 cleaned \u2192 cooked \u2192 packaged as RTE.",
+      "explanation": "Correct flow: Raw material receiving \u2192 Cleaning/Sanitizing \u2192 Processing/Cooking \u2192 Packaging. This unidirectional flow ensures raw contaminated materials never contact RTE products \u2014 the principle of zoning systems.",
+      "title": "CROSS-CONTAMINATION ZONES",
+      "question": "Arrange the correct <strong>food flow direction</strong> in a processing facility to prevent cross-contamination:",
+      "items": [
+        {
+          "id": "pack",
+          "text": "Packaging"
+        },
+        {
+          "id": "processing",
+          "text": "Processing / Cooking"
+        },
+        {
+          "id": "raw",
+          "text": "Raw material receiving"
+        },
+        {
+          "id": "clean",
+          "text": "Cleaning / Sanitizing"
+        }
+      ]
+    },
+    "7": {
+      "type": "mcq",
+      "room": 3,
+      "correct": "b",
+      "points": 80,
+      "hint": "Fruit jam has natural low pH. Think about what preserves jam: high sugar reduces water activity, plus heat.",
+      "explanation": "Fruit jam uses three simultaneous hurdles: low pH (fruit acidity), low water activity (high sugar), and heat processing. No single hurdle is sufficient alone \u2014 the combination overwhelms pathogen survival (hurdle technology).",
+      "title": "BUILD THE HURDLE",
+      "question": "Which combination of hurdles would <strong>best prevent pathogen survival</strong> in a fruit jam product? (Select the most complete combination)",
+      "options": [
+        {
+          "key": "a",
+          "text": "Heat processing + Refrigeration + Vacuum packaging"
+        },
+        {
+          "key": "b",
+          "text": "Low pH + High sugar (low aw) + Heat processing"
+        },
+        {
+          "key": "c",
+          "text": "Chemical preservatives + High pressure + Cold storage"
+        },
+        {
+          "key": "d",
+          "text": "Irradiation + High salt (low aw) + Modified atmosphere"
+        }
+      ]
+    },
+    "8": {
+      "type": "mcq",
+      "room": 3,
+      "correct": "b",
+      "points": 80,
+      "hint": "The answer is in the name. Think about extreme pressure, not electricity or UV.",
+      "explanation": "High Pressure Processing (HPP) uses pressures of 100\u2013600 MPa to rupture microbial cell membranes while leaving the food's flavour and nutrients largely intact. Used in juice, guacamole, and RTE meats.",
+      "title": "NOVEL PROCESSING",
+      "question": "Which novel processing technology uses <strong>extreme pressure</strong> to destroy pathogens while minimally affecting food quality?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Pulsed Electric Field (PEF)"
+        },
+        {
+          "key": "b",
+          "text": "High Pressure Processing (HPP)"
+        },
+        {
+          "key": "c",
+          "text": "UV Treatment"
+        },
+        {
+          "key": "d",
+          "text": "Food Irradiation"
+        }
+      ]
+    },
+    "9": {
+      "type": "mcq",
+      "room": 3,
+      "correct": "b",
+      "points": 80,
+      "hint": "Nisin is produced by a bacterium and is used in cheese.",
+      "explanation": "Nisin is a bacteriocin produced by Lactococcus lactis, commonly used in processed cheese and cheese spreads. It inhibits Gram-positive bacteria including Listeria and Clostridium. As a naturally derived antimicrobial peptide, it is approved in many countries.",
+      "title": "BIOCONTROL",
+      "question": "<strong>Nisin</strong> is a bacteriocin commonly used in food preservation. Which application is it most associated with?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Water treatment"
+        },
+        {
+          "key": "b",
+          "text": "Cheese"
+        },
+        {
+          "key": "c",
+          "text": "Surface sterilization"
+        },
+        {
+          "key": "d",
+          "text": "Air filtration"
+        }
+      ]
+    },
+    "10": {
+      "type": "mcq",
+      "room": 4,
+      "correct": "b",
+      "points": 80,
+      "hint": "Non-culturable = cannot grow on standard media. Routine tests would miss them.",
+      "explanation": "VBNC cells are alive and potentially pathogenic but cannot grow on standard culture media. This causes false negative results \u2014 food that appears safe by routine testing may actually carry viable pathogens that can resuscitate and cause illness.",
+      "title": "VIABLE BUT NON-CULTURABLE",
+      "question": "What is the primary danger posed by <strong>viable but non-culturable (VBNC)</strong> cells in food safety testing?",
+      "options": [
+        {
+          "key": "a",
+          "text": "They grow faster than normal cells"
+        },
+        {
+          "key": "b",
+          "text": "They cause false negative results on culture-based tests"
+        },
+        {
+          "key": "c",
+          "text": "They are easily killed by heat"
+        },
+        {
+          "key": "d",
+          "text": "They produce excessive toxins"
+        }
+      ]
+    },
+    "11": {
+      "type": "order",
+      "room": 4,
+      "correctOrder": [
+        "animal",
+        "resist",
+        "food",
+        "human"
+      ],
+      "points": 100,
+      "hint": "Start with antibiotic use in animals, then resistance develops, then food is contaminated, then treatment becomes harder in humans.",
+      "explanation": "AMR pathway: Antibiotic use in animals \u2192 Resistance genes develop in bacteria \u2192 Contaminated food consumed by humans \u2192 Treatment becomes harder in humans. This is the food chain as AMR reservoir concept.",
+      "title": "AMR CHAIN REACTION",
+      "question": "Trace the path of <strong>antimicrobial resistance</strong> through the food chain. Arrange in correct order:",
+      "items": [
+        {
+          "id": "resist",
+          "text": "Resistance genes develop"
+        },
+        {
+          "id": "animal",
+          "text": "Antibiotic use in animals"
+        },
+        {
+          "id": "food",
+          "text": "Contaminated food consumed"
+        },
+        {
+          "id": "human",
+          "text": "Treatment becomes harder in humans"
+        }
+      ]
+    },
+    "12": {
+      "type": "mcq",
+      "room": 4,
+      "correct": "b",
+      "points": 80,
+      "hint": "Fresh-cut foods are one of the examples of higher-risk emerging food systems.",
+      "explanation": "Fresh-cut fruits and vegetables undergo minimal processing \u2014 no heat kill step. Pathogens on the surface survive and can multiply. This is a key emerging food safety challenge.",
+      "title": "EMERGING RISKS",
+      "question": "Which food category is considered a <strong>higher risk</strong> for pathogen survival due to minimal processing?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Canned goods"
+        },
+        {
+          "key": "b",
+          "text": "Fresh-cut fruits and vegetables"
+        },
+        {
+          "key": "c",
+          "text": "Hard cheese (aged 12+ months)"
+        },
+        {
+          "key": "d",
+          "text": "Dried grains"
+        }
+      ]
+    },
+    "13": {
+      "type": "mcq",
+      "room": 1,
+      "correct": "b",
+      "points": 80,
+      "hint": "Think about survival in high sugar foods.",
+      "explanation": "Osmotic adaptation refers to tolerance of high osmotic stress \u2014 such as high sugar concentrations. Certain yeasts and halotolerant bacteria survive in jams and syrups by accumulating compatible solutes.",
+      "title": "OSMOTIC ADAPTATION",
+      "question": "Which food environment best illustrates <strong>osmotic adaptation</strong>?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Refrigerated foods"
+        },
+        {
+          "key": "b",
+          "text": "High sugar foods"
+        },
+        {
+          "key": "c",
+          "text": "High-pressure processed foods"
+        },
+        {
+          "key": "d",
+          "text": "Acidified foods"
+        }
+      ]
+    },
+    "15": {
+      "type": "mcq",
+      "room": 2,
+      "correct": "a",
+      "points": 80,
+      "hint": "This step proves the cleaning process consistently reaches the required standard.",
+      "explanation": "Cleaning validation is the documented process confirming a cleaning procedure consistently removes soil and microorganisms to an acceptable level. Unlike routine ATP monitoring, validation is a formal study.",
+      "title": "CLEANING VALIDATION",
+      "question": "Which control step confirms that a cleaning process <strong>consistently achieves the required standard</strong>?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Cleaning validation"
+        },
+        {
+          "key": "b",
+          "text": "Hurdle technology"
+        },
+        {
+          "key": "c",
+          "text": "D-value testing"
+        },
+        {
+          "key": "d",
+          "text": "VBNC screening"
+        }
+      ]
+    },
+    "17": {
+      "type": "mcq",
+      "room": 3,
+      "correct": "b",
+      "points": 80,
+      "hint": "The process uses electric pulses and works best for liquids.",
+      "explanation": "Pulsed Electric Field (PEF) processing applies short bursts of high-voltage electricity that electroporate microbial cell membranes. It is best suited to liquid foods (juice, milk alternatives) and preserves heat-sensitive nutrients better than pasteurisation.",
+      "title": "PEF TECHNOLOGY",
+      "question": "Which novel processing method uses <strong>electric pulses</strong> and is best suited to liquids?",
+      "options": [
+        {
+          "key": "a",
+          "text": "High Pressure Processing (HPP)"
+        },
+        {
+          "key": "b",
+          "text": "Pulsed Electric Field (PEF)"
+        },
+        {
+          "key": "c",
+          "text": "UV treatment"
+        },
+        {
+          "key": "d",
+          "text": "Bacteriophages"
+        }
+      ]
+    },
+    "19": {
+      "type": "mcq",
+      "room": 4,
+      "correct": "b",
+      "points": 80,
+      "hint": "Climate change can shift microbial ecology and pathogen distribution.",
+      "explanation": "Climate change alters temperature patterns and ecosystems, enabling new pathogens to emerge in regions where they were previously absent and changing the seasonal distribution of existing ones.",
+      "title": "CLIMATE CHANGE",
+      "question": "Which outcome is highlighted as a climate change effect on food safety?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Lower pH in all foods"
+        },
+        {
+          "key": "b",
+          "text": "Altered microbial ecology and new pathogen distribution"
+        },
+        {
+          "key": "c",
+          "text": "Elimination of VBNC cells"
+        },
+        {
+          "key": "d",
+          "text": "Complete removal of AMR"
+        }
+      ]
+    },
+    "20": {
+      "type": "mcq",
+      "room": 1,
+      "correct": "b",
+      "points": 80,
+      "hint": "Think about the proteins rapidly produced when bacteria experience temperature stress.",
+      "explanation": "Heat shock proteins (HSPs) are molecular chaperones rapidly synthesised during heat stress. They refold damaged proteins and protect cellular machinery, enabling bacteria to survive sublethal heat injury. This is why sublethal cooking temperatures can be more dangerous than expected.",
+      "title": "HEAT ADAPTATION",
+      "question": "Which cellular mechanism helps bacteria survive exposure to <strong>sublethal heat stress</strong>?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Spore formation only"
+        },
+        {
+          "key": "b",
+          "text": "Heat shock protein (HSP) production"
+        },
+        {
+          "key": "c",
+          "text": "Biofilm detachment"
+        },
+        {
+          "key": "d",
+          "text": "Entering the VBNC state"
+        }
+      ]
+    },
+    "21": {
+      "type": "mcq",
+      "room": 2,
+      "correct": "c",
+      "points": 80,
+      "hint": "z = temperature difference \u00f7 (log D1 \u2212 log D2). Calculate the log difference first.",
+      "explanation": "z = (T2 \u2212 T1) \u00f7 (log D1 \u2212 log D2) = (80 \u2212 70) \u00f7 (log 1 \u2212 log 0.1) = 10 \u00f7 1 = 10\u00b0C. The z-value represents the temperature change required to alter the D-value by one log unit.",
+      "title": "Z-VALUE CALCULATION",
+      "question": "A pathogen has a D-value of 1 min at 70&deg;C and 0.1 min at 80&deg;C. What is the <strong>z-value</strong>?",
+      "options": [
+        {
+          "key": "a",
+          "text": "5&deg;C"
+        },
+        {
+          "key": "b",
+          "text": "8&deg;C"
+        },
+        {
+          "key": "c",
+          "text": "10&deg;C"
+        },
+        {
+          "key": "d",
+          "text": "20&deg;C"
+        }
+      ]
+    },
+    "22": {
+      "type": "mcq",
+      "room": 2,
+      "correct": "b",
+      "points": 80,
+      "hint": "A higher D-value means it takes more time to achieve a 90% reduction, indicating stronger resistance.",
+      "explanation": "A higher D-value (6 minutes vs 2 minutes) means it takes longer to kill the pathogen at the same temperature. Therefore, the pathogen shows greater heat resistance in Product Y, likely because the food matrix (e.g., higher fat, lower moisture) offers more protection.",
+      "title": "HEAT RESISTANCE COMPARISON",
+      "question": "When testing the same pathogen at 70&deg;C, Product X has a D-value of 2 minutes, while Product Y has a D-value of 6 minutes. How do you interpret this?",
+      "options": [
+        {
+          "key": "a",
+          "text": "The pathogen is more temperature sensitive in Product Y"
+        },
+        {
+          "key": "b",
+          "text": "Product Y provides greater heat resistance to the pathogen"
+        },
+        {
+          "key": "c",
+          "text": "Product X requires a longer processing time for a 5-log reduction"
+        },
+        {
+          "key": "d",
+          "text": "The z-value of the pathogen is higher in Product X"
+        }
+      ]
+    },
+    "23": {
+      "type": "mcq",
+      "room": 3,
+      "correct": "d",
+      "points": 80,
+      "hint": "Think about how deep each treatment can reach into a food product.",
+      "explanation": "UV radiation has very poor penetration \u2014 limited to surface and water treatment. Food irradiation (gamma rays, X-rays, electron beams) penetrates deeply into solid foods, making it effective for bulk pathogen reduction.",
+      "title": "UV AND IRRADIATION",
+      "question": "Which statement correctly distinguishes <strong>UV treatment</strong> from <strong>food irradiation</strong>?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Both use ionising radiation and achieve the same penetration depth"
+        },
+        {
+          "key": "b",
+          "text": "UV uses chemical disinfectants; irradiation uses heat"
+        },
+        {
+          "key": "c",
+          "text": "Both destroy bacterial spores equally well"
+        },
+        {
+          "key": "d",
+          "text": "UV is limited to surface/water treatment; irradiation (gamma/X-ray) penetrates solid foods"
+        }
+      ]
+    },
+    "24": {
+      "type": "multiselect",
+      "room": 3,
+      "correct": [
+        "a",
+        "b",
+        "c"
+      ],
+      "points": 100,
+      "hint": "Biocontrol means using biological systems — bacteria, viruses, or their products.",
+      "explanation": "There are three main biocontrol approaches: bacteriocins (e.g. nisin), protective cultures (beneficial bacteria competing with pathogens), and bacteriophages (viruses targeting specific bacteria). Chlorine washing is a chemical sanitizer, not a biocontrol method.",
+      "title": "BIOCONTROL MECHANISMS",
+      "question": "Which of the following are <strong>biocontrol mechanisms</strong> described? (Select all that apply)",
+      "options": [
+        {
+          "key": "a",
+          "text": "Bacteriocins (e.g. nisin)"
+        },
+        {
+          "key": "b",
+          "text": "Protective cultures"
+        },
+        {
+          "key": "c",
+          "text": "Bacteriophage application"
+        },
+        {
+          "key": "d",
+          "text": "Chlorine washing"
+        }
+      ]
+    },
+    "25": {
+      "type": "mcq",
+      "room": 1,
+      "correct": "b",
+      "points": 90,
+      "hint": "Mild acid exposure induces stress proteins that increase resistance.",
+      "explanation": "Sub-lethal acid exposure induces ATR, synthesising protective proteins that increase bacterial survival against severe gastric acidity and low-pH food environments (e.g. apple cider, fermented meats).",
+      "title": "ACID TOLERANCE RESPONSE",
+      "question": "Exposure of <em>E. coli</em> O157:H7 to mild sub-lethal acid (pH 5.0–5.5) triggers the <strong>Acid Tolerance Response (ATR)</strong>. What is the primary food safety consequence?",
+      "options": [
+        {
+          "key": "a",
+          "text": "The pathogen becomes more sensitive to heat pasteurisation"
+        },
+        {
+          "key": "b",
+          "text": "The pathogen synthesises protective acid-shock proteins that enhance survival in low-pH foods"
+        },
+        {
+          "key": "c",
+          "text": "The pathogen permanently loses Shiga toxin production capabilities"
+        },
+        {
+          "key": "d",
+          "text": "The bacterial cell wall dissolves completely"
+        }
+      ]
+    },
+    "26": {
+      "type": "mcq",
+      "room": 3,
+      "correct": "c",
+      "points": 90,
+      "hint": "Staphylococcus aureus is unusually osmotolerant compared to Gram-negative pathogens.",
+      "explanation": "Staphylococcus aureus can grow at water activity (a_w) as low as 0.85 under aerobic conditions, whereas pathogens like Salmonella or E. coli require a_w >= 0.95.",
+      "title": "WATER ACTIVITY THRESHOLDS",
+      "question": "What is the minimum <strong>water activity (a_w)</strong> threshold required for growth of osmotolerant <em>Staphylococcus aureus</em>?",
+      "options": [
+        {
+          "key": "a",
+          "text": "0.95"
+        },
+        {
+          "key": "b",
+          "text": "0.91"
+        },
+        {
+          "key": "c",
+          "text": "0.85"
+        },
+        {
+          "key": "d",
+          "text": "0.75"
+        }
+      ]
+    },
+    "27": {
+      "type": "mcq",
+      "room": 1,
+      "correct": "b",
+      "points": 90,
+      "hint": "Think about micro-crevices in seals and slicing equipment.",
+      "explanation": "Dairy pipeline gaskets, deli meat slicers, and unsealed equipment joints act as primary biofilm harborage niches for Listeria monocytogenes due to moisture retention and organic residue buildup.",
+      "title": "INDUSTRIAL BIOFILM NICHES",
+      "question": "Which processing equipment zone presents the highest risk for persistent <em>Listeria monocytogenes</em> <strong>biofilm harborage</strong>?",
+      "options": [
+        {
+          "key": "a",
+          "text": "Polished stainless steel holding tanks during active CIP recirculation"
+        },
+        {
+          "key": "b",
+          "text": "Dairy pipeline rubber gaskets and deli meat slicer blade housing seals"
+        },
+        {
+          "key": "c",
+          "text": "Steam injection headers operating above 100°C"
+        },
+        {
+          "key": "d",
+          "text": "Filtered air supply duct interiors"
+        }
+      ]
+    }
+  },
+  "roomCodes": {
+    "1": "BIOFILM",
+    "2": "TEMPERATURE",
+    "3": "HURDLE",
+    "4": "ANTIBIOTIC"
+  },
+  "roomData": {
+    "1": {
+      "number": "ZONE 1",
+      "title": "THE BIOFILM WALL",
+      "subtitle": "Sealed door blocked by microbial biofilm",
+      "svg": "<svg width=\"100\" height=\"60\" viewBox=\"0 0 100 60\" style=\"display:block;margin:0 auto 24px\">\n    <ellipse cx=\"30\" cy=\"30\" rx=\"8\" ry=\"15\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".6\" transform=\"rotate(-20 30 30)\"/>\n    <ellipse cx=\"50\" cy=\"25\" rx=\"8\" ry=\"15\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".6\" transform=\"rotate(10 50 25)\"/>\n    <ellipse cx=\"70\" cy=\"35\" rx=\"8\" ry=\"15\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".6\" transform=\"rotate(-10 70 35)\"/>\n    <path d=\"M22,15 Q15,10 18,5\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\".8\" opacity=\".4\"/>\n    <path d=\"M42,10 Q38,5 40,0\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\".8\" opacity=\".4\"/>\n    <circle cx=\"25\" cy=\"20\" r=\"1\" fill=\"var(--green)\" opacity=\".3\"/><circle cx=\"55\" cy=\"35\" r=\"1\" fill=\"var(--green)\" opacity=\".3\"/>\n  </svg>",
+      "narrative": "<strong>SCENARIO:</strong> You enter the first containment zone. The door is sealed shut, covered in a thick, slimy biofilm layer. Your mission: understand biofilm formation to breach the seal. You need to solve the puzzles to gain the hints needed to unlock the door.",
+      "codeHint": "HINT: Enter the 7-letter term for the slimy microbial community blocking the door."
+    },
+    "2": {
+      "number": "ZONE 2",
+      "title": "THE TEMPERATURE LAB",
+      "subtitle": "Thermal destruction control room",
+      "svg": "<svg width=\"80\" height=\"80\" viewBox=\"0 0 80 80\" style=\"display:block;margin:0 auto 24px\">\n    <ellipse cx=\"40\" cy=\"40\" rx=\"25\" ry=\"30\" fill=\"none\" stroke=\"var(--yellow)\" stroke-width=\"2\" opacity=\".6\"/>\n    <ellipse cx=\"40\" cy=\"40\" rx=\"15\" ry=\"20\" fill=\"none\" stroke=\"var(--yellow)\" stroke-width=\"1.5\" opacity=\".5\"/>\n    <circle cx=\"40\" cy=\"38\" r=\"5\" fill=\"var(--yellow)\" opacity=\".4\"/>\n    <line x1=\"65\" y1=\"20\" x2=\"65\" y2=\"60\" stroke=\"var(--red)\" stroke-width=\"1\" opacity=\".5\"/>\n    <text x=\"68\" y=\"28\" fill=\"var(--red)\" font-size=\"8\" opacity=\".5\">100</text>\n    <text x=\"68\" y=\"38\" fill=\"var(--yellow)\" font-size=\"8\" opacity=\".5\">72</text>\n    <text x=\"68\" y=\"48\" fill=\"var(--green)\" font-size=\"8\" opacity=\".5\">4</text>\n  </svg>",
+      "narrative": "<strong>SCENARIO:</strong> You have breached the biofilm seal. You are now in the temperature control lab. To escape, you must demonstrate mastery of thermal destruction principles and sanitation verification.",
+      "codeHint": "HINT: Enter the 11-letter word for the environmental factor controlled in this lab."
+    },
+    "3": {
+      "number": "ZONE 3",
+      "title": "THE HURDLE CHAMBER",
+      "subtitle": "Multi-barrier vault protection",
+      "svg": "<svg width=\"160\" height=\"50\" viewBox=\"0 0 160 50\" style=\"display:block;margin:0 auto 24px\">\n    <rect x=\"10\" y=\"5\" width=\"30\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--cyan)\" stroke-width=\"1.5\" opacity=\".6\"/>\n    <text x=\"25\" y=\"28\" fill=\"var(--cyan)\" font-size=\"7\" text-anchor=\"middle\" opacity=\".7\">pH</text>\n    <rect x=\"50\" y=\"5\" width=\"30\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".6\"/>\n    <text x=\"65\" y=\"28\" fill=\"var(--green)\" font-size=\"7\" text-anchor=\"middle\" opacity=\".7\">aw</text>\n    <rect x=\"90\" y=\"5\" width=\"30\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--yellow)\" stroke-width=\"1.5\" opacity=\".6\"/>\n    <text x=\"105\" y=\"28\" fill=\"var(--yellow)\" font-size=\"7\" text-anchor=\"middle\" opacity=\".7\">Temp</text>\n    <rect x=\"130\" y=\"5\" width=\"25\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--purple)\" stroke-width=\"1.5\" opacity=\".6\"/>\n    <text x=\"142\" y=\"28\" fill=\"var(--purple)\" font-size=\"6\" text-anchor=\"middle\" opacity=\".7\">Pres</text>\n    <path d=\"M5,45 L155,45\" fill=\"none\" stroke=\"var(--red)\" stroke-width=\"1\" stroke-dasharray=\"4,4\" opacity=\".4\"/>\n  </svg>",
+      "narrative": "<strong>SCENARIO:</strong> The third zone uses hurdle technology - multiple simultaneous barriers that overwhelm any pathogen trying to survive. Master the concepts of combined preservation factors to proceed.",
+      "codeHint": "HINT: Enter the 6-letter term for the multi-barrier technology."
+    },
+    "4": {
+      "number": "ZONE 4",
+      "title": "THE AMR VAULT",
+      "subtitle": "Antimicrobial-resistant containment",
+      "svg": "<svg width=\"320\" height=\"50\" viewBox=\"0 0 320 50\" style=\"display:block;margin:0 auto 24px\">\n    <rect x=\"0\" y=\"10\" width=\"60\" height=\"30\" rx=\"4\" fill=\"none\" stroke=\"var(--red)\" stroke-width=\"1.5\" opacity=\".7\"/>\n    <text x=\"30\" y=\"28\" fill=\"var(--red)\" font-size=\"8\" text-anchor=\"middle\" opacity=\".8\">ANIMAL</text>\n    <path d=\"M60,25 L80,25\" stroke=\"var(--red)\" stroke-width=\"1\" opacity=\".5\"/>\n    <polygon points=\"78,22 84,25 78,28\" fill=\"var(--red)\" opacity=\".5\"/>\n    <rect x=\"80\" y=\"10\" width=\"60\" height=\"30\" rx=\"4\" fill=\"none\" stroke=\"var(--yellow)\" stroke-width=\"1.5\" opacity=\".7\"/>\n    <text x=\"110\" y=\"28\" fill=\"var(--yellow)\" font-size=\"8\" text-anchor=\"middle\" opacity=\".8\">FOOD</text>\n    <path d=\"M140,25 L160,25\" stroke=\"var(--yellow)\" stroke-width=\"1\" opacity=\".5\"/>\n    <polygon points=\"158,22 164,25 158,28\" fill=\"var(--yellow)\" opacity=\".5\"/>\n    <rect x=\"160\" y=\"10\" width=\"60\" height=\"30\" rx=\"4\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".7\"/>\n    <text x=\"190\" y=\"28\" fill=\"var(--green)\" font-size=\"8\" text-anchor=\"middle\" opacity=\".8\">HUMAN</text>\n    <circle cx=\"30\" cy=\"8\" r=\"3\" fill=\"var(--red)\" opacity=\".3\"/>\n    <circle cx=\"110\" cy=\"8\" r=\"3\" fill=\"var(--yellow)\" opacity=\".3\"/>\n    <circle cx=\"190\" cy=\"8\" r=\"3\" fill=\"var(--green)\" opacity=\".3\"/>\n  </svg>",
+      "narrative": "<strong>SCENARIO:</strong> The final zone houses the most dangerous threat - antimicrobial-resistant pathogens that survive standard treatments. Solve these challenges to unlock the final escape.",
+      "codeHint": "HINT: Enter the 10-letter word for the type of drug these resistant pathogens can survive."
+    }
+  },
+  "config": {
+    "theme": "cyberpunk",
+    "wrongPenalty": 0,
+    "rankMode": "absolute",
+    "roomLabel": "Room",
+    "pageTitle": "FOOD SAFETY FACILITY - Escape Room",
+    "titleLogo": "FOOD SAFETY FACILITY",
+    "titleSub": "Escape Room Challenge",
+    "minimapTitle": "FACILITY MAP",
+    "minimapRooms": [
+      "R1: Biofilm Wall",
+      "R2: Temp Lab",
+      "R3: Hurdle Chamber",
+      "R4: AMR Vault"
+    ],
+    "missionBriefingTitle": "MISSION BRIEFING",
+    "missionBriefingText": "<p>A food processing facility has been compromised by dangerous pathogens. Your task: navigate through 4 containment zones, solve microbiology puzzles, and escape before the contamination spreads.</p>\n<ul><li>Solve <strong>the puzzles per room</strong> to unlock the exit code</li><li>Enter codes correctly to proceed between rooms</li><li>Complete all 4 rooms to unlock the final escape</li><li>Score points for correct answers; hints cost 10 points each</li></ul>\n<p style=\"margin-top:12px;color:var(--green)\">Good luck, Agent.</p>",
+    "finalEscapeTerminalTitle": "FINAL ESCAPE TERMINAL",
+    "finalEscapeTerminalText": "Enter the <strong>MASTER ACCESS CODE</strong> to unlock the escape pod.<br>\n<span style=\"font-size: 13px; opacity: 0.8\">(Hint: What 10-letter word describes the continuous development of novel processing, biocontrols, and hurdle technologies to combat emerging threats?)</span>",
+    "finalCode": "INNOVATION",
+    "victoryTitle": "Congratulations, you are now a fully certified Food Safety Agent!",
+    "victorySubtitle": "You have escaped the facility before total contamination",
+    "victoryText": "<strong>Key Learnings:</strong> You demonstrated mastery of biofilm formation, thermal destruction principles, hurdle technology, novel processing methods, biocontrol agents, antimicrobial resistance, and emerging food safety challenges.",
+    "version": "v1.2.0"
+  }
+}

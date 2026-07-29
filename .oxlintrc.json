@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error"
+  },
+  "overrides": [
+    {
+      "files": ["src/engine/**/*.ts", "src/engine/**/*.js"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              { "name": "react", "message": "React is forbidden in engine runtime" },
+              { "name": "react-dom", "message": "React DOM is forbidden in engine runtime" },
+              { "name": "zod", "message": "Zod runtime is forbidden in engine runtime" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/editor/**/*.tsx", "src/editor/**/*.ts"]
+    }
+  ],
+  "ignorePatterns": [
+    "docs/",
+    "dist/",
+    "node_modules/"
+  ]
+}
