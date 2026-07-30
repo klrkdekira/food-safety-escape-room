@@ -674,7 +674,7 @@
       "correct": "c",
       "points": 90,
       "hint": "Staphylococcus aureus is unusually osmotolerant compared to Gram-negative pathogens.",
-      "explanation": "Staphylococcus aureus can grow at water activity (a_w) as low as 0.85 under aerobic conditions, whereas pathogens like Salmonella or E. coli require a_w >= 0.95.",
+      "explanation": "Staphylococcus aureus can grow at water activity (a_w) as low as 0.83–0.85 under aerobic conditions (0.85 is the threshold for enterotoxin production), whereas pathogens like Salmonella or E. coli require a_w >= 0.94–0.95.",
       "title": "WATER ACTIVITY THRESHOLDS",
       "question": "What is the minimum <strong>water activity (a_w)</strong> threshold required for growth of osmotolerant <em>Staphylococcus aureus</em>?",
       "options": [
