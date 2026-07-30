@@ -116,15 +116,7 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
     <div className="editor-card">
       <h3>Puzzles ({puzzleIds.length})</h3>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.375rem",
-          marginBottom: "1rem",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="editor-selector-bar">
         {puzzleIds.map((id) => (
           <button
             key={id}
@@ -134,7 +126,7 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
             P{id} ({data.puzzleData[id]?.type})
           </button>
         ))}
-        <button onClick={handleAdd} className="editor-btn" style={{ marginLeft: "auto" }}>
+        <button onClick={handleAdd} className="editor-btn editor-btn-add">
           + Add Puzzle
         </button>
       </div>

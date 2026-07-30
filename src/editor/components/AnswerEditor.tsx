@@ -8,21 +8,6 @@ interface AnswerEditorProps {
   onChange: (puzzle: AnyPuzzle) => void;
 }
 
-const rowStyle: React.CSSProperties = {
-  display: "flex",
-  gap: "0.5rem",
-  alignItems: "center",
-  marginBottom: "0.5rem",
-};
-
-/** The text input inside a row: fills the gap, and drops the class's own margin. */
-const rowInputStyle: React.CSSProperties = { flex: 1, minWidth: 0, marginBottom: 0 };
-
-/** Row prefix (option key, step ordinal) — fixed width so the inputs line up. */
-const rowMarkerStyle: React.CSSProperties = { width: "1.125rem", flexShrink: 0, marginBottom: 0 };
-
-const shrinkStyle: React.CSSProperties = { flexShrink: 0 };
-
 /** Next unused single-letter option key, so keys stay stable and A-Z ordered. */
 function nextOptionKey(existing: { key: string }[]): string {
   const used = new Set(existing.map((o) => o.key));
@@ -103,28 +88,24 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
           isMulti ? "Options (tick every correct answer)" : "Options (select the correct answer)",
         )}
         {options.map((opt, idx) => (
-          <div key={opt.key} style={rowStyle}>
+          <div key={opt.key} className="editor-row">
             <input
               type={isMulti ? "checkbox" : "radio"}
               name={`correct-${puzzle.title}`}
               checked={correctKeys.has(opt.key)}
               onChange={(e) => setCorrect(opt.key, e.target.checked)}
               aria-label={`Mark option ${opt.key} correct`}
-              style={shrinkStyle}
+              className="editor-shrink"
             />
-            <span className="editor-note" style={rowMarkerStyle}>
-              {opt.key}
-            </span>
+            <span className="editor-row-marker">{opt.key}</span>
             <input
-              className="editor-input"
-              style={rowInputStyle}
+              className="editor-input editor-row-input"
               value={opt.text}
               onChange={(e) => updateOption(idx, e.target.value)}
             />
             {options.length > 2 && (
               <button
-                className="editor-btn btn-danger"
-                style={shrinkStyle}
+                className="editor-btn btn-danger editor-shrink"
                 onClick={() => removeOption(idx)}
               >
                 Remove
@@ -158,21 +139,17 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
       <div style={{ marginBottom: "0.75rem" }}>
         {sectionLabel("Steps in the correct order (players see them shuffled)")}
         {items.map((item, idx) => (
-          <div key={item.id} style={rowStyle}>
-            <span className="editor-note" style={rowMarkerStyle}>
-              {idx + 1}
-            </span>
+          <div key={item.id} className="editor-row">
+            <span className="editor-row-marker">{idx + 1}</span>
             <input
-              className="editor-input"
-              style={rowInputStyle}
+              className="editor-input editor-row-input"
               value={item.text}
               onChange={(e) =>
                 commit(items.map((it, i) => (i === idx ? { ...it, text: e.target.value } : it)))
               }
             />
             <button
-              className="editor-btn"
-              style={shrinkStyle}
+              className="editor-btn editor-shrink"
               onClick={() => move(idx, -1)}
               disabled={idx === 0}
               aria-label={`Move step ${idx + 1} up`}
@@ -180,8 +157,7 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
               ↑
             </button>
             <button
-              className="editor-btn"
-              style={shrinkStyle}
+              className="editor-btn editor-shrink"
               onClick={() => move(idx, 1)}
               disabled={idx === items.length - 1}
               aria-label={`Move step ${idx + 1} down`}
@@ -190,8 +166,7 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
             </button>
             {items.length > 2 && (
               <button
-                className="editor-btn btn-danger"
-                style={shrinkStyle}
+                className="editor-btn btn-danger editor-shrink"
                 onClick={() => commit(items.filter((_, i) => i !== idx))}
               >
                 Remove
@@ -232,10 +207,9 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
       <div style={{ marginBottom: "0.75rem" }}>
         {sectionLabel("Categories (right column)")}
         {rightItems.map((r, idx) => (
-          <div key={r.id} style={rowStyle}>
+          <div key={r.id} className="editor-row">
             <input
-              className="editor-input"
-              style={rowInputStyle}
+              className="editor-input editor-row-input"
               value={r.text}
               onChange={(e) =>
                 commit(
@@ -247,8 +221,7 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
             />
             {rightItems.length > 1 && (
               <button
-                className="editor-btn btn-danger"
-                style={shrinkStyle}
+                className="editor-btn btn-danger editor-shrink"
                 onClick={() => removeRight(r.id)}
               >
                 Remove
@@ -272,10 +245,9 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
         <div style={{ marginTop: "1rem" }} />
         {sectionLabel("Items and the category each belongs to")}
         {leftItems.map((l, idx) => (
-          <div key={l.id} style={rowStyle}>
+          <div key={l.id} className="editor-row">
             <input
-              className="editor-input"
-              style={rowInputStyle}
+              className="editor-input editor-row-input"
               value={l.text}
               onChange={(e) =>
                 commit(
@@ -286,8 +258,8 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
               }
             />
             <select
-              className="editor-input"
-              style={{ ...rowInputStyle, maxWidth: "45%" }}
+              className="editor-input editor-row-input"
+              style={{ maxWidth: "45%" }}
               value={correct[l.id] ?? rightItems[0].id}
               onChange={(e) =>
                 commit(leftItems, rightItems, { ...correct, [l.id]: e.target.value })
@@ -302,8 +274,7 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
             </select>
             {leftItems.length > 1 && (
               <button
-                className="editor-btn btn-danger"
-                style={shrinkStyle}
+                className="editor-btn btn-danger editor-shrink"
                 onClick={() => {
                   const nextLeft = leftItems.filter((_, i) => i !== idx);
                   const { [l.id]: _drop, ...nextCorrect } = correct;

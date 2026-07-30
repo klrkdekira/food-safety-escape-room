@@ -33,15 +33,7 @@ export const RoomEditor: React.FC<RoomEditorProps> = ({
     <div className="editor-card">
       <h3>Rooms & Passcodes</h3>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.375rem",
-          marginBottom: "1rem",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="editor-selector-bar">
         {roomKeys.map((key) => (
           <button
             key={key}
@@ -51,7 +43,7 @@ export const RoomEditor: React.FC<RoomEditorProps> = ({
             Room {key}
           </button>
         ))}
-        <button onClick={handleAdd} className="editor-btn" style={{ marginLeft: "auto" }}>
+        <button onClick={handleAdd} className="editor-btn editor-btn-add">
           + Add Room
         </button>
       </div>

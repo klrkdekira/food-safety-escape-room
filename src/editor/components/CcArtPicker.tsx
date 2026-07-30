@@ -89,88 +89,46 @@ export const CcArtPicker: React.FC<CcArtPickerProps> = ({
   };
 
   return (
-    <div className="cc-art-picker" style={{ marginBottom: "1rem" }}>
+    <div className="cc-art-picker">
       <label className="editor-label">Room Artwork (Open Source / Creative Commons)</label>
 
       {imageUrl ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "1rem",
-            padding: "0.75rem",
-            background: "rgba(255, 255, 255, 0.03)",
-            border: "1px solid var(--border-color)",
-            borderRadius: "6px",
-            marginBottom: "0.5rem",
-          }}
-        >
-          <img
-            src={imageUrl}
-            alt="Room Artwork"
-            style={{ width: "80px", height: "60px", objectFit: "cover", borderRadius: "4px" }}
-          />
-          <div style={{ flex: 1, fontSize: "0.85rem", overflow: "hidden" }}>
-            <div
-              style={{
-                color: "var(--text-primary)",
-                fontWeight: 600,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              Selected Artwork
-            </div>
-            <div style={{ color: "var(--text-dim)", fontSize: "0.75rem" }}>
-              {imageAttribution || "No attribution string"}
-            </div>
+        <div className="cc-art-preview">
+          <img src={imageUrl} alt="Room Artwork" className="cc-art-preview-img" />
+          <div className="cc-art-preview-meta">
+            <div className="cc-art-preview-title">Selected Artwork</div>
+            <div className="cc-art-preview-attr">{imageAttribution || "No attribution string"}</div>
           </div>
           <button
             type="button"
-            className="editor-btn btn-danger"
+            className="editor-btn btn-danger editor-shrink"
             onClick={onClearArt}
-            style={{ fontSize: "0.75rem", padding: "0.25rem 0.5rem" }}
           >
             Remove
           </button>
         </div>
       ) : null}
 
-      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}>
-        <button
-          type="button"
-          className="editor-btn"
-          onClick={() => setIsOpen(!isOpen)}
-          style={{ fontSize: "0.85rem" }}
-        >
+      <div className="editor-row">
+        <button type="button" className="editor-btn" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? "Close CC Search" : "Search Creative Commons Artwork"}
         </button>
       </div>
 
       {isOpen && (
-        <div
-          style={{
-            padding: "1rem",
-            background: "var(--bg-panel)",
-            border: "1px solid var(--border-color)",
-            borderRadius: "6px",
-            marginTop: "0.5rem",
-          }}
-        >
-          <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+        <div className="cc-art-search-box">
+          <div className="editor-row">
             <input
               type="text"
-              className="editor-input"
+              className="editor-input editor-row-input"
               placeholder="Search terms (e.g. microbiology, biofilm, laboratory, cell)..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
-              style={{ flex: 1 }}
             />
             <button
               type="button"
-              className="editor-btn editor-btn-primary"
+              className="editor-btn editor-btn-primary editor-shrink"
               onClick={searchCcArt}
               disabled={loading}
             >
@@ -179,79 +137,29 @@ export const CcArtPicker: React.FC<CcArtPickerProps> = ({
           </div>
 
           {error && (
-            <div
-              style={{
-                color: "var(--red)",
-                fontSize: "0.85rem",
-                marginBottom: "0.5rem",
-              }}
-            >
+            <div className="editor-note" style={{ color: "var(--red)" }}>
               {error}
             </div>
           )}
 
           {results.length > 0 && (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))",
-                gap: "0.75rem",
-                maxHeight: "320px",
-                overflowY: "auto",
-                padding: "0.25rem",
-              }}
-            >
+            <div className="cc-art-grid">
               {results.map((item) => {
                 const attrText = `Art: "${item.title}" by ${item.artist} (${item.license}). Source: Wikimedia Commons`;
 
                 return (
                   <div
                     key={item.id}
+                    className="cc-art-card"
                     onClick={() => {
                       onSelectArt(item.fullUrl, attrText);
                       setIsOpen(false);
                     }}
-                    style={{
-                      border: "1px solid var(--border-color)",
-                      borderRadius: "4px",
-                      padding: "0.375rem",
-                      cursor: "pointer",
-                      background: "var(--bg-card)",
-                      transition: "transform 0.15s ease",
-                    }}
                     title={`${item.title}\n${attrText}`}
                   >
-                    <img
-                      src={item.thumbUrl}
-                      alt={item.title}
-                      style={{
-                        width: "100%",
-                        height: "90px",
-                        objectFit: "cover",
-                        borderRadius: "2px",
-                        marginBottom: "0.25rem",
-                      }}
-                    />
-                    <div
-                      style={{
-                        fontSize: "0.7rem",
-                        color: "var(--text-primary)",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {item.title}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "0.65rem",
-                        color: "var(--green)",
-                        marginTop: "0.1rem",
-                      }}
-                    >
-                      {item.license}
-                    </div>
+                    <img src={item.thumbUrl} alt={item.title} className="cc-art-card-img" />
+                    <div className="cc-art-card-title">{item.title}</div>
+                    <div className="cc-art-card-license">{item.license}</div>
                   </div>
                 );
               })}
