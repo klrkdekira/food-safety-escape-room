@@ -101,7 +101,9 @@ export const RoomDataSchema = z.object({
   number: z.string(),
   title: z.string(),
   subtitle: z.string(),
-  svg: z.string(),
+  svg: z.string().optional(),
+  imageUrl: z.string().optional(),
+  imageAttribution: z.string().optional(),
   narrative: z.string(),
   codeHint: z.string().optional(),
 });

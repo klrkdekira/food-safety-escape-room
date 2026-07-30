@@ -6,35 +6,22 @@ type AnyPuzzle = QuizData["puzzleData"][string];
 interface AnswerEditorProps {
   puzzle: AnyPuzzle;
   onChange: (puzzle: AnyPuzzle) => void;
-  inputStyle: React.CSSProperties;
-  labelStyle: React.CSSProperties;
 }
 
 const rowStyle: React.CSSProperties = {
   display: "flex",
-  gap: "8px",
+  gap: "0.5rem",
   alignItems: "center",
-  marginBottom: "8px",
+  marginBottom: "0.5rem",
 };
 
-const smallBtn: React.CSSProperties = {
-  padding: "6px 10px",
-  backgroundColor: "transparent",
-  border: "1px solid #233148",
-  color: "#94a3b8",
-  borderRadius: "4px",
-  cursor: "pointer",
-  fontSize: "12px",
-  flexShrink: 0,
-};
+/** The text input inside a row: fills the gap, and drops the class's own margin. */
+const rowInputStyle: React.CSSProperties = { flex: 1, minWidth: 0, marginBottom: 0 };
 
-const addBtn: React.CSSProperties = {
-  ...smallBtn,
-  borderColor: "#00b35f",
-  color: "#00ff88",
-};
+/** Row prefix (option key, step ordinal) — fixed width so the inputs line up. */
+const rowMarkerStyle: React.CSSProperties = { width: "1.125rem", flexShrink: 0, marginBottom: 0 };
 
-const dangerBtn: React.CSSProperties = { ...smallBtn, borderColor: "#ff4d67", color: "#ff4d67" };
+const shrinkStyle: React.CSSProperties = { flexShrink: 0 };
 
 /** Next unused single-letter option key, so keys stay stable and A-Z ordered. */
 function nextOptionKey(existing: { key: string }[]): string {
@@ -53,13 +40,8 @@ function nextItemId(existing: { id: string }[], prefix: string): string {
   return `${prefix}${n}`;
 }
 
-export const AnswerEditor: React.FC<AnswerEditorProps> = ({
-  puzzle,
-  onChange,
-  inputStyle,
-  labelStyle,
-}) => {
-  const sectionLabel = (text: string) => <label style={labelStyle}>{text}</label>;
+export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) => {
+  const sectionLabel = (text: string) => <label className="editor-label">{text}</label>;
 
   if (puzzle.type === "mcq" || puzzle.type === "multiselect") {
     const isMulti = puzzle.type === "multiselect";
@@ -116,7 +98,7 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
     };
 
     return (
-      <div style={{ marginBottom: "12px" }}>
+      <div style={{ marginBottom: "0.75rem" }}>
         {sectionLabel(
           isMulti ? "Options (tick every correct answer)" : "Options (select the correct answer)",
         )}
@@ -128,24 +110,29 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
               checked={correctKeys.has(opt.key)}
               onChange={(e) => setCorrect(opt.key, e.target.checked)}
               aria-label={`Mark option ${opt.key} correct`}
-              style={{ flexShrink: 0 }}
+              style={shrinkStyle}
             />
-            <span style={{ color: "#94a3b8", fontSize: "12px", width: "18px", flexShrink: 0 }}>
+            <span className="editor-note" style={rowMarkerStyle}>
               {opt.key}
             </span>
             <input
-              style={{ ...inputStyle, marginBottom: 0 }}
+              className="editor-input"
+              style={rowInputStyle}
               value={opt.text}
               onChange={(e) => updateOption(idx, e.target.value)}
             />
             {options.length > 2 && (
-              <button style={dangerBtn} onClick={() => removeOption(idx)}>
+              <button
+                className="editor-btn btn-danger"
+                style={shrinkStyle}
+                onClick={() => removeOption(idx)}
+              >
                 Remove
               </button>
             )}
           </div>
         ))}
-        <button style={addBtn} onClick={addOption}>
+        <button className="editor-btn" onClick={addOption}>
           + Add option
         </button>
       </div>
@@ -168,22 +155,24 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
     };
 
     return (
-      <div style={{ marginBottom: "12px" }}>
+      <div style={{ marginBottom: "0.75rem" }}>
         {sectionLabel("Steps in the correct order (players see them shuffled)")}
         {items.map((item, idx) => (
           <div key={item.id} style={rowStyle}>
-            <span style={{ color: "#94a3b8", fontSize: "12px", width: "18px", flexShrink: 0 }}>
+            <span className="editor-note" style={rowMarkerStyle}>
               {idx + 1}
             </span>
             <input
-              style={{ ...inputStyle, marginBottom: 0 }}
+              className="editor-input"
+              style={rowInputStyle}
               value={item.text}
               onChange={(e) =>
                 commit(items.map((it, i) => (i === idx ? { ...it, text: e.target.value } : it)))
               }
             />
             <button
-              style={smallBtn}
+              className="editor-btn"
+              style={shrinkStyle}
               onClick={() => move(idx, -1)}
               disabled={idx === 0}
               aria-label={`Move step ${idx + 1} up`}
@@ -191,7 +180,8 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
               ↑
             </button>
             <button
-              style={smallBtn}
+              className="editor-btn"
+              style={shrinkStyle}
               onClick={() => move(idx, 1)}
               disabled={idx === items.length - 1}
               aria-label={`Move step ${idx + 1} down`}
@@ -199,14 +189,18 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
               ↓
             </button>
             {items.length > 2 && (
-              <button style={dangerBtn} onClick={() => commit(items.filter((_, i) => i !== idx))}>
+              <button
+                className="editor-btn btn-danger"
+                style={shrinkStyle}
+                onClick={() => commit(items.filter((_, i) => i !== idx))}
+              >
                 Remove
               </button>
             )}
           </div>
         ))}
         <button
-          style={addBtn}
+          className="editor-btn"
           onClick={() => commit([...items, { id: nextItemId(items, "step"), text: "New step" }])}
         >
           + Add step
@@ -235,12 +229,13 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
     };
 
     return (
-      <div style={{ marginBottom: "12px" }}>
+      <div style={{ marginBottom: "0.75rem" }}>
         {sectionLabel("Categories (right column)")}
         {rightItems.map((r, idx) => (
           <div key={r.id} style={rowStyle}>
             <input
-              style={{ ...inputStyle, marginBottom: 0 }}
+              className="editor-input"
+              style={rowInputStyle}
               value={r.text}
               onChange={(e) =>
                 commit(
@@ -251,14 +246,18 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
               }
             />
             {rightItems.length > 1 && (
-              <button style={dangerBtn} onClick={() => removeRight(r.id)}>
+              <button
+                className="editor-btn btn-danger"
+                style={shrinkStyle}
+                onClick={() => removeRight(r.id)}
+              >
                 Remove
               </button>
             )}
           </div>
         ))}
         <button
-          style={addBtn}
+          className="editor-btn"
           onClick={() =>
             commit(
               leftItems,
@@ -270,12 +269,13 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
           + Add category
         </button>
 
-        <div style={{ marginTop: "16px" }} />
+        <div style={{ marginTop: "1rem" }} />
         {sectionLabel("Items and the category each belongs to")}
         {leftItems.map((l, idx) => (
           <div key={l.id} style={rowStyle}>
             <input
-              style={{ ...inputStyle, marginBottom: 0 }}
+              className="editor-input"
+              style={rowInputStyle}
               value={l.text}
               onChange={(e) =>
                 commit(
@@ -286,7 +286,8 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
               }
             />
             <select
-              style={{ ...inputStyle, marginBottom: 0, maxWidth: "45%" }}
+              className="editor-input"
+              style={{ ...rowInputStyle, maxWidth: "45%" }}
               value={correct[l.id] ?? rightItems[0].id}
               onChange={(e) =>
                 commit(leftItems, rightItems, { ...correct, [l.id]: e.target.value })
@@ -301,7 +302,8 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
             </select>
             {leftItems.length > 1 && (
               <button
-                style={dangerBtn}
+                className="editor-btn btn-danger"
+                style={shrinkStyle}
                 onClick={() => {
                   const nextLeft = leftItems.filter((_, i) => i !== idx);
                   const { [l.id]: _drop, ...nextCorrect } = correct;
@@ -314,7 +316,7 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({
           </div>
         ))}
         <button
-          style={addBtn}
+          className="editor-btn"
           onClick={() => {
             const id = nextItemId(leftItems, "l");
             commit([...leftItems, { id, text: "New item" }], rightItems, {

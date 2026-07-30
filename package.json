@@ -5,15 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && pnpm run gen-offline",
+    "build": "vite build",
     "typecheck": "tsc --noEmit",
     "validate": "tsx tools/validate.ts",
     "gen-schema": "tsx tools/gen-schema.ts",
-    "gen-offline": "tsx tools/gen-offline.ts",
     "lint": "oxlint",
     "fmt": "oxfmt src tools",
     "fmt:check": "oxfmt --check src tools",
-    "html:check": "html-validate index.html author/index.html",
+    "html:check": "html-validate index.html",
     "test": "pnpm run validate && pnpm run typecheck && pnpm run lint && pnpm run fmt:check && pnpm run html:check",
     "fetch-fonts": "tsx tools/fetch-fonts.ts"
   },
@@ -23,6 +22,7 @@
   "packageManager": "pnpm@11.15.0",
   "type": "module",
   "dependencies": {
+    "@tanstack/react-router": "^1.170.18",
     "idb-keyval": "^6.3.0",
     "immer": "^11.1.15",
     "react": "^19.2.8",

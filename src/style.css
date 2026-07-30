@@ -1,3 +1,167 @@
+/* ============================================================================
+ * Escape Room — design system
+ *
+ * Three rules keep this coherent, and breaking them is what made the old sheet
+ * read as generic sci-fi filler:
+ *
+ *   1. The accent colour marks STATE (active, selected, solved, correct) and
+ *      nothing else. Headings are plain text-primary. A page where every title
+ *      glows the same green has no hierarchy left to spend.
+ *   2. Prose is set in the UI sans; the mono face is reserved for data the
+ *      player scans or compares — timers, scores, codes, ordinals.
+ *   3. Depth comes from surface steps (deep → panel → card) and hairline
+ *      borders, never from coloured glow. `text-shadow` is not used at all.
+ *
+ * Themes only ever reassign the token block. Component rules below reference
+ * tokens exclusively, so a new theme is a ~20-line addition.
+ * ========================================================================== */
+
+:root {
+  /* Warm graphite surfaces — a hint of red in the greys keeps the dark from
+     going the usual blue-black, and it is what lets the jade accent read as a
+     colour rather than as backlight. */
+  --bg-deep: #1b1917;
+  --bg-sunken: #131211;
+  --bg-panel: #24211e;
+  --bg-card: #2d2925;
+  --bg-card-hover: #383330;
+
+  --border-color: #3b3630;
+  --border-strong: #544d44;
+
+  /* `--green` is the success/active accent. The name is load-bearing: quiz JSON
+     and inline component styles reference it, and themes recolour it (the
+     "sugary" theme's accent is pink). */
+  --green: #58c98d;
+  --green-dim: #3d9e6d;
+  /* Formerly a glow colour; now the flat tint behind a selected row. */
+  --green-glow: rgba(88, 201, 141, 0.12);
+
+  --yellow: #e0ab4f;
+  --yellow-glow: rgba(224, 171, 79, 0.12);
+  --red: #e2696c;
+  --red-glow: rgba(226, 105, 108, 0.13);
+  --cyan: #6cb6c9;
+  --purple: #a591d1;
+
+  --text-primary: #eceae6;
+  --text-secondary: #b0aca4;
+  --text-dim: #857f75;
+  /* Text that sits on top of an accent fill. */
+  --text-on-accent: #14211b;
+
+  --font-sans:
+    ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-display: "Jost", var(--font-sans);
+  --font-body: var(--font-sans);
+  /* Legacy alias: component inline styles still ask for --font-ui when they mean
+     "the tabular/data face". */
+  --font-ui: var(--font-mono);
+
+  --r-sm: 5px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-2: 0 10px 30px -12px rgba(0, 0, 0, 0.65);
+
+  --dur: 160ms;
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Reading measure for the room column, the offset the fixed HUD needs, and the
+     shared width of the code display + keypad. */
+  --measure: 46rem;
+  --hud-h: 3.5rem;
+  --pad-w: 27rem;
+}
+
+/* Rose plum. Same discipline, warmer hue family. */
+[data-theme="sugary"] {
+  --bg-deep: #201820;
+  --bg-sunken: #191219;
+  --bg-panel: #2a2029;
+  --bg-card: #322630;
+  --bg-card-hover: #3d2f3a;
+  --border-color: #453542;
+  --border-strong: #5b4656;
+
+  --green: #e888ab;
+  --green-dim: #c4688d;
+  --green-glow: rgba(232, 136, 171, 0.13);
+  --yellow: #e5b567;
+  --yellow-glow: rgba(229, 181, 103, 0.13);
+  --red: #e0697f;
+  --red-glow: rgba(224, 105, 127, 0.14);
+  --cyan: #e39a78;
+  --purple: #c4a2e0;
+
+  --text-primary: #f4eaef;
+  --text-secondary: #c7b3bf;
+  --text-dim: #9c8894;
+  --text-on-accent: #2b1620;
+}
+
+/* Cool slate and teal — the closest to a real instrument panel. */
+[data-theme="laboratory"] {
+  --bg-deep: #12181d;
+  --bg-sunken: #0d1216;
+  --bg-panel: #1a2229;
+  --bg-card: #202a32;
+  --bg-card-hover: #2a363f;
+  --border-color: #2e3a44;
+  --border-strong: #405060;
+
+  --green: #4fb8a8;
+  --green-dim: #379387;
+  --green-glow: rgba(79, 184, 168, 0.13);
+  --yellow: #cfa94d;
+  --yellow-glow: rgba(207, 169, 77, 0.13);
+  --red: #d9686e;
+  --red-glow: rgba(217, 104, 110, 0.14);
+  --cyan: #5d9ec4;
+  --purple: #9a8cc8;
+
+  --text-primary: #e6ecf0;
+  --text-secondary: #a6b2bc;
+  --text-dim: #7e8a94;
+  --text-on-accent: #0b1a1a;
+}
+
+/* The one theme that commits to the terminal look on purpose: sepia paper,
+   amber phosphor, and monospace prose throughout. */
+[data-theme="retro"] {
+  --bg-deep: #171310;
+  --bg-sunken: #110e0b;
+  --bg-panel: #201a15;
+  --bg-card: #28211a;
+  --bg-card-hover: #332a20;
+  --border-color: #3a3025;
+  --border-strong: #4f4231;
+
+  --green: #d9a04a;
+  --green-dim: #b58039;
+  --green-glow: rgba(217, 160, 74, 0.13);
+  --yellow: #cfc07d;
+  --yellow-glow: rgba(207, 192, 125, 0.13);
+  --red: #d4705a;
+  --red-glow: rgba(212, 112, 90, 0.14);
+  --cyan: #c98f5e;
+  --purple: #b8794f;
+
+  --text-primary: #ece2d2;
+  --text-secondary: #b8a992;
+  --text-dim: #8f8271;
+  --text-on-accent: #1c1409;
+
+  --font-display: var(--font-mono);
+  --font-body: var(--font-mono);
+}
+
+/* ---------------------------------------------------------------- reset/base */
+
 *,
 *::before,
 *::after {
@@ -5,612 +169,77 @@
   padding: 0;
   box-sizing: border-box;
 }
-html,
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background: #0d121d;
-  color: #d9e2f0;
+  background: var(--bg-deep);
+  color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.7;
-  text-rendering: optimizeLegibility;
+  font-size: 1rem;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-variant-ligatures: none;
 }
+
 button,
 input,
 textarea,
 select {
   font: inherit;
-}
-strong {
-  color: var(--green);
-  font-weight: 700;
-}
-::selection {
-  background: #00ff88;
-  color: #0a0e17;
-}
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #121826;
-}
-::-webkit-scrollbar-thumb {
-  background: #00ff88;
-  border-radius: 3px;
-}
-:root {
-  --bg-deep: #0d121d;
-  --bg-panel: #151d2d;
-  --bg-card: #1d283b;
-  --bg-card-hover: #26334a;
-  --green: #00ff99;
-  --green-dim: #00d27a;
-  --green-glow: rgba(0, 255, 153, 0.22);
-  --yellow: #ffd166;
-  --yellow-glow: rgba(255, 209, 102, 0.22);
-  --red: #ff4d67;
-  --red-glow: rgba(255, 77, 103, 0.28);
-  --cyan: #58ddff;
-  --purple: #b28cff;
-  --text-primary: #f3f7ff;
-  --text-secondary: #b6c1d0;
-  --text-dim: #8694a8;
-  --border-color: #3a475d;
-  --font-display: "Orbitron", sans-serif;
-  --font-body:
-    "Share Tech Mono", "IBM Plex Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --font-ui: "Share Tech Mono", "IBM Plex Mono", Consolas, monospace;
+  color: inherit;
 }
 
-[data-theme="sugary"] {
-  --bg-deep: #1e1324;
-  --bg-panel: #2a1a33;
-  --bg-card: #372342;
-  --bg-card-hover: #482e56;
-  --green: #ff70a6;
-  --green-dim: #e65c92;
-  --green-glow: rgba(255, 112, 166, 0.3);
-  --yellow: #ffd670;
-  --yellow-glow: rgba(255, 214, 112, 0.3);
-  --red: #ff477e;
-  --red-glow: rgba(255, 71, 126, 0.3);
-  --cyan: #ff9770;
-  --purple: #e0aaff;
-  --text-primary: #fff0f7;
-  --text-secondary: #e6c8e0;
-  --text-dim: #b38dae;
-  --border-color: #5d386c;
-  --font-display: "Jost", sans-serif;
+/* Native radios and checkboxes are still used directly in the studio; without
+   this they paint in the OS accent (blue on macOS) against a jade UI. */
+input[type="radio"],
+input[type="checkbox"] {
+  accent-color: var(--green);
 }
 
-[data-theme="laboratory"] {
-  --bg-deep: #070f1e;
-  --bg-panel: #0d1a33;
-  --bg-card: #132547;
-  --bg-card-hover: #1b325c;
-  --green: #00f5d4;
-  --green-dim: #00d2b6;
-  --green-glow: rgba(0, 245, 212, 0.25);
-  --yellow: #70e000;
-  --yellow-glow: rgba(112, 224, 0, 0.25);
-  --red: #ff3366;
-  --red-glow: rgba(255, 51, 102, 0.3);
-  --cyan: #0077ff;
-  --purple: #7b2cbf;
-  --text-primary: #e0f2fe;
-  --text-secondary: #94a3b8;
-  --text-dim: #64748b;
-  --border-color: #1e3a66;
-  --font-display: "Orbitron", sans-serif;
-}
-
-[data-theme="retro"] {
-  --bg-deep: #120d03;
-  --bg-panel: #1e1607;
-  --bg-card: #2b1f0c;
-  --bg-card-hover: #3b2c12;
-  --green: #ffb703;
-  --green-dim: #e0a000;
-  --green-glow: rgba(255, 183, 3, 0.3);
-  --yellow: #fb8500;
-  --yellow-glow: rgba(251, 133, 0, 0.3);
-  --red: #d62828;
-  --red-glow: rgba(214, 40, 40, 0.3);
-  --cyan: #ffd166;
-  --purple: #f77f00;
-  --text-primary: #fff2cc;
-  --text-secondary: #d4b886;
-  --text-dim: #998056;
-  --border-color: #5c431a;
-  --font-display: "Share Tech Mono", monospace;
-}
 svg {
   display: block;
 }
-.enhanced-crt-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9998;
-  mix-blend-mode: multiply;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.035) 2px,
-    rgba(0, 0, 0, 0.035) 4px
-  );
-  animation: crtFlicker 0.15s infinite alternate;
-}
-.enhanced-crt-overlay::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.15) 100%);
-}
-@keyframes crtFlicker {
-  0% {
-    opacity: 0.97;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-.scanline-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9997;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.02) 2px,
-    rgba(0, 0, 0, 0.02) 4px
-  );
-}
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.025;
-  background-image:
-    linear-gradient(rgba(0, 255, 153, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 153, 0.08) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-#particle-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.4;
-}
-#hud {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: none;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 24px;
-  background: linear-gradient(180deg, rgba(10, 14, 23, 0.97), rgba(10, 14, 23, 0.85));
-  border-bottom: 1px solid var(--border-color);
-  font-family: var(--font-ui);
-  backdrop-filter: blur(8px);
-}
-#hud.visible {
-  display: flex;
-}
-.hud-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  line-height: 1.25;
-  color: var(--text-secondary);
-}
-.hud-value {
+
+strong {
+  /* Authors mark key terms with <strong>; the accent tint is the pedagogical
+     highlight, so it stays — it just no longer glows. */
   color: var(--green);
-  font-weight: 700;
-  font-size: 16px;
-  text-shadow: 0 0 4px var(--green-glow);
-  font-variant-numeric: tabular-nums;
+  font-weight: 600;
 }
-.hud-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-}
-#hud-buttons {
-  display: flex;
-  gap: 8px;
-}
-.hud-btn {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: var(--font-ui);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: all 0.2s;
-}
-.hud-btn:hover {
-  border-color: var(--green);
-  color: var(--green);
-}
-.progress-bar-container {
-  width: 100%;
-  height: 4px;
-  background: var(--bg-card);
-  border-radius: 2px;
-  overflow: hidden;
-  margin-top: 4px;
-}
-.progress-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--red), var(--yellow), var(--green));
-  border-radius: 2px;
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: progressGradient 3s linear infinite;
-  background-size: 200% 100%;
-}
-@keyframes progressGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-.screen {
-  display: none;
-  min-height: 100vh;
-  padding: 92px 24px 36px;
-  max-width: 900px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 10;
-}
-.screen.active {
-  display: block;
-}
-#title-screen {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-height: 100vh;
-  background: radial-gradient(ellipse at center, #0f1a2b, #0a0e17);
-  flex-direction: column;
-  gap: 30px;
-}
-#title-screen.active {
-  display: flex;
-}
-.title-logo {
-  font-family: var(--font-display);
-  font-size: clamp(32px, 6vw, 56px);
-  font-weight: 900;
-  color: var(--green);
-  text-shadow:
-    0 0 18px var(--green-glow),
-    0 0 34px var(--green-glow);
-  letter-spacing: 0.12em;
-  margin-bottom: 8px;
-  line-height: 0.96;
-  text-wrap: balance;
-}
-.title-sub {
-  font-size: clamp(13px, 1.6vw, 16px);
-  color: var(--text-primary);
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  line-height: 1.35;
-}
-.title-divider {
-  width: 300px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--green), transparent);
-}
-.title-instructions {
-  max-width: 600px;
-  text-align: left;
-  font-size: 16px;
-  line-height: 1.9;
-  color: var(--text-primary);
-  padding: 20px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-}
-.title-instructions li {
-  margin-bottom: 6px;
-}
-.title-instructions li::marker {
-  color: var(--green);
-}
-.btn-primary {
-  display: inline-block;
-  padding: 16px 48px;
-  background: transparent;
-  border: 2px solid var(--green);
-  color: var(--green);
-  font-family: var(--font-display);
-  font-size: clamp(16px, 1.5vw, 18px);
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s;
-  line-height: 1;
-}
-.btn-primary:hover {
+
+::selection {
   background: var(--green);
-  color: var(--bg-deep);
-  box-shadow: 0 0 30px var(--green-glow);
+  color: var(--text-on-accent);
 }
-.btn-primary::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-  transition: left 0.5s;
+
+/* One focus treatment for the whole app. */
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
-.btn-primary:hover::before {
-  left: 100%;
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
-.btn-secondary {
-  display: inline-block;
-  padding: 10px 32px;
-  background: transparent;
-  border: 1px solid var(--red);
-  color: var(--red);
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s;
-  line-height: 1;
-  opacity: 0.7;
+::-webkit-scrollbar-track {
+  background: var(--bg-sunken);
 }
-.btn-secondary:hover {
-  background: rgba(255, 77, 103, 0.12);
-  opacity: 1;
-  box-shadow: 0 0 16px var(--red-glow);
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border: 2px solid var(--bg-sunken);
+  border-radius: 5px;
 }
-.btn-secondary:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
 }
-.btn-small {
-  padding: 8px 20px;
-  font-size: 13px;
-  font-family: var(--font-ui);
-  letter-spacing: 0.08em;
-}
-.btn-action {
-  padding: 10px 24px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  font-family: var(--font-ui);
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s;
-  letter-spacing: 0.08em;
-}
-.btn-action:hover {
-  border-color: var(--green);
-  color: var(--green);
-}
-.btn-submit {
-  padding: 10px 32px;
-  background: transparent;
-  border: 1px solid var(--green);
-  color: var(--green);
-  font-family: var(--font-ui);
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s;
-  letter-spacing: 0.08em;
-}
-.btn-submit:hover {
-  background: var(--green);
-  color: var(--bg-deep);
-}
-.btn-submit:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-.room-header {
-  text-align: center;
-  margin-bottom: 28px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border-color);
-}
-.room-number {
-  font-family: var(--font-display);
-  font-size: 12px;
-  color: var(--text-dim);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-.room-title {
-  font-family: var(--font-display);
-  font-size: clamp(24px, 4vw, 32px);
-  font-weight: 700;
-  color: var(--green);
-  text-shadow: 0 0 16px var(--green-glow);
-  margin-top: 8px;
-  line-height: 1.08;
-  text-wrap: balance;
-}
-.room-subtitle {
-  font-size: 14px;
-  color: var(--text-primary);
-  margin-top: 8px;
-  letter-spacing: 0.05em;
-  line-height: 1.65;
-}
-.narrative-box {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-left: 3px solid var(--green);
-  padding: 20px 24px;
-  margin-bottom: 32px;
-  font-size: 16px;
-  line-height: 1.9;
-  color: var(--text-primary);
-  position: relative;
-}
-.narrative-box::before {
-  content: ">";
-  position: absolute;
-  top: 20px;
-  left: -20px;
-  color: var(--green);
-  font-size: 20px;
-  font-weight: 700;
-}
-.puzzle-panel {
-  display: none;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 24px;
-  margin-bottom: 24px;
-  position: relative;
-  transition: border-color 0.3s;
-}
-.puzzle-panel.active-page {
-  display: block;
-}
-.puzzle-panel:hover {
-  border-color: var(--border-color);
-}
-.puzzle-panel.correct {
-  border-color: var(--green);
-  box-shadow: 0 0 20px var(--green-glow);
-  animation: shakeCorrect 0.3s ease-out;
-}
-.puzzle-panel.incorrect {
-  border-color: var(--red);
-  box-shadow: 0 0 20px var(--red-glow);
-  animation: shakeIncorrect 0.3s ease-out;
-}
-.puzzle-panel.completed {
-  opacity: 0.7;
-  pointer-events: none;
-}
-@keyframes shakeCorrect {
-  0% {
-    transform: scale(1);
-  }
-  25% {
-    transform: scale(1.02);
-  }
-  50% {
-    transform: scale(0.99);
-  }
-  75% {
-    transform: scale(1.01);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes shakeIncorrect {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: translateX(-4px);
-  }
-  20%,
-  40%,
-  60%,
-  80% {
-    transform: translateX(4px);
-  }
-}
-.puzzle-label {
-  font-family: var(--font-display);
-  font-size: 11px;
-  color: var(--text-dim);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.puzzle-status {
-  width: 18px;
-  height: 18px;
-  display: inline-block;
-  flex-shrink: 0;
-  transition: all 0.3s;
-}
-.puzzle-status.locked {
-  fill: var(--text-dim);
-}
-.puzzle-status.solved {
-  fill: var(--green);
-}
-.puzzle-question {
-  font-size: 16px;
-  color: var(--text-primary);
-  margin-bottom: 20px;
-  line-height: 1.85;
-}
-.puzzle-question strong {
-  color: var(--green);
-}
+
 /* Visually hidden but still announced by screen readers. */
 .sr-only {
   position: absolute;
@@ -638,464 +267,880 @@ body::after {
   pointer-events: none;
 }
 
-.mcq-options,
-.mcq-options-fieldset,
-.multi-select-options-fieldset {
+/* ---------------------------------------------------------------- typography */
+
+/*
+ * Authored prose (quiz `question`, `narrative`, briefing and victory text) renders
+ * as a sanitised HTML fragment. The global reset above zeroes every margin and
+ * padding, which would collapse the author's paragraphs into one block and hide
+ * list markers, so restore just enough typography here.
+ */
+.rich-text > :first-child {
+  margin-top: 0;
+}
+.rich-text > :last-child {
+  margin-bottom: 0;
+}
+.rich-text p,
+.rich-text ul,
+.rich-text ol {
+  margin-bottom: 0.8em;
+}
+.rich-text ul,
+.rich-text ol {
+  padding-left: 1.35em;
+}
+.rich-text ul {
+  list-style: disc;
+}
+.rich-text ol {
+  list-style: decimal;
+}
+.rich-text li {
+  margin-bottom: 0.35em;
+}
+.rich-text li::marker {
+  color: var(--text-dim);
+}
+.rich-text code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-color);
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+}
+
+/* The small tracked-out label that sits above a title or beside a value. Caps
+   are legitimate at this size; they are not used for anything larger. */
+.eyebrow,
+.room-number,
+.hud-label,
+.minimap-title,
+.puzzle-index,
+.code-slot-label,
+.victory-stat-label,
+.title-sub {
+  font-family: var(--font-mono);
+  font-size: 0.688rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* Numbers the player scans: tabular, mono, never tracked out. */
+.hud-value,
+.code-slot-value,
+.victory-stat-value,
+.order-number,
+.code-display {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* ------------------------------------------------------------------- ambient */
+
+/*
+ * The single decorative layer. It replaces four that used to stack — CRT
+ * scanlines, a drifting particle canvas, a grid overlay, and a pulsing radial
+ * glow — which together were most of why the old design looked generated.
+ * One static, barely-there wash gives the page a light source; that is enough.
+ */
+.ambient-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* Deliberately NOT tinted with the accent. A large accent-coloured radial
+     washes every surface in the same hue, which is what made the greys read as
+     olive rather than as warm graphite; a neutral lift keeps the accent
+     meaningful by keeping it rare. */
+  background: radial-gradient(115% 65% at 50% -15%, rgba(255, 252, 245, 0.055), transparent 70%);
+}
+
+/* ----------------------------------------------------------------------- HUD */
+
+#hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  gap: 1.5rem;
+  height: var(--hud-h);
+  padding: 0 1.25rem;
+  background: color-mix(in srgb, var(--bg-deep) 88%, transparent);
+  border-bottom: 1px solid var(--border-color);
+  backdrop-filter: blur(12px) saturate(140%);
+}
+#hud.visible {
+  display: flex;
+}
+
+.hud-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.hud-identity {
+  margin-right: auto;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hud-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.hud-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* A 2px rule welded to the bottom edge of the bar. Reads as instrumentation
+   rather than as a widget, and costs no vertical space. */
+.progress-bar-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: transparent;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0;
+  background: var(--green);
+  transition: width 600ms var(--ease);
+}
+
+#hud-buttons {
+  display: flex;
+  gap: 0.375rem;
+}
+
+/* --------------------------------------------------------------- button base */
+
+.btn-primary,
+.btn-secondary,
+.hud-btn,
+.request-hint-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+
+/* Filled, not outlined. An outlined neon button as the primary action was the
+   single loudest tell in the old sheet. */
+.btn-primary {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.938rem;
+  font-weight: 600;
+  background: var(--green);
+  border: 1px solid var(--green);
+  color: var(--text-on-accent);
+}
+.btn-primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--green) 88%, white);
+  border-color: color-mix(in srgb, var(--green) 88%, white);
+}
+.btn-primary:active:not(:disabled) {
+  background: var(--green-dim);
+  border-color: var(--green-dim);
+}
+.btn-primary:disabled {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+  color: var(--text-dim);
+  cursor: not-allowed;
+}
+
+/* Neutral ghost. Previously this was red, which made "Back", "Clear" and
+   "Authoring Studio" all look destructive. */
+.btn-secondary {
+  padding: 0.7rem 1.25rem;
+  font-size: 0.875rem;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-card);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+.btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.hud-btn {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.813rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+}
+.hud-btn:hover:not(:disabled) {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+.hud-btn:disabled {
+  color: var(--text-dim);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Reserved for actually destructive actions. Declared after the variants it
+   modifies so it wins on source order rather than needing extra specificity. */
+.btn-danger {
+  color: var(--red);
+  border-color: color-mix(in srgb, var(--red) 40%, var(--border-color));
+}
+.btn-danger:hover:not(:disabled) {
+  background: var(--red-glow);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* ------------------------------------------------------------------- screens */
+
+.screen {
+  display: none;
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: calc(var(--hud-h) + 2.5rem) 1.5rem 6rem;
+  position: relative;
+  z-index: 10;
+}
+.screen.active {
+  display: block;
+}
+
+/* Title and victory are the two full-bleed moments; everything else is the
+   reading column above. */
+#title-screen,
+#victory-screen {
+  display: none;
+  max-width: 40rem;
+  min-height: 100vh;
+  padding: 5rem 1.5rem 5rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 1.25rem;
+  text-align: left;
+}
+#title-screen.active,
+#victory-screen.active {
+  display: flex;
+}
+
+/* ------------------------------------------------------------- title screen */
+
+.title-logo {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  font-weight: 600;
+  /* Tight, not tracked out. Uppercase authored titles need a touch of air; the
+     old 0.12em turned every logo into a row of disconnected letters. */
+  letter-spacing: -0.005em;
+  line-height: 1.02;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+[data-theme="retro"] .title-logo {
+  letter-spacing: 0.02em;
+}
+
+.title-sub {
+  /* Inherits the .eyebrow treatment. */
+  margin-top: -0.5rem;
+}
+
+.title-divider {
+  width: 3rem;
+  height: 2px;
+  background: var(--green);
+  margin: 0.5rem 0;
+}
+
+.title-instructions {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-lg);
+  padding: 1.5rem 1.75rem;
+  font-size: 0.938rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.title-instructions > strong:first-child {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.688rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* Quiz picker, shared by the home route and the in-game title screen. */
+.quiz-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.625rem;
+}
+.quiz-card {
+  display: block;
+  padding: 1rem 1.125rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  text-decoration: none;
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+.quiz-card:hover {
+  background: var(--bg-card);
+  border-color: var(--border-strong);
+}
+.quiz-card[aria-current="true"] {
+  border-color: var(--green);
+  background: var(--green-glow);
+}
+.quiz-card-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-primary);
+}
+.quiz-card-sub {
+  margin-top: 0.125rem;
+  font-size: 0.813rem;
+  color: var(--text-dim);
+}
+
+.best-score {
+  font-family: var(--font-mono);
+  font-size: 0.813rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.best-score strong {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.title-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Sibling rooms, demoted below the primary action rather than competing with it
+   for attention above the briefing. */
+.title-switcher {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Build version, bottom-right. */
+.version-display {
+  position: fixed;
+  bottom: 0.375rem;
+  right: 0.625rem;
+  z-index: 1002;
+  font-family: var(--font-mono);
+  font-size: 0.688rem;
+  color: var(--text-dim);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------- room header */
+
+.room-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.room-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.375rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  color: var(--text-primary);
+  margin-top: 0.5rem;
+  text-wrap: balance;
+}
+.room-subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.938rem;
+  color: var(--text-secondary);
+  .room-artwork {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0 1.5rem;
+  }
+  .room-image {
+    max-width: 100%;
+    max-height: 16rem;
+    object-fit: contain;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border-color);
+  }
+  .room-image-attribution {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.375rem;
+    text-align: center;
+    font-style: italic;
+  }
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-left: 2px solid var(--green-dim);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.938rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------- puzzle card */
+
+.puzzle-panel {
+  display: none;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+}
+.puzzle-panel.active-page {
+  display: block;
+}
+.puzzle-panel.correct {
+  border-color: var(--green);
+  background: color-mix(in srgb, var(--green) 4%, var(--bg-panel));
+}
+.puzzle-panel.incorrect {
+  border-color: var(--red);
+  animation: nudge 320ms var(--ease);
+}
+.puzzle-panel.completed {
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+/* A short lateral nudge on a wrong answer. The old rule shook ±4px five times
+   over 300ms, which is closer to an error dialog than to feedback. */
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
+}
+
+.puzzle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin-bottom: 0.875rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.puzzle-index {
+  flex-shrink: 0;
+}
+.puzzle-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+/* Separates the "Puzzle 2 / 7" ordinal from the puzzle's own name. */
+.puzzle-label-sep {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border-color);
+  flex-shrink: 0;
+}
+.puzzle-lock {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  color: var(--text-dim);
+}
+.puzzle-panel.correct .puzzle-lock {
+  color: var(--green);
+}
+
+.puzzle-question {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.puzzle-input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+}
+.puzzle-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.puzzle-result {
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  line-height: 1.55;
+}
+.puzzle-result-headline {
+  font-weight: 600;
+}
+.puzzle-result.correct {
+  background: var(--green-glow);
+  border-color: color-mix(in srgb, var(--green) 35%, transparent);
+  color: var(--green);
+}
+.puzzle-result.incorrect {
+  background: var(--red-glow);
+  border-color: color-mix(in srgb, var(--red) 35%, transparent);
+  color: var(--red);
+}
+.puzzle-result .rich-text {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+.puzzle-result .rich-text strong {
+  color: var(--text-primary);
+}
+
+/* ------------------------------------------------------- choice/order inputs */
+
+.mcq-options-fieldset,
+.multi-select-options-fieldset,
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   border: 0;
   padding: 0;
   margin: 0;
   min-inline-size: 0;
 }
 
+.mcq-option,
+.multi-option,
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  font-size: 0.938rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+.mcq-option,
+.multi-option {
+  cursor: pointer;
+}
+.mcq-option:hover,
+.multi-option:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+}
+.mcq-option:has(.sr-only-input:checked),
+.multi-option:has(.sr-only-input:checked) {
+  border-color: var(--green);
+  background: var(--green-glow);
+}
 .mcq-option:has(.sr-only-input:focus-visible),
 .multi-option:has(.sr-only-input:focus-visible) {
   outline: 2px solid var(--green);
   outline-offset: 2px;
 }
-.mcq-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--text-primary);
+.mcq-option:has(.sr-only-input:disabled),
+.multi-option:has(.sr-only-input:disabled) {
+  cursor: default;
 }
-.mcq-option:hover {
-  border-color: var(--green);
-  background: var(--bg-card-hover);
-}
-.mcq-option.selected,
-.mcq-option:has(.sr-only-input:checked) {
-  border-color: var(--green);
-  background: rgba(0, 255, 136, 0.05);
-}
+
+/* The positional letter (A, B, C…). A squared chip rather than a radio circle:
+   the letter is the point, and it is what hints refer to. */
 .mcq-option .marker {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--border-color);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
   flex-shrink: 0;
-  transition: all 0.2s;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
 }
-.mcq-option.selected .marker,
 .mcq-option:has(.sr-only-input:checked) .marker {
-  border-color: var(--green);
   background: var(--green);
-  color: var(--bg-deep);
+  border-color: var(--green);
+  color: var(--text-on-accent);
 }
-.order-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+
+.multi-option .checkbox {
+  flex-shrink: 0;
+  position: relative;
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+/* CSS-drawn tick, so the markup stays an empty span. */
+.multi-option .checkbox::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 0.5rem;
+  height: 0.28rem;
+  border: solid var(--text-on-accent);
+  border-width: 0 0 2px 2px;
+  transform: translateY(-1px) rotate(-45deg);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.multi-option:has(.sr-only-input:checked) .checkbox {
+  background: var(--green);
+  border-color: var(--green);
+}
+.multi-option:has(.sr-only-input:checked) .checkbox::after {
+  opacity: 1;
+}
+
+.order-note {
+  margin: 0 0 0.75rem;
+  color: var(--text-dim);
+  font-size: 0.813rem;
 }
 .order-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
   cursor: grab;
   user-select: none;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--text-primary);
-  transition: all 0.2s;
 }
 .order-item:active {
   cursor: grabbing;
+  border-color: var(--border-strong);
+}
+/* Position first, before the grip: it is the answer the player is building.
+   Set as a row number rather than in the accent — four accent-coloured digits in
+   a list is decoration, and the position is already legible from the order. */
+.order-item .order-number {
+  order: -1;
+  flex-shrink: 0;
+  width: 1.5rem;
+  text-align: center;
+  font-size: 0.813rem;
+  color: var(--text-dim);
 }
 .order-item .drag-handle {
   color: var(--text-dim);
-  font-size: 16px;
+  font-size: 0.875rem;
+  line-height: 1;
+  cursor: grab;
 }
 .order-item .order-text {
   flex: 1;
 }
-.order-item .order-number {
-  font-family: "Orbitron", sans-serif;
-  font-size: 11px;
-  color: var(--green);
-  min-width: 24px;
-  text-align: center;
-}
 .order-item-controls {
   display: flex;
-  gap: 6px;
+  gap: 0.25rem;
   flex-shrink: 0;
 }
 .order-step-btn {
-  width: 28px;
-  height: 28px;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: grid;
+  place-items: center;
   padding: 0;
-  background: var(--bg-deep);
+  background: transparent;
   border: 1px solid var(--border-color);
-  border-radius: 3px;
-  color: var(--green);
-  font-family: var(--font-display);
-  font-size: 13px;
-  line-height: 1;
+  border-radius: var(--r-sm);
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.2s;
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
 }
 .order-step-btn:hover {
-  background: var(--green);
-  color: var(--bg-deep);
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
 }
 /* The engine uses aria-disabled, not the disabled attribute, so that these
    buttons stay keyboard-focusable (WCAG). Match on that instead. */
 .order-step-btn[aria-disabled="true"] {
-  opacity: 0.35;
+  opacity: 0.3;
   cursor: not-allowed;
-  background: var(--bg-card);
+  background: transparent;
+  border-color: var(--border-color);
   color: var(--text-dim);
 }
-.order-note {
-  margin: -4px 0 14px;
-  color: var(--text-dim);
-  font-size: 12px;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
-}
-.multi-select-options {
+
+/* Matching puzzles: an authored label paired with a native <select>. */
+.match-select-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
-.multi-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--text-primary);
-}
-.multi-option:hover {
-  border-color: var(--green);
-}
-.multi-option.selected,
-.multi-option:has(.sr-only-input:checked) {
-  border-color: var(--green);
-  background: rgba(0, 255, 136, 0.05);
-}
-.multi-option .checkbox {
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--border-color);
-  border-radius: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  flex-shrink: 0;
-}
-.multi-option.selected .checkbox,
-.multi-option:has(.sr-only-input:checked) .checkbox {
-  border-color: var(--green);
-  background: var(--green);
-  color: var(--bg-deep);
-}
-.puzzle-input-area {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color);
-}
-.puzzle-result {
-  margin-top: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  padding: 8px 12px;
-  border-radius: 4px;
-  text-align: center;
-  line-height: 1.45;
-}
-.puzzle-result.correct {
-  background: rgba(0, 255, 136, 0.1);
-  color: var(--green);
-}
-.puzzle-result.incorrect {
-  background: rgba(255, 34, 68, 0.1);
-  color: var(--red);
-}
-.code-entry {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin: 30px 0;
-  padding: 24px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-}
-.code-display {
-  font-family: var(--font-display);
-  font-size: clamp(20px, 3vw, 24px);
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 0.22em;
-  padding: 12px 24px;
-  background: var(--bg-deep);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  min-width: 280px;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-/* A room revisited after its code was accepted. */
-.code-display.solved {
-  color: var(--green);
-  border-color: var(--green);
-  text-shadow: 0 0 10px var(--green-glow);
-}
-.code-display .char {
-  transition: color 0.3s;
-}
-.code-display .char.entered {
-  color: var(--green);
-  text-shadow: 0 0 10px var(--green-glow);
-}
-.code-display .char.current {
-  color: var(--yellow);
-  border-bottom: 2px solid var(--yellow);
-}
-.code-buttons {
+.match-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-top: 8px;
-}
-.code-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 4px;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-color);
-  color: var(--green);
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  letter-spacing: 0.04em;
-}
-.code-btn:hover {
-  background: var(--green);
-  color: var(--bg-deep);
-}
-.code-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 8px;
-}
-.final-code-panel {
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.625rem 0.875rem;
   background: var(--bg-card);
-  border: 2px solid var(--yellow);
-  border-radius: 8px;
-  padding: 32px;
-  margin-top: 40px;
-  text-align: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
 }
-.final-code-panel h3 {
-  font-family: var(--font-display);
+.match-row label {
+  font-size: 0.938rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+.match-select-input {
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.match-select-input:disabled {
+  color: var(--text-dim);
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------- hints */
+
+.request-hint-btn {
+  align-self: flex-start;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.813rem;
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--yellow) 35%, var(--border-color));
   color: var(--yellow);
-  font-size: 18px;
-  letter-spacing: 0.18em;
-  margin-bottom: 16px;
 }
-.code-slots {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 20px 0;
+.request-hint-btn:hover:not(:disabled) {
+  background: var(--yellow-glow);
+  border-color: var(--yellow);
 }
-.code-slot {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--bg-deep);
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  justify-content: space-between;
-}
-.code-slot-label {
-  font-size: 12px;
+.request-hint-btn:disabled {
+  border-color: var(--border-color);
   color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  line-height: 1.3;
-}
-.code-slot-value {
-  font-family: var(--font-display);
-  font-size: 16px;
-  color: var(--text-primary);
-  letter-spacing: 0.14em;
-  font-variant-numeric: tabular-nums;
-}
-.code-slot-value.solved {
-  color: var(--green);
-  text-shadow: 0 0 8px var(--green-glow);
-}
-.code-slot-value.locked {
-  color: var(--text-dim);
-}
-.minimap-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1001;
-  background: var(--bg-panel);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  min-width: 220px;
-}
-.minimap-title {
-  font-family: var(--font-display);
-  font-size: 10px;
-  color: var(--text-dim);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-  text-align: center;
-}
-.minimap-room {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  margin-bottom: 4px;
-  background: var(--bg-card);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--text-primary);
-}
-.minimap-room:hover {
-  background: var(--bg-card-hover);
-}
-.minimap-room.active-room {
-  border: 1px solid var(--green);
-  background: rgba(0, 255, 136, 0.05);
-}
-.minimap-room.solved {
-  border-color: var(--green-dim);
-}
-.minimap-room.locked {
-  opacity: 0.4;
   cursor: not-allowed;
 }
-.minimap-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--text-dim);
-  flex-shrink: 0;
-  transition: all 0.3s;
-}
-.minimap-room.active-room .minimap-dot {
-  background: var(--green);
-  box-shadow: 0 0 6px var(--green-glow);
-}
-.minimap-room.solved .minimap-dot {
-  background: var(--green-dim);
-}
-.minimap-room-text {
-  color: var(--text-secondary);
-  line-height: 1.35;
-}
-.minimap-room.active-room .minimap-room-text {
-  color: var(--green);
-}
-.biofilm-growth-container {
-  width: 80px;
-  height: 80px;
-  position: relative;
-  margin: 16px auto;
-}
-.biofilm-growth-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid var(--green);
-  border-radius: 50%;
-  opacity: 0;
-  animation: biofilmSpread 2s ease-out forwards;
-}
-@keyframes biofilmSpread {
-  0% {
-    width: 0;
-    height: 0;
-    opacity: 0.8;
-  }
-  100% {
-    width: 70px;
-    height: 70px;
-    opacity: 0;
-  }
-}
-.biofilm-dot {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--green);
-  animation: biofilmDot 1.5s ease-out forwards;
-}
-@keyframes biofilmDot {
-  0% {
-    transform: scale(0);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-}
+
 .hint-panel {
-  background: var(--bg-card);
-  border: 1px solid var(--yellow);
-  border-left: 3px solid var(--yellow);
-  border-radius: 4px;
-  padding: 16px 20px;
-  margin-bottom: 20px;
-  font-size: 13px;
-  color: var(--yellow);
-  line-height: 1.6;
-  animation: hintSlideDown 0.3s ease-out;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-left: 2px solid var(--yellow);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  /* Body copy stays readable; only the label carries the warning colour. The
+     old rule set the entire hint in amber. */
+  color: var(--text-secondary);
+  font-size: 0.938rem;
+  animation: rise 220ms var(--ease);
 }
-@keyframes hintSlideDown {
+.hint-label {
+  font-family: var(--font-mono);
+  font-size: 0.688rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 0.375rem;
+}
+
+@keyframes rise {
   from {
-    transform: translateY(-10px);
+    transform: translateY(-6px);
     opacity: 0;
   }
   to {
@@ -1103,181 +1148,409 @@ body::after {
     opacity: 1;
   }
 }
-.request-hint-btn {
-  display: inline-block;
-  padding: 6px 16px;
-  background: transparent;
-  border: 1px solid var(--yellow);
-  color: var(--yellow);
-  font-family: var(--font-ui);
-  font-size: 12px;
+
+/* ------------------------------------------------------------------ code pad */
+
+.code-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 2rem 0;
+  padding: 1.75rem 1.5rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-lg);
+}
+.code-hint {
+  font-size: 0.938rem;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 32rem;
+}
+
+/* One shared width for the display and the keypad, so the two grids line up
+   instead of the wider one overflowing off-centre. */
+.code-pad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: var(--pad-w);
+  margin: 0 auto;
+}
+
+/* One bordered cell per character, instead of one wide box of underscores. */
+.code-display {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  font-size: clamp(1.125rem, 3vw, 1.375rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  min-height: 3rem;
+  align-items: center;
+}
+.code-display .char {
+  width: 2.25rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-sm);
+  color: var(--text-dim);
+  transition:
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+}
+.code-display .char.entered {
+  color: var(--green);
+  border-color: color-mix(in srgb, var(--green) 45%, var(--border-color));
+  background: var(--green-glow);
+}
+.code-display .char.current {
+  border-color: var(--border-strong);
+  box-shadow: inset 0 -2px 0 0 var(--yellow);
+}
+/* Two cases render a bare string instead of cells: a room revisited after its
+   code was accepted (`.solved`), and the rejection notice (`.plain`, which keeps
+   the inline tint the pad passes in). */
+.code-display.solved,
+.code-display.plain {
+  letter-spacing: 0.18em;
+}
+.code-display.solved {
+  color: var(--green);
+}
+
+.code-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(2.25rem, 1fr));
+  gap: 0.375rem;
+  width: 100%;
+}
+.code-btn {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-sm);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.938rem;
+  font-weight: 500;
   cursor: pointer;
-  border-radius: 3px;
-  transition: all 0.2s;
-  margin-bottom: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
 }
-.request-hint-btn:hover {
-  background: rgba(255, 184, 0, 0.1);
+.code-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
 }
-.request-hint-btn:disabled {
-  opacity: 0.4;
+.code-btn:active {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--text-on-accent);
+}
+
+.code-actions {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+.code-actions > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------- final override */
+
+.final-code-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-top: 2px solid var(--yellow);
+  border-radius: var(--r-lg);
+  padding: 2rem;
+  margin-top: 1rem;
+}
+.final-code-panel h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+.final-code-intro {
+  color: var(--text-secondary);
+  font-size: 0.938rem;
+}
+/* The panel is already a card; the pad inside it should not draw a second one. */
+.final-code-panel .code-entry {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 1.5rem 0 0;
+}
+
+.code-slots {
+  display: grid;
+  gap: 0.375rem;
+  margin: 1.5rem 0;
+}
+.code-slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-sm);
+}
+.code-slot-value {
+  font-size: 0.938rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.code-slot-value.solved {
+  color: var(--green);
+}
+.code-slot-value.locked {
+  color: var(--text-dim);
+}
+
+/* ------------------------------------------------------------------- minimap */
+
+.minimap-container {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 1001;
+  min-width: 13rem;
+  padding: 0.75rem;
+  background: color-mix(in srgb, var(--bg-panel) 92%, transparent);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-2);
+  backdrop-filter: blur(12px);
+}
+.minimap-title {
+  margin-bottom: 0.5rem;
+  padding: 0 0.375rem;
+}
+.minimap-room {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.375rem;
+  background: transparent;
+  /* Real <button>s, so they are keyboard reachable. The transparent border keeps
+     the box from shifting when .active-room swaps in a coloured one. */
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 0.813rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+.minimap-room:hover {
+  background: var(--bg-card-hover);
+}
+.minimap-room.active-room {
+  border-color: var(--green);
+  background: var(--green-glow);
+}
+.minimap-room.locked {
+  opacity: 0.45;
   cursor: not-allowed;
 }
-#victory-screen {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-height: 100vh;
-  background: radial-gradient(ellipse at center, #0f1a2b, #0a0e17);
-  flex-direction: column;
-  gap: 20px;
+.minimap-dot {
+  flex-shrink: 0;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background: var(--border-strong);
 }
-#victory-screen.active {
-  display: flex;
+.minimap-room.active-room .minimap-dot {
+  background: var(--green);
+}
+.minimap-room.solved .minimap-dot {
+  background: var(--green-dim);
+}
+.minimap-room-text {
+  color: var(--text-secondary);
+}
+.minimap-room.active-room .minimap-room-text {
+  color: var(--text-primary);
+}
+
+/* ------------------------------------------------------------------- victory */
+
+#victory-screen {
+  text-align: center;
+  align-items: center;
 }
 .victory-title {
   font-family: var(--font-display);
-  font-size: clamp(32px, 5vw, 36px);
-  font-weight: 900;
-  color: var(--green);
-  text-shadow: 0 0 22px var(--green-glow);
-  line-height: 0.95;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  color: var(--text-primary);
   text-wrap: balance;
 }
 .victory-subtitle {
-  font-size: clamp(16px, 2vw, 18px);
-  color: var(--text-primary);
-  margin-top: 10px;
-  line-height: 1.65;
+  font-size: 1.063rem;
+  color: var(--text-secondary);
 }
-.victory-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin: 30px 0;
-  max-width: 600px;
-  width: 100%;
-}
-.victory-stat {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 20px;
-}
-.victory-stat-label {
-  font-size: 12px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  line-height: 1.3;
-}
-.victory-stat-value {
-  font-family: var(--font-display);
-  font-size: clamp(24px, 4vw, 28px);
-  font-weight: 700;
-  color: var(--green);
-  margin-top: 8px;
-  text-shadow: 0 0 6px var(--green-glow);
-  font-variant-numeric: tabular-nums;
-}
+
+/* The rank glyph is the one place a single large accent letter is the design. */
 .victory-rank {
   font-family: var(--font-display);
-  font-size: clamp(48px, 10vw, 64px);
-  font-weight: 900;
-  margin: 20px 0;
-  line-height: 0.9;
-  text-wrap: balance;
+  font-size: clamp(4rem, 12vw, 6rem);
+  font-weight: 600;
+  line-height: 1;
+  margin: 0.5rem 0;
+  color: var(--text-primary);
 }
-.victory-rank.s {
-  color: var(--green);
-  text-shadow: 0 0 40px var(--green-glow);
-}
+.victory-rank.s,
 .victory-rank.a {
   color: var(--green);
-  text-shadow: 0 0 20px var(--green-glow);
 }
 .victory-rank.b {
   color: var(--yellow);
-  text-shadow: 0 0 20px var(--yellow-glow);
 }
-.victory-rank.c {
-  color: #ff6644;
-}
+.victory-rank.c,
 .victory-rank.d {
   color: var(--red);
 }
-.terminal-kicker {
-  font-family: var(--font-display);
-  font-size: 12px;
+/* `resolveRank` falls back to "E" below the lowest configured threshold. Without
+   a rule it inherited text-primary and read as a better result than D. */
+.victory-rank.e {
   color: var(--text-dim);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  line-height: 1.2;
 }
+
+.victory-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  width: 100%;
+  margin: 1rem 0;
+  background: var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.victory-stat {
+  background: var(--bg-panel);
+  padding: 1.125rem 0.75rem;
+}
+.victory-stat-value {
+  margin-top: 0.375rem;
+  font-size: clamp(1.25rem, 4vw, 1.625rem);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.victory-text {
+  max-width: 32rem;
+  color: var(--text-secondary);
+  font-size: 0.938rem;
+}
+
+.victory-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+/* --------------------------------------------------------------- responsive */
+
 @media (max-width: 768px) {
-  .title-logo {
-    font-size: clamp(28px, 11vw, 38px);
+  :root {
+    /* Two stacked HUD rows instead of one. */
+    --hud-h: 4.5rem;
   }
-  .title-instructions,
-  .narrative-box {
-    font-size: 14px;
-    line-height: 1.75;
+  body {
+    font-size: 0.938rem;
   }
-  .room-title {
-    font-size: clamp(22px, 7vw, 26px);
+  .screen {
+    padding: calc(var(--hud-h) + 1.5rem) 1rem 4rem;
+  }
+  #title-screen,
+  #victory-screen {
+    padding: 3rem 1rem;
+    justify-content: flex-start;
+  }
+  /*
+   * The bar cannot fit identity + four metrics + three actions on one line at
+   * this width, so it wraps to two full-width rows. Hiding the labels instead
+   * (the first attempt) left a row of four unlabelled numbers.
+   */
+  #hud {
+    flex-wrap: wrap;
+    align-content: center;
+    padding: 0 0.75rem;
+    column-gap: 0.5rem;
+    row-gap: 0.125rem;
+  }
+  .hud-identity {
+    display: none;
+  }
+  .hud-group,
+  #hud-buttons {
+    flex: 1 1 100%;
+    justify-content: space-between;
+    gap: 0.25rem;
+  }
+  .hud-item {
+    gap: 0.375rem;
+  }
+  .hud-btn {
+    padding: 0.25rem 0.5rem;
+  }
+  .puzzle-panel {
+    padding: 1.125rem;
   }
   .victory-stats {
     grid-template-columns: 1fr;
   }
-  .code-slots {
-    flex-direction: column;
+  .match-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
   .minimap-container {
     display: none;
   }
-  .puzzle-panel {
-    padding: 16px;
-  }
+  .code-actions,
   .code-buttons {
-    grid-template-columns: repeat(4, 1fr);
+    max-width: 100%;
   }
 }
-.ambient-glow {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--green-glow) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.15;
-  animation: ambientPulse 4s ease-in-out infinite alternate;
-}
-@keyframes ambientPulse {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.1;
+
+/* Respect the OS setting: nothing here is load-bearing, so drop it all rather
+   than shortening durations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-  100% {
-    transform: translate(-50%, -50%) scale(1.3);
-    opacity: 0.2;
-  }
-}
-@keyframes statusPulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-.solving {
-  animation: statusPulse 1s ease-in-out infinite;
 }

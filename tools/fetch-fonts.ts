@@ -14,8 +14,16 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const GOOGLE_CSS =
-  "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Jost:wght@400;600;700;900&display=swap";
+/*
+ * Jost is the only vendored family: it supplies `--font-display` (titles and
+ * headings). Body copy and tabular data use the platform sans and mono stacks,
+ * which need no download and render natively.
+ *
+ * Orbitron and Share Tech Mono used to be vendored here too. They were dropped
+ * with the design-system rewrite -- they are the stock "sci-fi terminal" pairing
+ * and were most of why the old UI read as generic.
+ */
+const GOOGLE_CSS = "https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap";
 
 // Pretend to be a modern browser or Google serves legacy ttf instead of woff2.
 const UA =

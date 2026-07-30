@@ -1,0 +1,314 @@
+/*
+ * Studio chrome. Loaded with the lazily-imported /editor route rather than in the
+ * page shell, so a player never downloads it.
+ *
+ * Everything here reads from the tokens in src/style.css, so the studio and the
+ * game stay one product. The studio deliberately stays on the default (graphite)
+ * token set even when the quiz being edited selects another theme — only the
+ * framed live preview re-themes, which is what makes the preview legible as a
+ * preview.
+ */
+
+.editor-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+  padding: 0.625rem 1rem;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.editor-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.editor-brand h1 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--text-primary);
+}
+.editor-status {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* Shared by every toolbar control, including the <label> that fronts the hidden
+   file input, so they line up on one baseline. */
+.editor-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-sm);
+  color: var(--text-secondary);
+  font-size: 0.813rem;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease);
+}
+.editor-btn:hover:not(:disabled) {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+.editor-btn:disabled {
+  color: var(--text-dim);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.editor-btn-primary {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--text-on-accent);
+  font-weight: 600;
+}
+.editor-btn-primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--green) 88%, white);
+  border-color: color-mix(in srgb, var(--green) 88%, white);
+  color: var(--text-on-accent);
+}
+/* `.btn-danger` lives in style.css, which loads before this file, so its colour
+   would lose to `.editor-btn`'s. Re-state it at higher specificity. */
+.editor-btn.btn-danger {
+  color: var(--red);
+  border-color: color-mix(in srgb, var(--red) 40%, var(--border-color));
+}
+.editor-btn.btn-danger:hover:not(:disabled) {
+  background: var(--red-glow);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.editor-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+.editor-main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem;
+}
+.editor-preview {
+  flex: 1;
+  border-left: 1px solid var(--border-color);
+}
+
+/* Section tabs. Underline rather than pill: three filled pills read as three
+   primary actions. */
+.editor-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+.editor-tab {
+  padding: 0.5rem 0.875rem;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+.editor-tab:hover {
+  color: var(--text-primary);
+}
+.editor-tab-active {
+  color: var(--text-primary);
+  border-bottom-color: var(--green);
+}
+
+/* --------------------------------------------------------------- forms */
+
+.editor-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  padding: 1.125rem;
+  margin-bottom: 1rem;
+}
+.editor-card > h3,
+.editor-card > h4 {
+  font-family: var(--font-display);
+  font-size: 0.938rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+/* Nested one level down — a room's puzzle list, a puzzle's options. */
+.editor-subcard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-sm);
+  padding: 0.875rem;
+  margin-bottom: 0.625rem;
+}
+
+.editor-grid-2,
+.editor-grid-3 {
+  display: grid;
+  gap: 0.75rem;
+}
+.editor-grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+.editor-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+}
+
+.editor-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.688rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.editor-input {
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  margin-bottom: 0.75rem;
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-sm);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  transition: border-color var(--dur) var(--ease);
+}
+.editor-input:hover {
+  border-color: var(--border-strong);
+}
+.editor-input:focus {
+  border-color: var(--green);
+  outline: none;
+}
+textarea.editor-input {
+  resize: vertical;
+  min-height: 5rem;
+  line-height: 1.55;
+}
+
+.editor-note {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+/* Validation banner. */
+.editor-alert {
+  padding: 0.75rem 1rem;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  font-size: 0.813rem;
+  margin-bottom: 1rem;
+}
+.editor-alert-ok {
+  background: var(--green-glow);
+  border-color: color-mix(in srgb, var(--green) 40%, transparent);
+  color: var(--green);
+}
+.editor-alert-error {
+  background: var(--red-glow);
+  border-color: color-mix(in srgb, var(--red) 40%, transparent);
+  color: var(--red);
+}
+.editor-alert ul {
+  padding-left: 1.25rem;
+  margin: 0.5rem 0 0;
+  list-style: disc;
+}
+.editor-alert li {
+  margin-bottom: 0.25rem;
+}
+.editor-alert code {
+  font-family: var(--font-mono);
+  opacity: 0.85;
+}
+
+/* ------------------------------------------------------------- live preview */
+
+.preview-pane {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+/*
+ * The frame is laid out at PREVIEW_WIDTH and scaled down to fit, so the author
+ * sees the desktop layout rather than the pane's own (sub-breakpoint) width.
+ * `transform-origin` must be the top-left corner or the scaled frame drifts out
+ * of the pane; the wrapper clips whatever the rounding leaves over.
+ */
+.preview-viewport {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+.preview-viewport iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+  transform-origin: top left;
+  background: var(--bg-deep);
+}
+
+.preview-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-panel);
+}
+.preview-title {
+  font-family: var(--font-mono);
+  font-size: 0.688rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.preview-hint {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}

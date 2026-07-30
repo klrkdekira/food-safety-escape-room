@@ -5,16 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--
-    Defence in depth for imported quiz JSON. Author text is escaped in the
-    engine and room artwork is sanitised; this caps the damage if either is
-    bypassed.
-    script-src has NO 'unsafe-inline': all behaviour is attached by the delegated
-    listeners in src/engine/main.ts via data-action attributes. Do not
-    reintroduce inline onclick handlers -- they will silently stop working.
-    style-src still needs 'unsafe-inline' for the style="" attributes the design
-    relies on; attribute styles cannot be nonce'd.
-    Fonts are self-hosted (public/fonts/), so no external origin is allowed at
-    all -- the game works with no network once loaded.
+    Defence in depth for imported quiz JSON. Author text is escaped by React and
+    room artwork is sanitised before it reaches dangerouslySetInnerHTML; this caps
+    the damage if either is bypassed.
+    script-src has NO 'unsafe-inline'.
+    style-src still needs 'unsafe-inline' because the design leans on inline
+    style attributes, which cannot be nonce'd.
+    frame-src 'self' is required by the author studio's live preview, which frames
+    the /preview route.
+    Fonts are self-hosted (public/fonts/), so no external origin is allowed at all.
     frame-ancestors is intentionally absent: it is ignored in a <meta> CSP and
     must be sent as a real header by the host.
   -->
@@ -25,133 +24,29 @@
     font-src 'self';
     img-src 'self' data:;
     connect-src 'self';
+    frame-src 'self';
     manifest-src 'self';
     object-src 'none';
     base-uri 'none';
     form-action 'none'">
-  <title>FOOD SAFETY FACILITY - Escape Room</title>
+  <title>Escape Room</title>
   <meta name="description"
-    content="Food Safety Escape Room — dynamic browser-based educational escape rooms.">
+    content="Dynamic browser-based educational escape rooms, with an authoring studio.">
+  <!-- Padlock on graphite, matching the puzzle-lock glyph and the token palette. -->
   <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0e17'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%2300ff99' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%2300ff99'/%3E%3C/svg%3E">
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231b1917'/%3E%3Cg fill='none' stroke='%2358c98d' stroke-width='2.2' stroke-linecap='round'%3E%3Crect x='9' y='14.5' width='14' height='10' rx='2'/%3E%3Cpath d='M12.5 14.5V11a3.5 3.5 0 0 1 7 0v3.5'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="stylesheet" href="/src/style.css">
 </head>
 
 <body>
-
-  <svg style="display:none">
-    <defs>
-      <filter id="crt-distortion">
-        <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="3" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1" />
-      </filter>
-      <filter id="glow-green">
-        <feGaussianBlur stdDeviation="3" />
-        <feMerge>
-          <feMergeNode />
-          <feMergeNode in="SourceGraphic" />
-        </feMerge>
-      </filter>
-    </defs>
-  </svg>
-
-  <div class="enhanced-crt-overlay"></div>
-  <div class="scanline-overlay"></div>
-  <canvas id="particle-canvas"></canvas>
-  <div class="ambient-glow"></div>
-
-  <div id="live-region" role="status" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);margin:-1px;"></div>
-
-  <div class="minimap-container" id="minimap">
-  </div>
-
-  <div id="title-screen" class="screen active">
-    <div class="title-logo" id="title-logo"></div>
-    <div class="title-sub" id="title-sub"></div>
-    <div class="title-divider"></div>
-    <div id="best-score-display"
-      style="display:none;font-family:var(--font-display);font-size:13px;color:var(--text-dim);letter-spacing:.12em;text-align:center">
-      BEST: <span id="best-score-val">0</span> pts in <span id="best-time-val">00:00</span></div>
-    <div id="quiz-selector-container" style="margin:16px 0;text-align:center;">
-      <div style="font-family:var(--font-display);font-size:11px;color:var(--green);letter-spacing:0.12em;margin-bottom:8px;">
-        SELECT MISSION PROTOCOL:
-      </div>
-      <div id="quiz-selector-list" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;"></div>
-    </div>
-    <div class="title-instructions" id="title-instructions">
-    </div>
-    <button type="button" class="btn-primary" data-action="start">ENTER FACILITY</button>
-    <button type="button" class="btn-secondary" id="btn-clear-save" data-action="clear-save" style="margin-top:10px;display:none">CLEAR SAVE</button>
-  </div>
-
-  <div id="game-container" style="display:none">
-
-    <div id="hud">
-      <div style="display:flex;flex-direction:column;gap:2px">
-        <div class="hud-item"><span class="hud-label">SCORE</span><span class="hud-value" id="hud-score">0</span></div>
-        <div class="progress-bar-container">
-          <div class="progress-bar-fill" id="progress-bar"></div>
-        </div>
-      </div>
-      <div style="display:flex;gap:20px;align-items:center">
-        <div class="hud-item"><span class="hud-label">ROOM</span><span class="hud-value" id="hud-room">1</span></div>
-        <div class="hud-item"><span class="hud-label">TIME</span><span class="hud-value" id="hud-time">00:00</span>
-        </div>
-        <div class="hud-item"><span class="hud-label">PUZZLES</span><span class="hud-value" id="hud-puzzles">0/0</span>
-        </div>
-      </div>
-      <div id="hud-buttons">
-        <button type="button" class="hud-btn" id="btn-debug" data-action="debug-next" style="display:none; color:var(--red); border-color:var(--red);">DEV NEXT</button>
-        <button type="button" class="hud-btn" id="btn-hint" data-action="hud-hint">HINT</button>
-        <button type="button" class="hud-btn" id="btn-sound" data-action="hud-sound">SOUND ON</button>
-        <button type="button" class="hud-btn" id="btn-save" data-action="hud-save">SAVE</button>
-      </div>
-    </div>
-
-    <div id="rooms-container"></div>
-
-    <div id="final-code-panel" class="screen">
-      <div class="final-code-panel">
-        <h3 id="final-escape-title">FINAL OVERRIDE</h3>
-        <p id="final-escape-text" style="color:var(--text-secondary);margin-bottom:20px;line-height:1.6">
-        </p>
-        <div id="final-code-content"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== VICTORY ===== -->
-  <div id="victory-screen" class="screen">
-    <div class="victory-title" id="victory-title"></div>
-    <div class="victory-subtitle" id="victory-subtitle"></div>
-    <div class="victory-rank" id="victory-rank">S</div>
-    <div class="victory-stats">
-      <div class="victory-stat">
-        <div class="victory-stat-label">FINAL SCORE</div>
-        <div class="victory-stat-value" id="victory-score">0</div>
-      </div>
-      <div class="victory-stat">
-        <div class="victory-stat-label">TIME ELAPSED</div>
-        <div class="victory-stat-value" id="victory-time">00:00</div>
-      </div>
-      <div class="victory-stat">
-        <div class="victory-stat-label">PUZZLES SOLVED</div>
-        <div class="victory-stat-value" id="victory-puzzles">0</div>
-      </div>
-    </div>
-    <p id="victory-text" style="color:var(--text-secondary);max-width:500px;line-height:1.6">
-    </p>
-    <button type="button" class="btn-primary" data-action="play-again" style="margin-top:20px">PLAY AGAIN</button>
-    <button type="button" class="btn-secondary" data-action="export-result" style="margin-top:20px;margin-left:10px;">EXPORT RESULT</button>
-  </div>
-
-  <div id="version-display"
-    style="position:fixed; bottom:5px; right:10px; font-family:var(--font-mono); font-size:12px; color:var(--text-dim); opacity:0.6; pointer-events:none; z-index:9999;">
-  </div>
-
-  <script type="module" src="/src/engine/main.ts"></script>
+  <!--
+    Single mount point for the whole SPA: the player, the quiz picker, and the
+    authoring studio are all routes declared in src/router.tsx. The game's markup
+    used to live here as static HTML that src/engine/main.ts mutated by id.
+  -->
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 # Food Safety Escape Room Platform Makefile
 # Wraps pnpm commands for standard development workflows.
 
-.PHONY: all dev build test validate lint fmt fmt-check gen-schema gen-offline clean help
+.PHONY: all dev build test validate lint fmt fmt-check gen-schema clean help
 
 # Default target
 all: test build
@@ -10,7 +10,7 @@ all: test build
 dev:
 	pnpm dev
 
-# Build production assets into docs/ (includes offline bundles) for GitHub Pages
+# Build the SPA into docs/ for GitHub Pages, including the 404.html fallback
 build:
 	pnpm build
 
@@ -38,10 +38,6 @@ fmt-check:
 gen-schema:
 	pnpm gen-schema
 
-# Generate single-file offline quiz HTML bundles in docs/offline/
-gen-offline:
-	pnpm gen-offline
-
 # Clean build artifacts in dist/
 clean:
 	rm -rf dist
@@ -58,5 +54,4 @@ help:
 	@echo "  make fmt         - Auto-format code with oxfmt"
 	@echo "  make fmt-check   - Check code formatting with oxfmt"
 	@echo "  make gen-schema  - Export Draft-07 schema.json from Zod definition"
-	@echo "  make gen-offline - Build single-file offline HTML bundles"
 	@echo "  make clean       - Remove dist/ and docs/ build directories"

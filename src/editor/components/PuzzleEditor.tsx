@@ -87,27 +87,6 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
 
   const currentPuzzle = data.puzzleData[selectedId];
 
-  const inputStyle: React.CSSProperties = {
-    width: "100%",
-    padding: "8px 12px",
-    backgroundColor: "#1a2538",
-    border: "1px solid #233148",
-    borderRadius: "4px",
-    color: "#e2e8f0",
-    fontSize: "14px",
-    marginBottom: "12px",
-  };
-
-  const labelStyle: React.CSSProperties = {
-    display: "block",
-    fontSize: "12px",
-    fontWeight: 600,
-    color: "#94a3b8",
-    marginBottom: "4px",
-    textTransform: "uppercase",
-    letterSpacing: "0.05em",
-  };
-
   const handleAdd = () => {
     const nextId = (Math.max(...puzzleIds.map(Number), 0) + 1).toString();
     const newPuzzle = {
@@ -134,68 +113,39 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "#141c2b",
-        padding: "16px",
-        borderRadius: "6px",
-        marginBottom: "16px",
-      }}
-    >
+    <div className="editor-card">
+      <h3>Puzzles ({puzzleIds.length})</h3>
+
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: "16px",
+          gap: "0.375rem",
+          marginBottom: "1rem",
+          flexWrap: "wrap",
         }}
       >
-        <h3 style={{ fontSize: "15px", color: "#00ff88" }}>Puzzles ({puzzleIds.length})</h3>
-        <button
-          onClick={handleAdd}
-          style={{
-            padding: "6px 12px",
-            backgroundColor: "#00ff88",
-            border: "none",
-            borderRadius: "4px",
-            color: "#0a0e17",
-            fontWeight: 600,
-            cursor: "pointer",
-            fontSize: "12px",
-          }}
-        >
-          + Add Puzzle
-        </button>
-      </div>
-
-      <div style={{ display: "flex", gap: "6px", marginBottom: "16px", flexWrap: "wrap" }}>
         {puzzleIds.map((id) => (
           <button
             key={id}
             onClick={() => setSelectedId(id)}
-            style={{
-              padding: "6px 10px",
-              backgroundColor: selectedId === id ? "#00ff88" : "#1a2538",
-              color: selectedId === id ? "#0a0e17" : "#e2e8f0",
-              border: "1px solid #233148",
-              borderRadius: "4px",
-              fontWeight: 600,
-              cursor: "pointer",
-              fontSize: "12px",
-            }}
+            className={selectedId === id ? "editor-btn editor-btn-primary" : "editor-btn"}
           >
             P{id} ({data.puzzleData[id]?.type})
           </button>
         ))}
+        <button onClick={handleAdd} className="editor-btn" style={{ marginLeft: "auto" }}>
+          + Add Puzzle
+        </button>
       </div>
 
       {currentPuzzle && (
-        <div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
+        <div className="editor-subcard">
+          <div className="editor-grid-3">
             <div>
-              <label style={labelStyle}>Puzzle Type</label>
+              <label className="editor-label">Puzzle Type</label>
               <select
-                style={inputStyle}
+                className="editor-input"
                 value={currentPuzzle.type}
                 onChange={(e) => {
                   onUpdatePuzzle(selectedId, convertPuzzleType(currentPuzzle, e.target.value));
@@ -209,20 +159,20 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
             </div>
 
             <div>
-              <label style={labelStyle}>Assigned Room</label>
+              <label className="editor-label">Assigned Room</label>
               <input
                 type="number"
-                style={inputStyle}
+                className="editor-input"
                 value={currentPuzzle.room}
                 onChange={(e) => updateCurrent("room", Number(e.target.value))}
               />
             </div>
 
             <div>
-              <label style={labelStyle}>Points</label>
+              <label className="editor-label">Points</label>
               <input
                 type="number"
-                style={inputStyle}
+                className="editor-input"
                 value={currentPuzzle.points}
                 onChange={(e) => updateCurrent("points", Number(e.target.value))}
               />
@@ -230,18 +180,18 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
           </div>
 
           <div>
-            <label style={labelStyle}>Puzzle Title</label>
+            <label className="editor-label">Puzzle Title</label>
             <input
-              style={inputStyle}
+              className="editor-input"
               value={currentPuzzle.title}
               onChange={(e) => updateCurrent("title", e.target.value)}
             />
           </div>
 
           <div>
-            <label style={labelStyle}>Question Text</label>
+            <label className="editor-label">Question Text</label>
             <textarea
-              style={{ ...inputStyle, minHeight: "60px", resize: "vertical" }}
+              className="editor-input"
               value={currentPuzzle.question}
               onChange={(e) => updateCurrent("question", e.target.value)}
             />
@@ -250,23 +200,21 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
           <AnswerEditor
             puzzle={currentPuzzle}
             onChange={(next) => onUpdatePuzzle(selectedId, next)}
-            inputStyle={inputStyle}
-            labelStyle={labelStyle}
           />
 
           <div>
-            <label style={labelStyle}>Hint Text</label>
+            <label className="editor-label">Hint Text</label>
             <input
-              style={inputStyle}
+              className="editor-input"
               value={currentPuzzle.hint ?? ""}
               onChange={(e) => updateCurrent("hint", e.target.value)}
             />
           </div>
 
           <div>
-            <label style={labelStyle}>Explanation Text</label>
+            <label className="editor-label">Explanation Text</label>
             <input
-              style={inputStyle}
+              className="editor-input"
               value={currentPuzzle.explanation ?? ""}
               onChange={(e) => updateCurrent("explanation", e.target.value)}
             />
@@ -278,16 +226,7 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
                 onRemovePuzzle(selectedId);
                 setSelectedId(puzzleIds.find((id) => id !== selectedId) ?? "1");
               }}
-              style={{
-                padding: "6px 12px",
-                backgroundColor: "transparent",
-                border: "1px solid #ff4d67",
-                color: "#ff4d67",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "12px",
-                marginTop: "8px",
-              }}
+              className="editor-btn btn-danger"
             >
               Delete Puzzle {selectedId}
             </button>

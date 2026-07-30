@@ -5,15 +5,23 @@
   },
   "overrides": [
     {
-      "files": ["src/engine/**/*.ts", "src/engine/**/*.js"],
+      "files": ["src/player/**/*.ts", "src/player/**/*.tsx"],
       "rules": {
         "no-restricted-imports": [
           "error",
           {
             "paths": [
-              { "name": "react", "message": "React is forbidden in engine runtime" },
-              { "name": "react-dom", "message": "React DOM is forbidden in engine runtime" },
-              { "name": "zod", "message": "Zod runtime is forbidden in engine runtime" }
+              { "name": "zod", "message": "Zod is forbidden in the player runtime" },
+              {
+                "name": "immer",
+                "message": "Immer is an author studio dependency, not a player one"
+              }
+            ],
+            "patterns": [
+              {
+                "group": ["**/editor/**"],
+                "message": "The player must not import from the editor studio"
+              }
             ]
           }
         ]

@@ -41,7 +41,7 @@
       ],
       "points": 100,
       "hint": "Bacteria first attach, then grow into microcolonies, form mature community, finally release cells.",
-      "explanation": "Biofilms form in 4 stages: (1) Attachment \u2014 initial contact with surface, (2) Growth/Microcolonies \u2014 irreversible colonisation, (3) Maturation \u2014 full 3D EPS matrix community, (4) Detachment/Dispersal \u2014 cells released to spread contamination.",
+      "explanation": "Biofilms form in 4 stages: (1) Attachment — initial contact with surface, (2) Growth/Microcolonies — irreversible colonisation, (3) Maturation — full 3D EPS matrix community, (4) Detachment/Dispersal — cells released to spread contamination.",
       "title": "BIOFILM STAGES",
       "question": "Arrange the 4 stages of <strong>biofilm formation</strong> in the correct order:",
       "items": [
@@ -69,7 +69,7 @@
       "correct": "b",
       "points": 80,
       "hint": "This organism survives in refrigerators. Its name means \"living in lists\".",
-      "explanation": "Listeria monocytogenes is a psychrotroph \u2014 it grows at temperatures as low as 0\u00b0C. This makes it a major hazard in refrigerated RTE foods. E. coli O157:H7 does not grow well at refrigeration temperatures.",
+      "explanation": "Listeria monocytogenes is a psychrotroph — it grows at temperatures as low as 0°C. This makes it a major hazard in refrigerated RTE foods. E. coli O157:H7 does not grow well at refrigeration temperatures.",
       "title": "SURVIVAL MECHANISMS",
       "question": "Which organism is known as a <strong>psychrotroph</strong> (cold-adapted) that can survive and grow in refrigerated food?",
       "options": [
@@ -128,7 +128,7 @@
       "correct": "b",
       "points": 80,
       "hint": "Each D-value = 90% reduction. For 5-log reduction, multiply D-value by 5.",
-      "explanation": "A 5-log reduction requires 5 \u00d7 D-value = 5 \u00d7 1 min = 5 minutes. Each D-value achieves one additional log (90%) reduction \u2014 the basis of most pasteurisation standards.",
+      "explanation": "A 5-log reduction requires 5 × D-value = 5 × 1 min = 5 minutes. Each D-value achieves one additional log (90%) reduction — the basis of most pasteurisation standards.",
       "title": "THERMAL DESTRUCTION",
       "question": "The D-value represents the time required for a <strong>one-log (90%) reduction</strong> in microbial population at a given temperature. If a pathogen has a D-value of 1 minute at 70°C, how long to achieve a 5-log reduction?",
       "options": [
@@ -188,8 +188,8 @@
         "pack"
       ],
       "points": 100,
-      "hint": "Think: raw materials enter \u2192 cleaned \u2192 cooked \u2192 packaged as RTE.",
-      "explanation": "Correct flow: Raw material receiving \u2192 Cleaning/Sanitizing \u2192 Processing/Cooking \u2192 Packaging. This unidirectional flow ensures raw contaminated materials never contact RTE products \u2014 the principle of zoning systems.",
+      "hint": "Think: raw materials enter → cleaned → cooked → packaged as RTE.",
+      "explanation": "Correct flow: Raw material receiving → Cleaning/Sanitizing → Processing/Cooking → Packaging. This unidirectional flow ensures raw contaminated materials never contact RTE products — the principle of zoning systems.",
       "title": "CROSS-CONTAMINATION ZONES",
       "question": "Arrange the correct <strong>food flow direction</strong> in a processing facility to prevent cross-contamination:",
       "items": [
@@ -217,7 +217,7 @@
       "correct": "b",
       "points": 80,
       "hint": "Fruit jam has natural low pH. Think about what preserves jam: high sugar reduces water activity, plus heat.",
-      "explanation": "Fruit jam uses three simultaneous hurdles: low pH (fruit acidity), low water activity (high sugar), and heat processing. No single hurdle is sufficient alone \u2014 the combination overwhelms pathogen survival (hurdle technology).",
+      "explanation": "Fruit jam uses three simultaneous hurdles: low pH (fruit acidity), low water activity (high sugar), and heat processing. No single hurdle is sufficient alone — the combination overwhelms pathogen survival (hurdle technology).",
       "title": "BUILD THE HURDLE",
       "question": "Which combination of hurdles would <strong>best prevent pathogen survival</strong> in a fruit jam product? (Select the most complete combination)",
       "options": [
@@ -245,7 +245,7 @@
       "correct": "b",
       "points": 80,
       "hint": "The answer is in the name. Think about extreme pressure, not electricity or UV.",
-      "explanation": "High Pressure Processing (HPP) uses pressures of 100\u2013600 MPa to rupture microbial cell membranes while leaving the food's flavour and nutrients largely intact. Used in juice, guacamole, and RTE meats.",
+      "explanation": "High Pressure Processing (HPP) uses pressures of 100–600 MPa to rupture microbial cell membranes while leaving the food's flavour and nutrients largely intact. Used in juice, guacamole, and RTE meats.",
       "title": "NOVEL PROCESSING",
       "question": "Which novel processing technology uses <strong>extreme pressure</strong> to destroy pathogens while minimally affecting food quality?",
       "options": [
@@ -301,7 +301,7 @@
       "correct": "b",
       "points": 80,
       "hint": "Non-culturable = cannot grow on standard media. Routine tests would miss them.",
-      "explanation": "VBNC cells are alive and potentially pathogenic but cannot grow on standard culture media. This causes false negative results \u2014 food that appears safe by routine testing may actually carry viable pathogens that can resuscitate and cause illness.",
+      "explanation": "VBNC cells are alive and potentially pathogenic but cannot grow on standard culture media. This causes false negative results — food that appears safe by routine testing may actually carry viable pathogens that can resuscitate and cause illness.",
       "title": "VIABLE BUT NON-CULTURABLE",
       "question": "What is the primary danger posed by <strong>viable but non-culturable (VBNC)</strong> cells in food safety testing?",
       "options": [
@@ -334,7 +334,7 @@
       ],
       "points": 100,
       "hint": "Start with antibiotic use in animals, then resistance develops, then food is contaminated, then treatment becomes harder in humans.",
-      "explanation": "AMR pathway: Antibiotic use in animals \u2192 Resistance genes develop in bacteria \u2192 Contaminated food consumed by humans \u2192 Treatment becomes harder in humans. This is the food chain as AMR reservoir concept.",
+      "explanation": "AMR pathway: Antibiotic use in animals → Resistance genes develop in bacteria → Contaminated food consumed by humans → Treatment becomes harder in humans. This is the food chain as AMR reservoir concept.",
       "title": "AMR CHAIN REACTION",
       "question": "Trace the path of <strong>antimicrobial resistance</strong> through the food chain. Arrange in correct order:",
       "items": [
@@ -362,7 +362,7 @@
       "correct": "b",
       "points": 80,
       "hint": "Fresh-cut foods are one of the examples of higher-risk emerging food systems.",
-      "explanation": "Fresh-cut fruits and vegetables undergo minimal processing \u2014 no heat kill step. Pathogens on the surface survive and can multiply. This is a key emerging food safety challenge.",
+      "explanation": "Fresh-cut fruits and vegetables undergo minimal processing — no heat kill step. Pathogens on the surface survive and can multiply. This is a key emerging food safety challenge.",
       "title": "EMERGING RISKS",
       "question": "Which food category is considered a <strong>higher risk</strong> for pathogen survival due to minimal processing?",
       "options": [
@@ -390,7 +390,7 @@
       "correct": "b",
       "points": 80,
       "hint": "Think about survival in high sugar foods.",
-      "explanation": "Osmotic adaptation refers to tolerance of high osmotic stress \u2014 such as high sugar concentrations. Certain yeasts and halotolerant bacteria survive in jams and syrups by accumulating compatible solutes.",
+      "explanation": "Osmotic adaptation refers to tolerance of high osmotic stress — such as high sugar concentrations. Certain yeasts and halotolerant bacteria survive in jams and syrups by accumulating compatible solutes.",
       "title": "OSMOTIC ADAPTATION",
       "question": "Which food environment best illustrates <strong>osmotic adaptation</strong>?",
       "options": [
@@ -529,8 +529,8 @@
       "room": 2,
       "correct": "c",
       "points": 80,
-      "hint": "z = temperature difference \u00f7 (log D1 \u2212 log D2). Calculate the log difference first.",
-      "explanation": "z = (T2 \u2212 T1) \u00f7 (log D1 \u2212 log D2) = (80 \u2212 70) \u00f7 (log 1 \u2212 log 0.1) = 10 \u00f7 1 = 10\u00b0C. The z-value represents the temperature change required to alter the D-value by one log unit.",
+      "hint": "z = temperature difference ÷ (log D1 − log D2). Calculate the log difference first.",
+      "explanation": "z = (T2 − T1) ÷ (log D1 − log D2) = (80 − 70) ÷ (log 1 − log 0.1) = 10 ÷ 1 = 10°C. The z-value represents the temperature change required to alter the D-value by one log unit.",
       "title": "Z-VALUE CALCULATION",
       "question": "A pathogen has a D-value of 1 min at 70&deg;C and 0.1 min at 80&deg;C. What is the <strong>z-value</strong>?",
       "options": [
@@ -586,7 +586,7 @@
       "correct": "d",
       "points": 80,
       "hint": "Think about how deep each treatment can reach into a food product.",
-      "explanation": "UV radiation has very poor penetration \u2014 limited to surface and water treatment. Food irradiation (gamma rays, X-rays, electron beams) penetrates deeply into solid foods, making it effective for bulk pathogen reduction.",
+      "explanation": "UV radiation has very poor penetration — limited to surface and water treatment. Food irradiation (gamma rays, X-rays, electron beams) penetrates deeply into solid foods, making it effective for bulk pathogen reduction.",
       "title": "UV AND IRRADIATION",
       "question": "Which statement correctly distinguishes <strong>UV treatment</strong> from <strong>food irradiation</strong>?",
       "options": [
@@ -736,7 +736,7 @@
       "number": "ZONE 1",
       "title": "THE BIOFILM WALL",
       "subtitle": "Sealed door blocked by microbial biofilm",
-      "svg": "<svg width=\"100\" height=\"60\" viewBox=\"0 0 100 60\" style=\"display:block;margin:0 auto 24px\">\n    <ellipse cx=\"30\" cy=\"30\" rx=\"8\" ry=\"15\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".6\" transform=\"rotate(-20 30 30)\"/>\n    <ellipse cx=\"50\" cy=\"25\" rx=\"8\" ry=\"15\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".6\" transform=\"rotate(10 50 25)\"/>\n    <ellipse cx=\"70\" cy=\"35\" rx=\"8\" ry=\"15\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".6\" transform=\"rotate(-10 70 35)\"/>\n    <path d=\"M22,15 Q15,10 18,5\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\".8\" opacity=\".4\"/>\n    <path d=\"M42,10 Q38,5 40,0\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\".8\" opacity=\".4\"/>\n    <circle cx=\"25\" cy=\"20\" r=\"1\" fill=\"var(--green)\" opacity=\".3\"/><circle cx=\"55\" cy=\"35\" r=\"1\" fill=\"var(--green)\" opacity=\".3\"/>\n  </svg>",
+      "svg": "",
       "narrative": "<strong>SCENARIO:</strong> You enter the first containment zone. The door is sealed shut, covered in a thick, slimy biofilm layer. Your mission: understand biofilm formation to breach the seal. You need to solve the puzzles to gain the hints needed to unlock the door.",
       "codeHint": "HINT: Enter the 7-letter term for the slimy microbial community blocking the door."
     },
@@ -744,7 +744,7 @@
       "number": "ZONE 2",
       "title": "THE TEMPERATURE LAB",
       "subtitle": "Thermal destruction control room",
-      "svg": "<svg width=\"80\" height=\"80\" viewBox=\"0 0 80 80\" style=\"display:block;margin:0 auto 24px\">\n    <ellipse cx=\"40\" cy=\"40\" rx=\"25\" ry=\"30\" fill=\"none\" stroke=\"var(--yellow)\" stroke-width=\"2\" opacity=\".6\"/>\n    <ellipse cx=\"40\" cy=\"40\" rx=\"15\" ry=\"20\" fill=\"none\" stroke=\"var(--yellow)\" stroke-width=\"1.5\" opacity=\".5\"/>\n    <circle cx=\"40\" cy=\"38\" r=\"5\" fill=\"var(--yellow)\" opacity=\".4\"/>\n    <line x1=\"65\" y1=\"20\" x2=\"65\" y2=\"60\" stroke=\"var(--red)\" stroke-width=\"1\" opacity=\".5\"/>\n    <text x=\"68\" y=\"28\" fill=\"var(--red)\" font-size=\"8\" opacity=\".5\">100</text>\n    <text x=\"68\" y=\"38\" fill=\"var(--yellow)\" font-size=\"8\" opacity=\".5\">72</text>\n    <text x=\"68\" y=\"48\" fill=\"var(--green)\" font-size=\"8\" opacity=\".5\">4</text>\n  </svg>",
+      "svg": "",
       "narrative": "<strong>SCENARIO:</strong> You have breached the biofilm seal. You are now in the temperature control lab. To escape, you must demonstrate mastery of thermal destruction principles and sanitation verification.",
       "codeHint": "HINT: Enter the 11-letter word for the environmental factor controlled in this lab."
     },
@@ -752,7 +752,7 @@
       "number": "ZONE 3",
       "title": "THE HURDLE CHAMBER",
       "subtitle": "Multi-barrier vault protection",
-      "svg": "<svg width=\"160\" height=\"50\" viewBox=\"0 0 160 50\" style=\"display:block;margin:0 auto 24px\">\n    <rect x=\"10\" y=\"5\" width=\"30\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--cyan)\" stroke-width=\"1.5\" opacity=\".6\"/>\n    <text x=\"25\" y=\"28\" fill=\"var(--cyan)\" font-size=\"7\" text-anchor=\"middle\" opacity=\".7\">pH</text>\n    <rect x=\"50\" y=\"5\" width=\"30\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".6\"/>\n    <text x=\"65\" y=\"28\" fill=\"var(--green)\" font-size=\"7\" text-anchor=\"middle\" opacity=\".7\">aw</text>\n    <rect x=\"90\" y=\"5\" width=\"30\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--yellow)\" stroke-width=\"1.5\" opacity=\".6\"/>\n    <text x=\"105\" y=\"28\" fill=\"var(--yellow)\" font-size=\"7\" text-anchor=\"middle\" opacity=\".7\">Temp</text>\n    <rect x=\"130\" y=\"5\" width=\"25\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--purple)\" stroke-width=\"1.5\" opacity=\".6\"/>\n    <text x=\"142\" y=\"28\" fill=\"var(--purple)\" font-size=\"6\" text-anchor=\"middle\" opacity=\".7\">Pres</text>\n    <path d=\"M5,45 L155,45\" fill=\"none\" stroke=\"var(--red)\" stroke-width=\"1\" stroke-dasharray=\"4,4\" opacity=\".4\"/>\n  </svg>",
+      "svg": "",
       "narrative": "<strong>SCENARIO:</strong> The third zone uses hurdle technology - multiple simultaneous barriers that overwhelm any pathogen trying to survive. Master the concepts of combined preservation factors to proceed.",
       "codeHint": "HINT: Enter the 6-letter term for the multi-barrier technology."
     },
@@ -760,7 +760,7 @@
       "number": "ZONE 4",
       "title": "THE AMR VAULT",
       "subtitle": "Antimicrobial-resistant containment",
-      "svg": "<svg width=\"320\" height=\"50\" viewBox=\"0 0 320 50\" style=\"display:block;margin:0 auto 24px\">\n    <rect x=\"0\" y=\"10\" width=\"60\" height=\"30\" rx=\"4\" fill=\"none\" stroke=\"var(--red)\" stroke-width=\"1.5\" opacity=\".7\"/>\n    <text x=\"30\" y=\"28\" fill=\"var(--red)\" font-size=\"8\" text-anchor=\"middle\" opacity=\".8\">ANIMAL</text>\n    <path d=\"M60,25 L80,25\" stroke=\"var(--red)\" stroke-width=\"1\" opacity=\".5\"/>\n    <polygon points=\"78,22 84,25 78,28\" fill=\"var(--red)\" opacity=\".5\"/>\n    <rect x=\"80\" y=\"10\" width=\"60\" height=\"30\" rx=\"4\" fill=\"none\" stroke=\"var(--yellow)\" stroke-width=\"1.5\" opacity=\".7\"/>\n    <text x=\"110\" y=\"28\" fill=\"var(--yellow)\" font-size=\"8\" text-anchor=\"middle\" opacity=\".8\">FOOD</text>\n    <path d=\"M140,25 L160,25\" stroke=\"var(--yellow)\" stroke-width=\"1\" opacity=\".5\"/>\n    <polygon points=\"158,22 164,25 158,28\" fill=\"var(--yellow)\" opacity=\".5\"/>\n    <rect x=\"160\" y=\"10\" width=\"60\" height=\"30\" rx=\"4\" fill=\"none\" stroke=\"var(--green)\" stroke-width=\"1.5\" opacity=\".7\"/>\n    <text x=\"190\" y=\"28\" fill=\"var(--green)\" font-size=\"8\" text-anchor=\"middle\" opacity=\".8\">HUMAN</text>\n    <circle cx=\"30\" cy=\"8\" r=\"3\" fill=\"var(--red)\" opacity=\".3\"/>\n    <circle cx=\"110\" cy=\"8\" r=\"3\" fill=\"var(--yellow)\" opacity=\".3\"/>\n    <circle cx=\"190\" cy=\"8\" r=\"3\" fill=\"var(--green)\" opacity=\".3\"/>\n  </svg>",
+      "svg": "",
       "narrative": "<strong>SCENARIO:</strong> The final zone houses the most dangerous threat - antimicrobial-resistant pathogens that survive standard treatments. Solve these challenges to unlock the final escape.",
       "codeHint": "HINT: Enter the 10-letter word for the type of drug these resistant pathogens can survive."
     }
