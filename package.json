@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview --port 8000",
     "typecheck": "tsc --noEmit",
     "validate": "tsx tools/validate.ts",
     "gen-schema": "tsx tools/gen-schema.ts",
