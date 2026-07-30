@@ -1,56 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!--
-    Defence in depth for imported quiz JSON. Author text is escaped by React and
-    room artwork is sanitised before it reaches dangerouslySetInnerHTML; this caps
-    the damage if either is bypassed.
-    script-src has NO 'unsafe-inline'.
-    style-src still needs 'unsafe-inline' because the design leans on inline
-    style attributes, which cannot be nonce'd.
-    frame-src 'self' is required by the author studio's live preview, which frames
-    the /preview route.
-    Fonts are self-hosted (public/fonts/), so no external origin is allowed at all.
-    frame-ancestors is intentionally absent: it is ignored in a <meta> CSP and
-    must be sent as a real header by the host.
-  -->
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self';
-    style-src 'self' 'unsafe-inline';
-    font-src 'self';
-    img-src 'self' data:;
-    connect-src 'self';
-    frame-src 'self';
-    manifest-src 'self';
-    object-src 'none';
-    base-uri 'none';
-    form-action 'none'">
-  <title>Escape Room</title>
-  <meta name="description"
-    content="Dynamic browser-based educational escape rooms, with an authoring studio.">
-  <!-- Padlock on graphite, matching the puzzle-lock glyph and the token palette. -->
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231b1917'/%3E%3Cg fill='none' stroke='%2358c98d' stroke-width='2.2' stroke-linecap='round'%3E%3Crect x='9' y='14.5' width='14' height='10' rx='2'/%3E%3Cpath d='M12.5 14.5V11a3.5 3.5 0 0 1 7 0v3.5'/%3E%3C/g%3E%3C/svg%3E">
-  <link rel="stylesheet" href="/fonts/fonts.css">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <script type="module" crossorigin src="/assets/index-BxeDaHf6.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-Bh1tDfsg.js">
-  <link rel="modulepreload" crossorigin href="/assets/useRouteContext-MyIRIrg2.js">
-  <link rel="modulepreload" crossorigin href="/assets/Match-BCfwDT_m.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-tx4bJ1IH.css">
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    var l = window.location;
+    var isSubpath = l.hostname.endsWith('github.io') && l.pathname.split('/')[1] !== '';
+    var keep = isSubpath ? 1 : 0;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + keep).join('/') + '/?p=' +
+      l.pathname.slice(1).split('/').slice(keep).join('/') +
+      (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
+  </script>
 </head>
-
 <body>
-  <!--
-    Single mount point for the whole SPA: the player, the quiz picker, and the
-    authoring studio are all routes declared in src/router.tsx. The game's markup
-    used to live here as static HTML that src/engine/main.ts mutated by id.
-  -->
-  <div id="root"></div>
 </body>
-
 </html>

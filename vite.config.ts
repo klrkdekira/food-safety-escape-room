@@ -29,10 +29,29 @@ function spaFallbackPlugin(outDir: string): Plugin {
     name: "spa-fallback",
     apply: "build",
     closeBundle() {
-      const indexHtml = path.resolve(outDir, "index.html");
-      if (!fs.existsSync(indexHtml)) return;
-      fs.copyFileSync(indexHtml, path.resolve(outDir, "404.html"));
-      console.log(`✅ Wrote SPA fallback at ${outDir}/404.html`);
+      const fallbackHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    var l = window.location;
+    var isSubpath = l.hostname.endsWith('github.io') && l.pathname.split('/')[1] !== '';
+    var keep = isSubpath ? 1 : 0;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + keep).join('/') + '/?p=' +
+      l.pathname.slice(1).split('/').slice(keep).join('/') +
+      (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
+  </script>
+</head>
+<body>
+</body>
+</html>`;
+      fs.writeFileSync(path.resolve(outDir, "404.html"), fallbackHtml, "utf-8");
+      console.log(`✅ Wrote GitHub Pages SPA fallback at ${outDir}/404.html`);
     },
   };
 }
