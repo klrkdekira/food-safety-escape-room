@@ -28,6 +28,7 @@ const ALLOWED_TAGS = new Set([
   "sub",
   "sup",
   "small",
+  "img",
 ]);
 
 /** Removed outright, contents included -- their text is not worth keeping. */
@@ -121,8 +122,32 @@ function scrub(parent: Element): void {
     }
 
     for (const attr of Array.from(child.attributes)) {
-      if (attr.name.toLowerCase() !== "style") {
-        // Covers every on* handler, href/src, and anything else exotic.
+      const name = attr.name.toLowerCase();
+      if (
+        tag === "img" &&
+        (name === "src" ||
+          name === "alt" ||
+          name === "title" ||
+          name === "width" ||
+          name === "height")
+      ) {
+        if (name === "src") {
+          const val = attr.value.trim();
+          if (
+            val.startsWith("https://") ||
+            val.startsWith("http://") ||
+            val.startsWith("data:image/") ||
+            val.startsWith("/")
+          ) {
+            continue;
+          }
+          child.removeAttribute(attr.name);
+          continue;
+        }
+        continue;
+      }
+      if (name !== "style") {
+        // Covers every on* handler, href/src on non-img tags, and anything else exotic.
         child.removeAttribute(attr.name);
         continue;
       }

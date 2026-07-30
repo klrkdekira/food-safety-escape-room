@@ -432,6 +432,12 @@
           "svg": {
             "type": "string"
           },
+          "imageUrl": {
+            "type": "string"
+          },
+          "imageAttribution": {
+            "type": "string"
+          },
           "narrative": {
             "type": "string"
           },
@@ -443,7 +449,6 @@
           "number",
           "title",
           "subtitle",
-          "svg",
           "narrative"
         ],
         "additionalProperties": false
