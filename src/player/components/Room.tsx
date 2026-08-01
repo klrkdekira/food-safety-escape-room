@@ -19,13 +19,15 @@ export const Room: React.FC = () => {
   const screenRef = useRef<HTMLDivElement>(null);
   const [code, setCode] = useState("");
   const [wrong, setWrong] = useState(false);
+  const [artworkFailed, setArtworkFailed] = useState(false);
 
   useEffect(() => {
     fadeIn(screenRef.current, { y: 20, durationMs: 500 });
     window.scrollTo(0, 0);
     setCode("");
     setWrong(false);
-  }, [roomNum]);
+    setArtworkFailed(false);
+  }, [roomNum, roomData?.imageUrl]);
 
   useEffect(() => {
     if (!wrong) return;
@@ -48,6 +50,7 @@ export const Room: React.FC = () => {
   };
 
   const hintExhausted = state.hintsUsed >= state.maxHints;
+  const showArtwork = Boolean(roomData.imageUrl) && !artworkFailed;
 
   return (
     <div id={`room${roomNum}`} className="screen active" ref={screenRef}>
@@ -57,16 +60,14 @@ export const Room: React.FC = () => {
         <div className="room-subtitle">{roomData.subtitle}</div>
       </div>
 
-      <div className={roomData.imageUrl ? "room-intro room-intro-with-artwork" : "room-intro"}>
-        {roomData.imageUrl && (
+      <div className={showArtwork ? "room-intro room-intro-with-artwork" : "room-intro"}>
+        {showArtwork && roomData.imageUrl && (
           <div className="room-artwork">
             <img
               src={roomData.imageUrl}
               alt={roomData.title}
               className="room-image"
-              onError={(event) => {
-                event.currentTarget.hidden = true;
-              }}
+              onError={() => setArtworkFailed(true)}
             />
             {roomData.imageAttribution && (
               <div className="room-image-attribution">{roomData.imageAttribution}</div>

@@ -5,7 +5,7 @@
  *
  * They cannot simply be trusted either -- quiz JSON is exchanged between lecturers
  * by email, so it is untrusted input. Parse it inertly and keep only a formatting
- * subset: no scripts, no event handlers, no external or `javascript:` references.
+ * subset: no scripts, no event handlers, no insecure or `javascript:` references.
  *
  * Anything outside the allowlist is *unwrapped* rather than deleted, so an
  * unexpected tag costs the author its formatting but never its words. Genuinely

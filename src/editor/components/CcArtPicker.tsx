@@ -148,7 +148,8 @@ export const CcArtPicker: React.FC<CcArtPickerProps> = ({
                 const attrText = `Art: "${item.title}" by ${item.artist} (${item.license}). Source: Wikimedia Commons`;
 
                 return (
-                  <div
+                  <button
+                    type="button"
                     key={item.id}
                     className="cc-art-card"
                     onClick={() => {
@@ -160,7 +161,7 @@ export const CcArtPicker: React.FC<CcArtPickerProps> = ({
                     <img src={item.thumbUrl} alt={item.title} className="cc-art-card-img" />
                     <div className="cc-art-card-title">{item.title}</div>
                     <div className="cc-art-card-license">{item.license}</div>
-                  </div>
+                  </button>
                 );
               })}
             </div>

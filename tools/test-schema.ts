@@ -37,6 +37,17 @@ expectInvalid("negative hint limit", (quiz) => {
 expectInvalid("unattributed HTTPS artwork", (quiz) => {
   quiz.roomData["1"].imageUrl = "https://example.test/artwork.png";
 });
+expectInvalid("insecure HTTP artwork", (quiz) => {
+  quiz.roomData["1"].imageUrl = "http://example.test/artwork.png";
+  quiz.roomData["1"].imageAttribution = "Example artwork";
+});
+expectValid("attributed HTTPS artwork", (quiz) => {
+  quiz.roomData["1"].imageUrl = "https://example.test/artwork.png";
+  quiz.roomData["1"].imageAttribution = "Example artwork";
+});
+expectValid("site-local artwork without attribution", (quiz) => {
+  quiz.roomData["1"].imageUrl = "/images/artwork.png";
+});
 expectInvalid("duplicate option key", (quiz) => {
   quiz.puzzleData["2"].options[1].key = quiz.puzzleData["2"].options[0].key;
 });

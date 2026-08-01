@@ -6,7 +6,7 @@ A data-driven, browser-based educational escape room platform for food science c
 
 - **Player Engine**: Interactive escape room game supporting multiple puzzle types (`mcq`, `multiselect`, `order`, `match`).
 - **Authoring Studio**: Built-in browser editor at `/editor` to create, validate, live-preview, and export quiz JSON data.
-- **Offline & Self-Contained**: Zero external CDN calls, self-hosted fonts, and strict CSP for static deployment (e.g. GitHub Pages).
+- **Static & Dependency-Self-Contained**: No CDN runtime dependencies, self-hosted fonts, and a strict CSP. Author-selected HTTPS artwork can make third-party image requests and may be unavailable offline.
 
 ## Quick Start
 

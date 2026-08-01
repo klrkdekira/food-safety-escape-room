@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { MatchPuzzle } from "../src/player/puzzles/Match.tsx";
 import { McqPuzzle } from "../src/player/puzzles/Mcq.tsx";
@@ -72,5 +74,16 @@ expect(
   "Order controls became unfocusable native-disabled buttons",
 );
 expect(order.match(/<button/g)?.length === 4, "Order did not render both controls for every item");
+
+const artPickerSource = fs.readFileSync(
+  path.resolve("src/editor/components/CcArtPicker.tsx"),
+  "utf-8",
+);
+expect(
+  artPickerSource.includes(
+    '<button\n                    type="button"\n                    key={item.id}\n                    className="cc-art-card"',
+  ),
+  "Commons results must be native buttons",
+);
 
 console.log("Accessibility markup checks passed.");
