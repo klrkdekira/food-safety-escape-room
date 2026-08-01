@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--
     Defence in depth for imported quiz JSON. Author text is escaped by React and
-    room artwork is sanitised before it reaches dangerouslySetInnerHTML; this caps
-    the damage if either is bypassed.
+    room image URLs are constrained to site-local or HTTPS sources by the quiz
+    schema. Rich prose is sanitised before it reaches dangerouslySetInnerHTML.
     script-src has NO 'unsafe-inline'.
     style-src still needs 'unsafe-inline' because the design leans on inline
     style attributes, which cannot be nonce'd.

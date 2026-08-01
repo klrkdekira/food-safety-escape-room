@@ -21,7 +21,7 @@ function quizManifestPlugin(): Plugin {
 /**
  * GitHub Pages serves static files only: nothing sits behind /play/microb, so the
  * request 404s before the router ever loads. Pages returns 404.html for any
- * unmatched path, so a copy of index.html under that name is the SPA fallback
+ * unmatched path, so that generated redirect document recovers the route
  * that makes deep links and reloads work.
  */
 function spaFallbackPlugin(outDir: string): Plugin {

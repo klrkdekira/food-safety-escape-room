@@ -14,7 +14,7 @@ dev:
 build:
 	pnpm build
 
-# Run all test gates (validate, schema and game regressions, tsc, oxlint, oxfmt check, html-validate)
+# Run all test gates (data/schema/game/accessibility/route/preview regressions and static checks)
 test:
 	pnpm test
 
@@ -47,7 +47,7 @@ help:
 	@echo "Available Makefile targets:"
 	@echo "  make dev         - Start local Vite development server"
 	@echo "  make build       - Build production assets into docs/ for GitHub Pages"
-	@echo "  make test        - Run validate, typecheck, oxlint, oxfmt, html-validate"
+	@echo "  make test        - Run all regression and static quality gates"
 	@echo "  make validate    - Validate quiz JSON data files"
 	@echo "  make lint        - Run oxlint linter"
 	@echo "  make fmt         - Auto-format code with oxfmt"

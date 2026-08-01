@@ -55,6 +55,8 @@ const DROP_WITH_CONTENT = new Set([
 /**
  * `style` is the only attribute kept, and only for typography, spacing, and colour.
  * Existing quizzes use `color`, `font-size`, `opacity`, and `margin-top`.
+ * `background-color` is intentionally allowed for small prose callouts only; component
+ * backgrounds remain controlled by design tokens.
  */
 const ALLOWED_STYLE_PROPS = new Set([
   "color",
