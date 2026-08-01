@@ -45,7 +45,7 @@ export const PreviewFrame: React.FC<PreviewFrameProps> = ({ data }) => {
   const postDraft = useCallback(() => {
     iframeRef.current?.contentWindow?.postMessage(
       { type: "UPDATE_QUIZ_DATA", data: dataRef.current },
-      "*",
+      window.location.origin,
     );
   }, []);
 
@@ -58,8 +58,15 @@ export const PreviewFrame: React.FC<PreviewFrameProps> = ({ data }) => {
   // author's next keystroke.
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
-      if (e.origin !== window.location.origin && e.origin !== "null" && e.origin !== "") return;
-      if (e.data?.type === "PREVIEW_READY") postDraft();
+      if (
+        e.origin === window.location.origin &&
+        e.source === iframeRef.current?.contentWindow &&
+        typeof e.data === "object" &&
+        e.data !== null &&
+        e.data.type === "PREVIEW_READY"
+      ) {
+        postDraft();
+      }
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);

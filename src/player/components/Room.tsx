@@ -59,7 +59,14 @@ export const Room: React.FC = () => {
 
       {roomData.imageUrl && (
         <div className="room-artwork">
-          <img src={roomData.imageUrl} alt={roomData.title} className="room-image" />
+          <img
+            src={roomData.imageUrl}
+            alt={roomData.title}
+            className="room-image"
+            onError={(event) => {
+              event.currentTarget.hidden = true;
+            }}
+          />
           {roomData.imageAttribution && (
             <div className="room-image-attribution">{roomData.imageAttribution}</div>
           )}

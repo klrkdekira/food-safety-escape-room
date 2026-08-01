@@ -92,7 +92,8 @@
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "minItems": 1
         },
         "missionBriefingTitle": {
           "type": "string"
@@ -148,7 +149,8 @@
                 "type": "integer"
               },
               "points": {
-                "type": "integer"
+                "type": "integer",
+                "exclusiveMinimum": 0
               },
               "hint": {
                 "type": "string"
@@ -183,7 +185,8 @@
                     "text"
                   ],
                   "additionalProperties": false
-                }
+                },
+                "minItems": 2
               },
               "correct": {
                 "type": "string"
@@ -207,7 +210,8 @@
                 "type": "integer"
               },
               "points": {
-                "type": "integer"
+                "type": "integer",
+                "exclusiveMinimum": 0
               },
               "hint": {
                 "type": "string"
@@ -242,13 +246,15 @@
                     "text"
                   ],
                   "additionalProperties": false
-                }
+                },
+                "minItems": 2
               },
               "correct": {
                 "type": "array",
                 "items": {
                   "type": "string"
-                }
+                },
+                "minItems": 1
               }
             },
             "required": [
@@ -269,7 +275,8 @@
                 "type": "integer"
               },
               "points": {
-                "type": "integer"
+                "type": "integer",
+                "exclusiveMinimum": 0
               },
               "hint": {
                 "type": "string"
@@ -304,13 +311,15 @@
                     "text"
                   ],
                   "additionalProperties": false
-                }
+                },
+                "minItems": 2
               },
               "correctOrder": {
                 "type": "array",
                 "items": {
                   "type": "string"
-                }
+                },
+                "minItems": 2
               }
             },
             "required": [
@@ -331,7 +340,8 @@
                 "type": "integer"
               },
               "points": {
-                "type": "integer"
+                "type": "integer",
+                "exclusiveMinimum": 0
               },
               "hint": {
                 "type": "string"
@@ -366,7 +376,8 @@
                     "text"
                   ],
                   "additionalProperties": false
-                }
+                },
+                "minItems": 1
               },
               "rightItems": {
                 "type": "array",
@@ -385,7 +396,8 @@
                     "text"
                   ],
                   "additionalProperties": false
-                }
+                },
+                "minItems": 2
               },
               "correct": {
                 "type": "object",

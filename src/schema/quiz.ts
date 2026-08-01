@@ -19,7 +19,7 @@ export const MatchItemSchema = z.object({
 // Common fields across all puzzle types
 const BasePuzzleSchema = z.object({
   room: z.number().int(),
-  points: z.number().int(),
+  points: z.number().int().positive(),
   hint: z.string().optional(),
   explanation: z.string().optional(),
   title: z.string(),
@@ -29,26 +29,26 @@ const BasePuzzleSchema = z.object({
 // Individual Puzzle Schemas
 export const McqPuzzleSchema = BasePuzzleSchema.extend({
   type: z.literal("mcq"),
-  options: z.array(OptionItemSchema),
+  options: z.array(OptionItemSchema).min(2),
   correct: z.string(),
 });
 
 export const MultiselectPuzzleSchema = BasePuzzleSchema.extend({
   type: z.literal("multiselect"),
-  options: z.array(OptionItemSchema),
-  correct: z.array(z.string()),
+  options: z.array(OptionItemSchema).min(2),
+  correct: z.array(z.string()).min(1),
 });
 
 export const OrderPuzzleSchema = BasePuzzleSchema.extend({
   type: z.literal("order"),
-  items: z.array(DragItemSchema),
-  correctOrder: z.array(z.string()),
+  items: z.array(DragItemSchema).min(2),
+  correctOrder: z.array(z.string()).min(2),
 });
 
 export const MatchPuzzleSchema = BasePuzzleSchema.extend({
   type: z.literal("match"),
-  leftItems: z.array(MatchItemSchema),
-  rightItems: z.array(MatchItemSchema),
+  leftItems: z.array(MatchItemSchema).min(1),
+  rightItems: z.array(MatchItemSchema).min(2),
   correct: z.record(z.string(), z.string()),
 });
 
@@ -84,7 +84,7 @@ export const ConfigSchema = z.object({
   absoluteRanks: RankThresholdsSchema,
   percentRanks: RankThresholdsSchema,
   minimapTitle: z.string(),
-  minimapRooms: z.array(z.string()),
+  minimapRooms: z.array(z.string()).min(1),
   missionBriefingTitle: z.string(),
   missionBriefingText: z.string(),
   finalEscapeTerminalTitle: z.string().optional(),
@@ -102,7 +102,12 @@ export const RoomDataSchema = z.object({
   title: z.string(),
   subtitle: z.string(),
   svg: z.string().optional(),
-  imageUrl: z.string().optional(),
+  imageUrl: z
+    .string()
+    .refine((value) => value.startsWith("/") || value.startsWith("https://"), {
+      message: "imageUrl must be a site-local path or an HTTPS URL",
+    })
+    .optional(),
   imageAttribution: z.string().optional(),
   narrative: z.string(),
   codeHint: z.string().optional(),
@@ -147,6 +152,65 @@ export const QuizSchema = BaseQuizSchema.superRefine((data, ctx) => {
     }
   }
 
+  // The player addresses rooms as contiguous numbers from 1 through N.
+  const roomKeys = Object.keys(data.roomData);
+  const codeKeys = Object.keys(data.roomCodes);
+  for (let index = 0; index < roomKeys.length; index++) {
+    const expected = String(index + 1);
+    if (!data.roomData[expected]) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "roomData keys must be contiguous positive integers starting at 1",
+        path: ["roomData"],
+      });
+      break;
+    }
+  }
+  for (const roomKey of roomKeys) {
+    if (!data.roomCodes[roomKey]) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "roomData and roomCodes must have identical room keys",
+        path: ["roomCodes", roomKey],
+      });
+    }
+  }
+  for (const roomKey of codeKeys) {
+    if (!data.roomData[roomKey]) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "roomData and roomCodes must have identical room keys",
+        path: ["roomCodes", roomKey],
+      });
+    }
+  }
+  for (const [roomKey, room] of Object.entries(data.roomData)) {
+    if (room.imageUrl?.startsWith("https://") && !room.imageAttribution?.trim()) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "HTTPS artwork requires imageAttribution",
+        path: ["roomData", roomKey, "imageAttribution"],
+      });
+    }
+  }
+
+  if (data.config.minimapRooms.length !== roomKeys.length) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "minimapRooms must contain one label for every room",
+      path: ["config", "minimapRooms"],
+    });
+  }
+
+  const maxHints = data.state.maxHints;
+  if (maxHints !== undefined && (!Number.isInteger(maxHints) || (maxHints as number) < 0)) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "state.maxHints must be a non-negative integer",
+      path: ["state", "maxHints"],
+    });
+  }
+
   // Count puzzles per room to detect empty rooms
   const puzzlesPerRoom = new Map<string, number>();
   for (const roomKey of Object.keys(data.roomData)) {
@@ -154,6 +218,22 @@ export const QuizSchema = BaseQuizSchema.superRefine((data, ctx) => {
   }
 
   // 3. Referential integrity checks for puzzles
+  for (const puzzleId of Object.keys(data.puzzleData)) {
+    if (
+      !(
+        Number.isInteger(Number(puzzleId)) &&
+        Number(puzzleId) > 0 &&
+        String(Number(puzzleId)) === puzzleId
+      )
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "puzzle ids must be positive integer strings",
+        path: ["puzzleData", puzzleId],
+      });
+    }
+  }
+
   for (const [puzzleId, puzzle] of Object.entries(data.puzzleData)) {
     const roomKey = String(puzzle.room);
 
@@ -178,6 +258,13 @@ export const QuizSchema = BaseQuizSchema.superRefine((data, ctx) => {
     // Specific puzzle type validations
     if (puzzle.type === "mcq") {
       const optionKeys = new Set(puzzle.options.map((o) => o.key));
+      if (optionKeys.size !== puzzle.options.length) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "MCQ option keys must be unique",
+          path: ["puzzleData", puzzleId, "options"],
+        });
+      }
       if (!optionKeys.has(puzzle.correct)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -187,6 +274,20 @@ export const QuizSchema = BaseQuizSchema.superRefine((data, ctx) => {
       }
     } else if (puzzle.type === "multiselect") {
       const optionKeys = new Set(puzzle.options.map((o) => o.key));
+      if (optionKeys.size !== puzzle.options.length) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Multiselect option keys must be unique",
+          path: ["puzzleData", puzzleId, "options"],
+        });
+      }
+      if (new Set(puzzle.correct).size !== puzzle.correct.length) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Multiselect correct keys must be unique",
+          path: ["puzzleData", puzzleId, "correct"],
+        });
+      }
       for (let i = 0; i < puzzle.correct.length; i++) {
         const key = puzzle.correct[i];
         if (!optionKeys.has(key)) {
@@ -200,6 +301,23 @@ export const QuizSchema = BaseQuizSchema.superRefine((data, ctx) => {
     } else if (puzzle.type === "match") {
       const leftIds = new Set(puzzle.leftItems.map((item) => item.id));
       const rightIds = new Set(puzzle.rightItems.map((item) => item.id));
+      if (leftIds.size !== puzzle.leftItems.length || rightIds.size !== puzzle.rightItems.length) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Match item ids must be unique",
+          path: ["puzzleData", puzzleId],
+        });
+      }
+      for (const leftId of leftIds) {
+        if (!(leftId in puzzle.correct)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Match correct must include every left item",
+            path: ["puzzleData", puzzleId, "correct"],
+          });
+          break;
+        }
+      }
 
       for (const [lId, rId] of Object.entries(puzzle.correct)) {
         if (!leftIds.has(lId)) {
@@ -221,6 +339,13 @@ export const QuizSchema = BaseQuizSchema.superRefine((data, ctx) => {
       const itemIds = puzzle.items.map((item) => item.id);
       const itemIdSet = new Set(itemIds);
       const correctSet = new Set(puzzle.correctOrder);
+      if (itemIdSet.size !== itemIds.length || correctSet.size !== puzzle.correctOrder.length) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Order item ids and correctOrder ids must be unique",
+          path: ["puzzleData", puzzleId, "items"],
+        });
+      }
 
       const isPermutation =
         puzzle.correctOrder.length === itemIds.length &&

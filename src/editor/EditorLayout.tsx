@@ -18,29 +18,46 @@ const TABS = [
 
 export const EditorLayout: React.FC = () => {
   const [data, dispatch, history] = useHistoryReducer(editorReducer, DEFAULT_TEMPLATE);
-  const [saveStatus, setSaveStatus] = useState("Draft Saved");
+  const [saveStatus, setSaveStatus] = useState("Loading draft...");
+  const [draftReady, setDraftReady] = useState(false);
+  const validation = QuizSchema.safeParse(data);
 
-  // Load draft from IndexedDB on initial mount
+  // Load a saved draft before autosave starts, so an initial template render
+  // cannot overwrite the author's existing work.
   useEffect(() => {
-    get("escape-room:draft:current").then((saved) => {
-      if (saved) {
+    let cancelled = false;
+    void get("escape-room:draft:current")
+      .then((saved) => {
+        if (cancelled || !saved) return;
         try {
           dispatch({ type: "LOAD_DATA", data: JSON.parse(saved) });
         } catch {
-          // Fallback to template
+          setSaveStatus("Saved draft could not be read");
         }
-      }
-    });
+      })
+      .catch(() => {
+        if (!cancelled) setSaveStatus("Draft storage unavailable");
+      })
+      .finally(() => {
+        if (!cancelled) setDraftReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [dispatch]);
 
-  // Debounced autosave to IndexedDB
+  // Debounced autosave to IndexedDB. Report failures rather than claiming the
+  // draft is saved when private browsing or storage quotas reject a write.
   useEffect(() => {
+    if (!draftReady) return;
+    setSaveStatus("Saving draft...");
     const timer = setTimeout(() => {
-      set("escape-room:draft:current", JSON.stringify(data));
-      setSaveStatus("Draft Saved");
+      void set("escape-room:draft:current", JSON.stringify(data))
+        .then(() => setSaveStatus("Draft saved"))
+        .catch(() => setSaveStatus("Draft failed to save"));
     }, 800);
     return () => clearTimeout(timer);
-  }, [data]);
+  }, [data, draftReady]);
 
   // Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z, the shortcuts authors will reach for first.
   useEffect(() => {
@@ -55,6 +72,10 @@ export const EditorLayout: React.FC = () => {
   }, [history]);
 
   const handleExport = () => {
+    if (!validation.success) {
+      alert("Resolve validation issues before exporting this quiz.");
+      return;
+    }
     const jsonStr = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonStr], { type: "application/json" });
     const url = URL.createObjectURL(blob);
@@ -147,7 +168,12 @@ export const EditorLayout: React.FC = () => {
               />
             </label>
 
-            <button className="editor-btn editor-btn-primary" onClick={handleExport}>
+            <button
+              className="editor-btn editor-btn-primary"
+              onClick={handleExport}
+              disabled={!validation.success}
+              title={!validation.success ? "Resolve validation issues before exporting" : undefined}
+            >
               Export quiz JSON
             </button>
 

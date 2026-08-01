@@ -133,12 +133,7 @@ function scrub(parent: Element): void {
       ) {
         if (name === "src") {
           const val = attr.value.trim();
-          if (
-            val.startsWith("https://") ||
-            val.startsWith("http://") ||
-            val.startsWith("data:image/") ||
-            val.startsWith("/")
-          ) {
+          if (val.startsWith("https://") || val.startsWith("data:image/") || val.startsWith("/")) {
             continue;
           }
           child.removeAttribute(attr.name);

@@ -13,7 +13,7 @@
     style attributes, which cannot be nonce'd.
     frame-src 'self' is required by the author studio's live preview, which frames
     the /preview route.
-    Fonts are self-hosted (public/fonts/), so no external origin is allowed at all.
+    Fonts are self-hosted (`public/fonts/`). HTTPS remains permitted only for optional author-selected Creative Commons artwork and the studio's Commons search; it is not a runtime library dependency.
     frame-ancestors is intentionally absent: it is ignored in a <meta> CSP and
     must be sent as a real header by the host.
   -->
@@ -36,28 +36,7 @@
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231b1917'/%3E%3Cg fill='none' stroke='%2358c98d' stroke-width='2.2' stroke-linecap='round'%3E%3Crect x='9' y='14.5' width='14' height='10' rx='2'/%3E%3Cpath d='M12.5 14.5V11a3.5 3.5 0 0 1 7 0v3.5'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="stylesheet" href="fonts/fonts.css">
   <link rel="manifest" href="manifest.webmanifest">
-  <script>
-    // Single Page Apps for GitHub Pages URL decoder
-    (function(l) {
-      if (l.search && l.search[1] === 'p') {
-        var decoded = l.search.slice(1).split('&').map(function(s) {
-          return s.replace(/~and~/g, '&');
-        }).filter(function(s) {
-          return s.slice(0, 2) === 'p=';
-        })[0];
-        if (decoded) {
-          var routePath = decoded.slice(2);
-          var q = l.search.slice(1).split('&').filter(function(s) {
-            return s.slice(0, 2) === 'q=';
-          })[0];
-          var searchStr = q ? '?' + q.slice(2).replace(/~and~/g, '&') : '';
-          window.history.replaceState(null, null,
-            l.pathname.slice(0, -1) + routePath + searchStr + l.hash
-          );
-        }
-      }
-    }(window.location));
-  </script>
+  <script src="/route-recovery.js"></script>
 </head>
 
 <body>

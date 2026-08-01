@@ -14,7 +14,7 @@ dev:
 build:
 	pnpm build
 
-# Run all test gates (validate, tsc, oxlint, oxfmt check, html-validate)
+# Run all test gates (validate, schema and game regressions, tsc, oxlint, oxfmt check, html-validate)
 test:
 	pnpm test
 
@@ -38,9 +38,8 @@ fmt-check:
 gen-schema:
 	pnpm gen-schema
 
-# Clean build artifacts in dist/
+# Clean generated deployment artifacts in docs/
 clean:
-	rm -rf dist
 	rm -rf docs
 
 # Display help menu
@@ -54,4 +53,4 @@ help:
 	@echo "  make fmt         - Auto-format code with oxfmt"
 	@echo "  make fmt-check   - Check code formatting with oxfmt"
 	@echo "  make gen-schema  - Export Draft-07 schema.json from Zod definition"
-	@echo "  make clean       - Remove dist/ and docs/ build directories"
+	@echo "  make clean       - Remove the generated docs/ build directory"

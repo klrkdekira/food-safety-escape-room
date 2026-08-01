@@ -40,7 +40,7 @@ Using `pnpm` or `make`:
 # Start local development server
 make dev        # or pnpm dev
 
-# Run all test gates (Zod validation + tsc + Oxlint + Oxfmt + html-validate)
+# Run all test gates (Zod validation + schema and game regressions + tsc + Oxlint + Oxfmt + html-validate)
 make test       # or pnpm test
 
 # Build for GitHub Pages (emits to docs/, plus the 404.html SPA fallback)

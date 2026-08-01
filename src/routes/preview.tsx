@@ -19,8 +19,13 @@ function Preview() {
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
-      if (e.origin !== window.location.origin && e.origin !== "null" && e.origin !== "") return;
-      if (e.data?.type === "UPDATE_QUIZ_DATA" && e.data.data) {
+      if (e.origin !== window.location.origin || e.source !== window.parent) return;
+      if (
+        typeof e.data === "object" &&
+        e.data !== null &&
+        e.data.type === "UPDATE_QUIZ_DATA" &&
+        "data" in e.data
+      ) {
         setQuiz(e.data.data as QuizData);
       }
     };
@@ -29,7 +34,7 @@ function Preview() {
     // The studio may have posted its draft before this frame finished loading, so
     // ask for a resend rather than sitting blank until the next keystroke.
     if (window.parent && window.parent !== window) {
-      window.parent.postMessage({ type: "PREVIEW_READY" }, "*");
+      window.parent.postMessage({ type: "PREVIEW_READY" }, window.location.origin);
     }
     return () => window.removeEventListener("message", onMessage);
   }, []);
