@@ -57,23 +57,25 @@ export const Room: React.FC = () => {
         <div className="room-subtitle">{roomData.subtitle}</div>
       </div>
 
-      {roomData.imageUrl && (
-        <div className="room-artwork">
-          <img
-            src={roomData.imageUrl}
-            alt={roomData.title}
-            className="room-image"
-            onError={(event) => {
-              event.currentTarget.hidden = true;
-            }}
-          />
-          {roomData.imageAttribution && (
-            <div className="room-image-attribution">{roomData.imageAttribution}</div>
-          )}
-        </div>
-      )}
+      <div className={roomData.imageUrl ? "room-intro room-intro-with-artwork" : "room-intro"}>
+        {roomData.imageUrl && (
+          <div className="room-artwork">
+            <img
+              src={roomData.imageUrl}
+              alt={roomData.title}
+              className="room-image"
+              onError={(event) => {
+                event.currentTarget.hidden = true;
+              }}
+            />
+            {roomData.imageAttribution && (
+              <div className="room-image-attribution">{roomData.imageAttribution}</div>
+            )}
+          </div>
+        )}
 
-      <RichText className="narrative-box" text={roomData.narrative} />
+        <RichText className="narrative-box" text={roomData.narrative} />
+      </div>
 
       <div id={`room${roomNum}-puzzles`}>
         {!completed && activeId != null && (

@@ -11,13 +11,14 @@
     "gen-schema": "tsx tools/gen-schema.ts",
     "test:schema": "tsx tools/test-schema.ts",
     "test:game": "tsx tools/test-game.ts",
+    "test:accessibility": "tsx tools/test-accessibility.tsx",
     "test:route-recovery": "tsx tools/test-route-recovery.ts",
     "test:preview-contract": "tsx tools/test-preview-contract.ts",
     "lint": "oxlint",
     "fmt": "oxfmt src tools",
     "fmt:check": "oxfmt --check src tools",
     "html:check": "html-validate index.html",
-    "test": "pnpm run validate && pnpm run test:schema && pnpm run test:game && pnpm run test:route-recovery && pnpm run test:preview-contract && pnpm run typecheck && pnpm run lint && pnpm run fmt:check && pnpm run html:check",
+    "test": "pnpm run validate && pnpm run test:schema && pnpm run test:game && pnpm run test:accessibility && pnpm run test:route-recovery && pnpm run test:preview-contract && pnpm run typecheck && pnpm run lint && pnpm run fmt:check && pnpm run html:check",
     "fetch-fonts": "tsx tools/fetch-fonts.ts"
   },
   "keywords": [

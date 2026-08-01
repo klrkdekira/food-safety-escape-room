@@ -5,7 +5,7 @@ import type { PuzzleType, PuzzleViewProps } from "./types.ts";
 type OrderAnswer = string[];
 
 /** Swap an item with its neighbour. Out-of-range moves are a no-op. */
-function step(ids: OrderAnswer, index: number, direction: number): OrderAnswer {
+export function step(ids: OrderAnswer, index: number, direction: number): OrderAnswer {
   const target = index + direction;
   if (target < 0 || target >= ids.length) return ids;
   const next = [...ids];
