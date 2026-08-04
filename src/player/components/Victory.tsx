@@ -47,6 +47,7 @@ export const Victory: React.FC = () => {
 
   return (
     <div id="victory-screen" className="screen active" ref={screenRef}>
+      <div className="victory-stamp">Training record complete</div>
       <div className="victory-title" id="victory-title">
         {config.victoryTitle ?? ""}
       </div>
@@ -85,7 +86,7 @@ export const Victory: React.FC = () => {
           Play again
         </button>
         <button type="button" className="btn-secondary" onClick={downloadPdf}>
-          Download score (PDF)
+          Download score record
         </button>
       </div>
     </div>

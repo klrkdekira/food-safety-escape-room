@@ -17,38 +17,33 @@
  * ========================================================================== */
 
 :root {
-  /* Warm graphite surfaces — a hint of red in the greys keeps the dark from
-     going the usual blue-black, and it is what lets the jade accent read as a
-     colour rather than as backlight. */
-  --bg-deep: #1b1917;
-  --bg-sunken: #131211;
-  --bg-panel: #24211e;
-  --bg-card: #2d2925;
-  --bg-card-hover: #383330;
+  /* Clean, disciplined dark slate design system */
+  --bg-deep: #0f172a;
+  --bg-sunken: #090d16;
+  --bg-panel: #1e293b;
+  --bg-card: #334155;
+  --bg-card-hover: #3f4e65;
 
-  --border-color: #3b3630;
-  --border-strong: #544d44;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
 
-  /* `--green` is the success/active accent. The name is load-bearing: quiz JSON
-     and inline component styles reference it, and themes recolour it (the
-     "sugary" theme's accent is pink). */
-  --green: #58c98d;
-  --green-dim: #3d9e6d;
-  /* Formerly a glow colour; now the flat tint behind a selected row. */
-  --green-glow: rgba(88, 201, 141, 0.12);
+  /* Emerald / Jade success state accent */
+  --green: #10b981;
+  --green-dim: #059669;
+  --green-glow: rgba(16, 185, 129, 0.12);
 
-  --yellow: #e0ab4f;
-  --yellow-glow: rgba(224, 171, 79, 0.12);
-  --red: #e2696c;
-  --red-glow: rgba(226, 105, 108, 0.13);
-  --cyan: #6cb6c9;
-  --purple: #a591d1;
+  --yellow: #f59e0b;
+  --yellow-glow: rgba(245, 158, 11, 0.12);
+  --red: #ef4444;
+  --red-glow: rgba(239, 68, 68, 0.12);
+  --cyan: #06b6d4;
+  --purple: #8b5cf6;
+  --blue-accent: #3b82f6;
 
-  --text-primary: #eceae6;
-  --text-secondary: #b0aca4;
-  --text-dim: #857f75;
-  /* Text that sits on top of an accent fill. */
-  --text-on-accent: #14211b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-dim: #94a3b8;
+  --text-on-accent: #022c22;
 
   --font-sans:
     ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
@@ -57,104 +52,99 @@
     ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   --font-display: "Jost", var(--font-sans);
   --font-body: var(--font-sans);
-  /* Legacy alias: component inline styles still ask for --font-ui when they mean
-     "the tabular/data face". */
   --font-ui: var(--font-mono);
 
-  --r-sm: 5px;
+  --r-sm: 6px;
   --r-md: 8px;
   --r-lg: 12px;
 
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.28);
-  --shadow-2: 0 10px 30px -12px rgba(0, 0, 0, 0.65);
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.4);
 
-  --dur: 160ms;
-  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur: 150ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Reading measure for the room column, the offset the fixed HUD needs, and the
-     shared width of the code display + keypad. */
-  --measure: 46rem;
+  --measure: 48rem;
   --hud-h: 3.5rem;
-  --pad-w: 27rem;
+  --pad-w: 28rem;
 }
 
-/* Rose plum. Same discipline, warmer hue family. */
+/* Rose plum theme */
 [data-theme="sugary"] {
-  --bg-deep: #201820;
-  --bg-sunken: #191219;
-  --bg-panel: #2a2029;
-  --bg-card: #322630;
-  --bg-card-hover: #3d2f3a;
-  --border-color: #453542;
-  --border-strong: #5b4656;
+  --bg-deep: #1c131d;
+  --bg-sunken: #110a12;
+  --bg-panel: #2b1d2c;
+  --bg-card: #3d2a3e;
+  --bg-card-hover: #4f3750;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.22);
 
-  --green: #e888ab;
-  --green-dim: #c4688d;
-  --green-glow: rgba(232, 136, 171, 0.13);
-  --yellow: #e5b567;
-  --yellow-glow: rgba(229, 181, 103, 0.13);
-  --red: #e0697f;
-  --red-glow: rgba(224, 105, 127, 0.14);
-  --cyan: #e39a78;
-  --purple: #c4a2e0;
+  --green: #ec4899;
+  --green-dim: #be185d;
+  --green-glow: rgba(236, 72, 153, 0.14);
+  --yellow: #f59e0b;
+  --yellow-glow: rgba(245, 158, 11, 0.14);
+  --red: #ef4444;
+  --red-glow: rgba(239, 68, 68, 0.14);
+  --cyan: #f97316;
+  --purple: #d946ef;
 
-  --text-primary: #f4eaef;
-  --text-secondary: #c7b3bf;
-  --text-dim: #9c8894;
-  --text-on-accent: #2b1620;
+  --text-primary: #fdf2f8;
+  --text-secondary: #f472b6;
+  --text-dim: #cbd5e1;
+  --text-on-accent: #500724;
 }
 
-/* Cool slate and teal — the closest to a real instrument panel. */
+/* Laboratory theme */
 [data-theme="laboratory"] {
-  --bg-deep: #12181d;
-  --bg-sunken: #0d1216;
-  --bg-panel: #1a2229;
-  --bg-card: #202a32;
-  --bg-card-hover: #2a363f;
-  --border-color: #2e3a44;
-  --border-strong: #405060;
+  --bg-deep: #0f172a;
+  --bg-sunken: #070d17;
+  --bg-panel: #1e293b;
+  --bg-card: #334155;
+  --bg-card-hover: #3f4e65;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.2);
 
-  --green: #4fb8a8;
-  --green-dim: #379387;
-  --green-glow: rgba(79, 184, 168, 0.13);
-  --yellow: #cfa94d;
-  --yellow-glow: rgba(207, 169, 77, 0.13);
-  --red: #d9686e;
-  --red-glow: rgba(217, 104, 110, 0.14);
-  --cyan: #5d9ec4;
-  --purple: #9a8cc8;
+  --green: #14b8a6;
+  --green-dim: #0d9488;
+  --green-glow: rgba(20, 184, 166, 0.14);
+  --yellow: #f59e0b;
+  --yellow-glow: rgba(245, 158, 11, 0.14);
+  --red: #ef4444;
+  --red-glow: rgba(239, 68, 68, 0.14);
+  --cyan: #06b6d4;
+  --purple: #6366f1;
 
-  --text-primary: #e6ecf0;
-  --text-secondary: #a6b2bc;
-  --text-dim: #7e8a94;
-  --text-on-accent: #0b1a1a;
+  --text-primary: #f0fdfa;
+  --text-secondary: #99f6e4;
+  --text-dim: #94a3b8;
+  --text-on-accent: #042f2e;
 }
 
-/* The one theme that commits to the terminal look on purpose: sepia paper,
-   amber phosphor, and monospace prose throughout. */
+/* Retro terminal theme */
 [data-theme="retro"] {
-  --bg-deep: #171310;
-  --bg-sunken: #110e0b;
-  --bg-panel: #201a15;
-  --bg-card: #28211a;
-  --bg-card-hover: #332a20;
-  --border-color: #3a3025;
-  --border-strong: #4f4231;
+  --bg-deep: #1c140e;
+  --bg-sunken: #110b07;
+  --bg-panel: #2b1f16;
+  --bg-card: #3d2c1f;
+  --bg-card-hover: #503a29;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.22);
 
-  --green: #d9a04a;
-  --green-dim: #b58039;
-  --green-glow: rgba(217, 160, 74, 0.13);
-  --yellow: #cfc07d;
-  --yellow-glow: rgba(207, 192, 125, 0.13);
-  --red: #d4705a;
-  --red-glow: rgba(212, 112, 90, 0.14);
-  --cyan: #c98f5e;
-  --purple: #b8794f;
+  --green: #d97706;
+  --green-dim: #b45309;
+  --green-glow: rgba(217, 119, 6, 0.14);
+  --yellow: #f59e0b;
+  --yellow-glow: rgba(245, 158, 11, 0.14);
+  --red: #ef4444;
+  --red-glow: rgba(239, 68, 68, 0.14);
+  --cyan: #ea580c;
+  --purple: #d97706;
 
-  --text-primary: #ece2d2;
-  --text-secondary: #b8a992;
-  --text-dim: #8f8271;
-  --text-on-accent: #1c1409;
+  --text-primary: #fef3c7;
+  --text-secondary: #fde68a;
+  --text-dim: #d97706;
+  --text-on-accent: #451a03;
 
   --font-display: var(--font-mono);
   --font-body: var(--font-mono);
@@ -354,11 +344,8 @@ strong {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  /* Deliberately NOT tinted with the accent. A large accent-coloured radial
-     washes every surface in the same hue, which is what made the greys read as
-     olive rather than as warm graphite; a neutral lift keeps the accent
-     meaningful by keeping it rare. */
-  background: radial-gradient(115% 65% at 50% -15%, rgba(255, 252, 245, 0.055), transparent 70%);
+  /* Clean, subtle, neutral wash */
+  background: radial-gradient(100% 50% at 50% 0%, rgba(255, 255, 255, 0.02), transparent 70%);
 }
 
 /* ----------------------------------------------------------------------- HUD */
@@ -373,10 +360,9 @@ strong {
   align-items: center;
   gap: 1.5rem;
   height: var(--hud-h);
-  padding: 0 1.25rem;
-  background: color-mix(in srgb, var(--bg-deep) 88%, transparent);
+  padding: 0 1.5rem;
+  background: var(--bg-deep);
   border-bottom: 1px solid var(--border-color);
-  backdrop-filter: blur(12px) saturate(140%);
 }
 #hud.visible {
   display: flex;
@@ -391,9 +377,9 @@ strong {
   margin-right: auto;
   min-width: 0;
   font-family: var(--font-display);
-  font-size: 0.875rem;
+  font-size: 0.938rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -401,36 +387,39 @@ strong {
 
 .hud-item {
   display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.45rem;
+}
+.hud-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 .hud-value {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
-/* A 2px rule welded to the bottom edge of the bar. Reads as instrumentation
-   rather than as a widget, and costs no vertical space. */
 .progress-bar-container {
   position: absolute;
   left: 0;
   right: 0;
   bottom: -1px;
   height: 2px;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   overflow: hidden;
 }
 .progress-bar-fill {
   height: 100%;
   width: 0;
   background: var(--green);
-  transition: width 600ms var(--ease);
+  transition: width 400ms var(--ease);
 }
 
 #hud-buttons {
   display: flex;
-  gap: 0.375rem;
+  gap: 0.5rem;
 }
 
 /* --------------------------------------------------------------- button base */
@@ -444,7 +433,7 @@ strong {
   justify-content: center;
   gap: 0.5rem;
   font-family: var(--font-body);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
   text-decoration: none;
@@ -457,10 +446,8 @@ strong {
     color var(--dur) var(--ease);
 }
 
-/* Filled, not outlined. An outlined neon button as the primary action was the
-   single loudest tell in the old sheet. */
 .btn-primary {
-  padding: 0.7rem 1.5rem;
+  padding: 0.65rem 1.4rem;
   font-size: 0.938rem;
   font-weight: 600;
   background: var(--green);
@@ -468,8 +455,8 @@ strong {
   color: var(--text-on-accent);
 }
 .btn-primary:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--green) 88%, white);
-  border-color: color-mix(in srgb, var(--green) 88%, white);
+  background: var(--green-dim);
+  border-color: var(--green-dim);
 }
 .btn-primary:active:not(:disabled) {
   background: var(--green-dim);
@@ -482,14 +469,12 @@ strong {
   cursor: not-allowed;
 }
 
-/* Neutral ghost. Previously this was red, which made "Back", "Clear" and
-   "Authoring Studio" all look destructive. */
 .btn-secondary {
-  padding: 0.7rem 1.25rem;
+  padding: 0.65rem 1.25rem;
   font-size: 0.875rem;
-  background: transparent;
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
 }
 .btn-secondary:hover:not(:disabled) {
   background: var(--bg-card);
@@ -502,27 +487,27 @@ strong {
 }
 
 .hud-btn {
-  padding: 0.375rem 0.75rem;
+  padding: 0.35rem 0.75rem;
   font-size: 0.813rem;
   background: transparent;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-sm);
   color: var(--text-secondary);
 }
 .hud-btn:hover:not(:disabled) {
   background: var(--bg-card);
-  border-color: var(--border-color);
+  border-color: var(--border-strong);
   color: var(--text-primary);
 }
 .hud-btn:disabled {
   color: var(--text-dim);
-  opacity: 0.55;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
-/* Reserved for actually destructive actions. Declared after the variants it
-   modifies so it wins on source order rather than needing extra specificity. */
 .btn-danger {
   color: var(--red);
+  background: transparent;
   border-color: color-mix(in srgb, var(--red) 40%, var(--border-color));
 }
 .btn-danger:hover:not(:disabled) {
@@ -545,8 +530,6 @@ strong {
   display: block;
 }
 
-/* Title and victory are the two full-bleed moments; everything else is the
-   reading column above. */
 #title-screen,
 #victory-screen {
   display: none;
@@ -568,12 +551,10 @@ strong {
 
 .title-logo {
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 6vw, 3.5rem);
-  font-weight: 600;
-  /* Tight, not tracked out. Uppercase authored titles need a touch of air; the
-     old 0.12em turned every logo into a row of disconnected letters. */
-  letter-spacing: -0.005em;
-  line-height: 1.02;
+  font-size: clamp(2.25rem, 6vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
   color: var(--text-primary);
   text-wrap: balance;
 }
@@ -582,12 +563,11 @@ strong {
 }
 
 .title-sub {
-  /* Inherits the .eyebrow treatment. */
   margin-top: -0.5rem;
 }
 
 .title-divider {
-  width: 3rem;
+  width: 2.5rem;
   height: 2px;
   background: var(--green);
   margin: 0.5rem 0;
@@ -596,32 +576,32 @@ strong {
 .title-instructions {
   background: var(--bg-panel);
   border: 1px solid var(--border-color);
-  border-radius: var(--r-lg);
-  padding: 1.5rem 1.75rem;
+  border-radius: var(--r-md);
+  padding: 1.35rem 1.5rem;
   font-size: 0.938rem;
   line-height: 1.7;
   color: var(--text-secondary);
 }
 .title-instructions > strong:first-child {
   display: block;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.688rem;
-  font-weight: 500;
-  letter-spacing: 0.13em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-dim);
 }
 
-/* Quiz picker, shared by the home route and the in-game title screen. */
+/* Quiz picker */
 .quiz-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 0.625rem;
+  gap: 0.75rem;
 }
 .quiz-card {
   display: block;
-  padding: 1rem 1.125rem;
+  padding: 1.125rem 1.25rem;
   background: var(--bg-panel);
   border: 1px solid var(--border-color);
   border-radius: var(--r-md);
@@ -642,13 +622,18 @@ strong {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0;
   color: var(--text-primary);
 }
 .quiz-card-sub {
-  margin-top: 0.125rem;
+  margin-top: 0.25rem;
   font-size: 0.813rem;
   color: var(--text-dim);
+}
+.quiz-card-arrow {
+  color: var(--text-dim);
+}
+.quiz-card:hover .quiz-card-arrow {
+  color: var(--text-primary);
 }
 
 .best-score {
@@ -659,7 +644,7 @@ strong {
 }
 .best-score strong {
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .title-actions {
@@ -670,55 +655,53 @@ strong {
   margin-top: 0.5rem;
 }
 
-/* Sibling rooms, demoted below the primary action rather than competing with it
-   for attention above the briefing. */
 .title-switcher {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 0.75rem;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border-color);
 }
 
-/* Build version, bottom-right. */
+/* Build version */
 .version-display {
   position: fixed;
-  bottom: 0.375rem;
-  right: 0.625rem;
+  bottom: 0.5rem;
+  right: 0.75rem;
   z-index: 1002;
   font-family: var(--font-mono);
-  font-size: 0.688rem;
+  font-size: 0.75rem;
   color: var(--text-dim);
-  opacity: 0.5;
+  opacity: 0.6;
   pointer-events: none;
 }
 
 /* --------------------------------------------------------------- room header */
 
 .room-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
   padding-bottom: 1.25rem;
   border-bottom: 1px solid var(--border-color);
 }
 .room-title {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 4vw, 2.375rem);
-  font-weight: 600;
+  font-size: clamp(1.85rem, 4vw, 2.5rem);
+  font-weight: 700;
   letter-spacing: -0.01em;
-  line-height: 1.08;
+  line-height: 1.1;
   color: var(--text-primary);
-  margin-top: 0.5rem;
+  margin-top: 0.35rem;
   text-wrap: balance;
 }
 .room-subtitle {
-  margin-top: 0.5rem;
+  margin-top: 0.35rem;
   font-size: 0.938rem;
   color: var(--text-secondary);
 }
 
 .room-intro {
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 .room-intro-with-artwork {
   display: grid;
@@ -751,11 +734,11 @@ strong {
 .narrative-box {
   background: var(--bg-panel);
   border: 1px solid var(--border-color);
-  border-left: 2px solid var(--green-dim);
-  border-radius: 0 var(--r-md) var(--r-md) 0;
+  border-left: 3px solid var(--green-dim);
+  border-radius: var(--r-md);
   padding: 1.25rem 1.5rem;
   font-size: 0.938rem;
-  line-height: 1.75;
+  line-height: 1.7;
   color: var(--text-secondary);
 }
 
@@ -777,7 +760,7 @@ strong {
 }
 .puzzle-panel.correct {
   border-color: var(--green);
-  background: color-mix(in srgb, var(--green) 4%, var(--bg-panel));
+  background: color-mix(in srgb, var(--green) 5%, var(--bg-panel));
 }
 .puzzle-panel.incorrect {
   border-color: var(--red);
@@ -788,8 +771,6 @@ strong {
   pointer-events: none;
 }
 
-/* A short lateral nudge on a wrong answer. The old rule shook ±4px five times
-   over 300ms, which is closer to an error dialog than to feedback. */
 @keyframes nudge {
   0%,
   100% {
@@ -813,6 +794,9 @@ strong {
 }
 .puzzle-index {
   flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dim);
 }
 .puzzle-title {
   font-family: var(--font-display);
@@ -821,7 +805,6 @@ strong {
   color: var(--text-primary);
   line-height: 1.3;
 }
-/* Separates the "Puzzle 2 / 7" ordinal from the puzzle's own name. */
 .puzzle-label-sep {
   width: 1px;
   align-self: stretch;
@@ -940,13 +923,7 @@ strong {
   outline: 2px solid var(--green);
   outline-offset: 2px;
 }
-.mcq-option:has(.sr-only-input:disabled),
-.multi-option:has(.sr-only-input:disabled) {
-  cursor: default;
-}
 
-/* The positional letter (A, B, C…). A squared chip rather than a radio circle:
-   the letter is the point, and it is what hints refer to. */
 .mcq-option .marker {
   flex-shrink: 0;
   width: 1.5rem;
@@ -981,7 +958,6 @@ strong {
     background var(--dur) var(--ease),
     border-color var(--dur) var(--ease);
 }
-/* CSS-drawn tick, so the markup stays an empty span. */
 .multi-option .checkbox::after {
   content: "";
   position: absolute;
@@ -1016,9 +992,6 @@ strong {
   cursor: grabbing;
   border-color: var(--border-strong);
 }
-/* Position first, before the grip: it is the answer the player is building.
-   Set as a row number rather than in the accent — four accent-coloured digits in
-   a list is decoration, and the position is already legible from the order. */
 .order-item .order-number {
   order: -1;
   flex-shrink: 0;
@@ -1062,8 +1035,6 @@ strong {
   border-color: var(--border-strong);
   color: var(--text-primary);
 }
-/* The engine uses aria-disabled, not the disabled attribute, so that these
-   buttons stay keyboard-focusable (WCAG). Match on that instead. */
 .order-step-btn[aria-disabled="true"] {
   opacity: 0.3;
   cursor: not-allowed;
@@ -1072,7 +1043,6 @@ strong {
   color: var(--text-dim);
 }
 
-/* Matching puzzles: an authored label paired with a native <select>. */
 .match-select-wrapper {
   display: flex;
   flex-direction: column;
@@ -1103,10 +1073,6 @@ strong {
   font-size: 0.875rem;
   cursor: pointer;
 }
-.match-select-input:disabled {
-  color: var(--text-dim);
-  cursor: default;
-}
 
 /* --------------------------------------------------------------------- hints */
 
@@ -1125,41 +1091,33 @@ strong {
 .request-hint-btn:disabled {
   border-color: var(--border-color);
   color: var(--text-dim);
+  background: transparent;
   cursor: not-allowed;
 }
 
 .hint-panel {
-  background: var(--bg-panel);
-  border: 1px solid var(--border-color);
-  border-left: 2px solid var(--yellow);
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-left: 3px solid var(--yellow);
   border-radius: 0 var(--r-md) var(--r-md) 0;
   padding: 1rem 1.25rem;
+  margin-top: 1rem;
   margin-bottom: 1.25rem;
-  /* Body copy stays readable; only the label carries the warning colour. The
-     old rule set the entire hint in amber. */
-  color: var(--text-secondary);
+  color: #f8fafc;
   font-size: 0.938rem;
-  animation: rise 220ms var(--ease);
+  line-height: 1.6;
+}
+.hint-panel .rich-text p {
+  color: #f8fafc;
 }
 .hint-label {
   font-family: var(--font-mono);
   font-size: 0.688rem;
-  font-weight: 500;
-  letter-spacing: 0.13em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--yellow);
   margin-bottom: 0.375rem;
-}
-
-@keyframes rise {
-  from {
-    transform: translateY(-6px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 /* ------------------------------------------------------------------ code pad */
@@ -1182,8 +1140,6 @@ strong {
   max-width: 32rem;
 }
 
-/* One shared width for the display and the keypad, so the two grids line up
-   instead of the wider one overflowing off-centre. */
 .code-pad {
   display: flex;
   flex-direction: column;
@@ -1194,7 +1150,6 @@ strong {
   margin: 0 auto;
 }
 
-/* One bordered cell per character, instead of one wide box of underscores. */
 .code-display {
   display: flex;
   justify-content: center;
@@ -1222,16 +1177,13 @@ strong {
 }
 .code-display .char.entered {
   color: var(--green);
-  border-color: color-mix(in srgb, var(--green) 45%, var(--border-color));
+  border-color: var(--green);
   background: var(--green-glow);
 }
 .code-display .char.current {
   border-color: var(--border-strong);
   box-shadow: inset 0 -2px 0 0 var(--yellow);
 }
-/* Two cases render a bare string instead of cells: a room revisited after its
-   code was accepted (`.solved`), and the rejection notice (`.plain`, which keeps
-   the inline tint the pad passes in). */
 .code-display.solved,
 .code-display.plain {
   letter-spacing: 0.18em;
@@ -1289,7 +1241,7 @@ strong {
 .final-code-panel {
   background: var(--bg-panel);
   border: 1px solid var(--border-color);
-  border-top: 2px solid var(--yellow);
+  border-top: 3px solid var(--yellow);
   border-radius: var(--r-lg);
   padding: 2rem;
   margin-top: 1rem;
@@ -1306,7 +1258,6 @@ strong {
   color: var(--text-secondary);
   font-size: 0.938rem;
 }
-/* The panel is already a card; the pad inside it should not draw a second one. */
 .final-code-panel .code-entry {
   background: transparent;
   border: 0;
@@ -1350,11 +1301,10 @@ strong {
   z-index: 1001;
   min-width: 13rem;
   padding: 0.75rem;
-  background: color-mix(in srgb, var(--bg-panel) 92%, transparent);
-  border: 1px solid var(--border-color);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
   border-radius: var(--r-md);
   box-shadow: var(--shadow-2);
-  backdrop-filter: blur(12px);
 }
 .minimap-title {
   margin-bottom: 0.5rem;
@@ -1367,8 +1317,6 @@ strong {
   width: 100%;
   padding: 0.375rem;
   background: transparent;
-  /* Real <button>s, so they are keyboard reachable. The transparent border keeps
-     the box from shifting when .active-room swaps in a coloured one. */
   border: 1px solid transparent;
   border-radius: var(--r-sm);
   font-family: inherit;
@@ -1430,11 +1378,10 @@ strong {
   color: var(--text-secondary);
 }
 
-/* The rank glyph is the one place a single large accent letter is the design. */
 .victory-rank {
   font-family: var(--font-display);
   font-size: clamp(4rem, 12vw, 6rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   margin: 0.5rem 0;
   color: var(--text-primary);
@@ -1450,8 +1397,6 @@ strong {
 .victory-rank.d {
   color: var(--red);
 }
-/* `resolveRank` falls back to "E" below the lowest configured threshold. Without
-   a rule it inherited text-primary and read as a better result than D. */
 .victory-rank.e {
   color: var(--text-dim);
 }
@@ -1482,6 +1427,71 @@ strong {
   max-width: 32rem;
   color: var(--text-secondary);
   font-size: 0.938rem;
+}
+
+/* ------------------------------------------------------------------- victory */
+
+#victory-screen {
+  text-align: center;
+  align-items: center;
+}
+.victory-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+.victory-subtitle {
+  font-size: 1.063rem;
+  color: var(--text-secondary);
+}
+
+.victory-rank {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 6rem);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0.5rem 0;
+  color: var(--text-primary);
+}
+.victory-rank.s,
+.victory-rank.a {
+  color: var(--green);
+}
+.victory-rank.b {
+  color: var(--yellow);
+}
+.victory-rank.c,
+.victory-rank.d {
+  color: var(--red);
+}
+.victory-rank.e {
+  color: var(--text-dim);
+}
+
+.victory-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  width: 100%;
+  margin: 1rem 0;
+  background: var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.victory-stat {
+  background: var(--bg-panel);
+  padding: 1.125rem 0.75rem;
+}
+.victory-stat-value {
+  margin-top: 0.375rem;
+  font-size: clamp(1.25rem, 4vw, 1.625rem);
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .victory-actions {
@@ -1571,5 +1581,353 @@ strong {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------- icon utilities */
+
+.flex-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.hud-icon {
+  display: inline-block;
+  vertical-align: text-bottom;
+  opacity: 0.85;
+}
+.icon-hero {
+  animation: pulse-hero 2.5s ease-in-out infinite alternate;
+}
+
+/* ========================================================================== *
+ * 2026 visual direction: food-safety inspection dossier
+ * A warm working surface, ink-blue structure, and safety-orange actions replace
+ * the generic dark-dashboard treatment. The geometry deliberately resembles
+ * printed training forms: ruled divisions, numbered assignments, and stamps.
+ * ========================================================================== */
+
+:root,
+[data-theme="laboratory"] {
+  --bg-deep: #f2efe7;
+  --bg-sunken: #e6e1d5;
+  --bg-panel: #fbfaf5;
+  --bg-card: #ece8de;
+  --bg-card-hover: #e2ddd1;
+  --border-color: #c9c2b4;
+  --border-strong: #172c3d;
+  --green: #087f5b;
+  --green-dim: #066c4d;
+  --green-glow: rgba(8, 127, 91, 0.1);
+  --yellow: #c84e27;
+  --yellow-glow: rgba(200, 78, 39, 0.1);
+  --red: #b42318;
+  --red-glow: rgba(180, 35, 24, 0.09);
+  --cyan: #176b87;
+  --purple: #72536b;
+  --text-primary: #172c3d;
+  --text-secondary: #465660;
+  --text-dim: #6f7778;
+  --text-on-accent: #fffaf0;
+  --r-sm: 2px;
+  --r-md: 3px;
+  --r-lg: 4px;
+  --shadow-1: 0 1px 0 rgba(23, 44, 61, 0.12);
+  --shadow-2: 4px 4px 0 rgba(23, 44, 61, 0.12);
+  --measure: 47rem;
+}
+
+body {
+  background-color: var(--bg-deep);
+  background-image: linear-gradient(rgba(23, 44, 61, 0.025) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+.ambient-glow {
+  display: none;
+}
+
+#hud {
+  background: #172c3d;
+  color: #f8f4e9;
+  border-bottom: 3px solid var(--yellow);
+}
+.hud-identity,
+.hud-value {
+  color: #f8f4e9;
+}
+.hud-label {
+  color: #adb8bc;
+}
+.hud-btn {
+  color: #e5e7e2;
+  border-color: #667681;
+}
+.hud-btn:hover:not(:disabled) {
+  background: #253f52;
+  color: #fff;
+}
+.progress-bar-container {
+  bottom: -3px;
+  background: transparent;
+}
+.progress-bar-fill {
+  height: 3px;
+  background: #f3a712;
+}
+
+.btn-primary {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: #fffaf0;
+  box-shadow: 3px 3px 0 #172c3d;
+}
+.btn-primary:hover:not(:disabled) {
+  background: #a93d1d;
+  border-color: #a93d1d;
+}
+.btn-secondary {
+  background: transparent;
+}
+
+#title-screen {
+  max-width: 52rem;
+  align-items: flex-start;
+}
+.home-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.home-kicker span {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  background: #172c3d;
+  color: #fffaf0;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.title-logo {
+  max-width: 11ch;
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+}
+.title-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-strong);
+  position: relative;
+}
+.title-divider::before {
+  content: "AVAILABLE ASSIGNMENTS";
+  position: absolute;
+  top: 0.7rem;
+  font: 600 0.65rem/1 var(--font-mono);
+  letter-spacing: 0.13em;
+  color: var(--text-dim);
+}
+.quiz-list {
+  width: 100%;
+  margin-top: 1.65rem;
+  gap: 0;
+  border-top: 1px solid var(--border-strong);
+}
+.quiz-card {
+  position: relative;
+  min-height: 9rem;
+  padding: 1.25rem 1.25rem 1.25rem 4.25rem;
+  border: 0;
+  border-right: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  background: transparent;
+  border-radius: 0;
+}
+.quiz-card:nth-child(odd) {
+  border-left: 1px solid var(--border-strong);
+}
+.quiz-card:hover {
+  background: #fffdf7;
+  border-color: var(--border-strong);
+}
+.quiz-card-number {
+  position: absolute;
+  left: 1.1rem;
+  top: 1.15rem;
+  font: 700 1.55rem/1 var(--font-mono);
+  color: var(--yellow);
+}
+.quiz-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.quiz-card-title {
+  font-size: 1.08rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.quiz-card-arrow {
+  font-size: 1.25rem;
+  color: var(--yellow);
+}
+
+.title-instructions,
+.narrative-box,
+.puzzle-panel,
+.code-entry,
+.final-code-panel {
+  box-shadow: var(--shadow-2);
+}
+.title-instructions {
+  width: 100%;
+  border-top: 4px solid var(--border-strong);
+  background: #fffdf7;
+}
+.room-header {
+  border-bottom: 2px solid var(--border-strong);
+}
+.room-number {
+  color: var(--yellow);
+}
+.room-title {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  letter-spacing: -0.04em;
+}
+.narrative-box {
+  background: #fffdf7;
+  border-left: 4px solid var(--yellow);
+}
+.puzzle-panel {
+  background: #fffdf7;
+  border-color: var(--border-strong);
+}
+.puzzle-label {
+  border-bottom-color: var(--border-strong);
+}
+.puzzle-index {
+  color: var(--yellow);
+}
+.mcq-option,
+.multi-option,
+.order-item,
+.match-row {
+  background: #f3f0e8;
+}
+
+.hint-panel {
+  color: var(--text-primary);
+  background: #fff4d6;
+  border-color: #d6a943;
+  border-left-color: #d6a943;
+}
+.hint-panel .rich-text p {
+  color: var(--text-primary);
+}
+.code-entry {
+  background: #fffdf7;
+  border-color: var(--border-strong);
+}
+.code-display .char {
+  background: #172c3d;
+  color: #8898a1;
+  border-color: #172c3d;
+}
+.code-display .char.entered {
+  color: #fff;
+  background: var(--green);
+}
+.code-btn {
+  background: #e4dfd4;
+  border-color: #a9a296;
+  color: var(--text-primary);
+}
+.final-code-panel {
+  background: #fffdf7;
+  border-color: var(--border-strong);
+  border-top-color: var(--yellow);
+}
+.code-slot {
+  background: #172c3d;
+  border-color: #172c3d;
+}
+.code-slot-label {
+  color: #aeb9bd;
+}
+
+.minimap-container {
+  background: #fffdf7;
+  border-color: var(--border-strong);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 rgba(23, 44, 61, 0.16);
+}
+.minimap-room.active-room {
+  border-color: var(--yellow);
+  background: var(--yellow-glow);
+}
+.minimap-room.active-room .minimap-dot {
+  background: var(--yellow);
+}
+
+#victory-screen {
+  max-width: 48rem;
+}
+.victory-stamp {
+  padding: 0.35rem 0.7rem;
+  border: 2px solid var(--green);
+  color: var(--green);
+  font: 700 0.68rem/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+.victory-title {
+  font-size: clamp(2.5rem, 7vw, 4.75rem);
+  letter-spacing: -0.045em;
+}
+.victory-rank {
+  display: grid;
+  place-items: center;
+  width: 7rem;
+  height: 7rem;
+  border: 3px double currentColor;
+  border-radius: 50%;
+  font-family: var(--font-mono);
+}
+.victory-stats {
+  border-color: var(--border-strong);
+  background: var(--border-strong);
+  border-radius: 0;
+}
+.victory-stat {
+  background: #fffdf7;
+}
+
+@media (max-width: 768px) {
+  .title-logo {
+    font-size: clamp(3rem, 17vw, 4.7rem);
+  }
+  .quiz-list {
+    grid-template-columns: 1fr;
+  }
+  .quiz-card {
+    border-left: 1px solid var(--border-strong);
+  }
+}
+
+@keyframes pulse-hero {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
   }
 }

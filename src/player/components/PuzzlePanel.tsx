@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { CircleCheckIcon, LockIcon, LockOpenIcon, SparklesIcon } from "lucide-animated";
 import { useGame } from "../GameContext.ts";
 import { playSound } from "../lib/sound.ts";
 import { getPuzzleType } from "../puzzles/index.ts";
@@ -9,9 +10,10 @@ interface PuzzlePanelProps {
   /** Position within the room, for the "PUZZLE 2 OF 5" label. */
   index: number;
   total: number;
+  onSolved?: () => void;
 }
 
-export const PuzzlePanel: React.FC<PuzzlePanelProps> = ({ id, index, total }) => {
+export const PuzzlePanel: React.FC<PuzzlePanelProps> = ({ id, index, total, onSolved }) => {
   const { state, dispatch, ctx } = useGame();
   const puzzle = ctx.quiz.puzzleData[String(id)];
   const result = state.results[String(id)];
@@ -23,7 +25,10 @@ export const PuzzlePanel: React.FC<PuzzlePanelProps> = ({ id, index, total }) =>
   useEffect(() => {
     if (!result) return;
     if (state.soundEnabled) playSound(result.correct ? "correct" : "incorrect");
-    if (result.correct) return;
+    if (result.correct) {
+      if (onSolved) onSolved();
+      return;
+    }
     setShake(true);
     const timer = setTimeout(() => setShake(false), 500);
     return () => clearTimeout(timer);
@@ -44,25 +49,21 @@ export const PuzzlePanel: React.FC<PuzzlePanelProps> = ({ id, index, total }) =>
 
   return (
     <div className={panelClass} id={`p${id}`}>
-      <div className="puzzle-label">
+      <div className="puzzle-label flex-btn">
         <span className="puzzle-index">
           {index + 1} / {total}
         </span>
         <span className="puzzle-label-sep" aria-hidden="true" />
         <span className="puzzle-title">{puzzle.title}</span>
-        {/* Padlock, closed while unsolved. It swings open on `.correct` purely
-            through the stroke colour, so no second icon is needed. */}
-        <svg
-          className="puzzle-lock"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          aria-hidden="true"
-        >
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-        </svg>
+        {solved ? (
+          <LockOpenIcon
+            size={18}
+            className="puzzle-lock"
+            style={{ color: "var(--green, #10b981)" }}
+          />
+        ) : (
+          <LockIcon size={18} className="puzzle-lock" />
+        )}
       </div>
       <RichText className="puzzle-question" text={puzzle.question} />
 
@@ -81,11 +82,21 @@ export const PuzzlePanel: React.FC<PuzzlePanelProps> = ({ id, index, total }) =>
         <div className="puzzle-actions">
           <button
             type="button"
-            className="btn-primary"
+            className="btn-primary flex-btn"
             disabled={solved}
             onClick={() => dispatch({ type: "SUBMIT", puzzleId: id })}
           >
-            Submit answer
+            {solved ? (
+              <>
+                <CircleCheckIcon size={16} />
+                <span>Solved</span>
+              </>
+            ) : (
+              <>
+                <SparklesIcon size={16} />
+                <span>Submit answer</span>
+              </>
+            )}
           </button>
         </div>
 
@@ -96,7 +107,10 @@ export const PuzzlePanel: React.FC<PuzzlePanelProps> = ({ id, index, total }) =>
           >
             {result.correct ? (
               <>
-                <div className="puzzle-result-headline">Correct — +{result.points} points</div>
+                <div className="puzzle-result-headline flex-btn">
+                  <CircleCheckIcon size={18} style={{ color: "var(--green, #10b981)" }} />
+                  <span>Correct — +{result.points} points</span>
+                </div>
                 {/* The explanation is the teaching moment, so it is set as body
                     copy rather than tinted to match the banner. */}
                 {result.explanation && <RichText text={result.explanation} />}

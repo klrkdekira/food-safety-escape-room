@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import { LockOpenIcon } from "lucide-animated";
+import { Lightbulb } from "lucide-react";
 import { useGame } from "../GameContext.ts";
 import { fadeIn } from "../lib/animate.ts";
+import { fireCodeSolvedConfetti, firePuzzleSolvedConfetti } from "../lib/confetti.ts";
 import { HINT_COST } from "../lib/quiz.ts";
 import { CodePad } from "./CodePad.tsx";
 import { PuzzlePanel } from "./PuzzlePanel.tsx";
@@ -42,6 +45,7 @@ export const Room: React.FC = () => {
 
   const submitCode = () => {
     if (code === ctx.quiz.roomCodes[String(roomNum)]) {
+      fireCodeSolvedConfetti();
       dispatch({ type: "UNLOCK_ROOM", roomNum });
     } else {
       setWrong(true);
@@ -85,14 +89,16 @@ export const Room: React.FC = () => {
               id={activeId}
               index={puzzleIds.indexOf(activeId)}
               total={puzzleIds.length}
+              onSolved={firePuzzleSolvedConfetti}
             />
             <button
               type="button"
-              className="request-hint-btn"
+              className="request-hint-btn flex-btn"
               disabled={hintExhausted || Boolean(hint)}
               onClick={() => dispatch({ type: "REQUEST_HINT", puzzleId: activeId })}
             >
-              Reveal a hint (-{HINT_COST} pts)
+              <Lightbulb size={16} />
+              <span>Reveal a hint (-{HINT_COST} pts)</span>
             </button>
           </>
         )}
@@ -100,8 +106,11 @@ export const Room: React.FC = () => {
         {hint && (
           <div aria-live="polite">
             <div className="hint-panel">
-              <div className="hint-label">
-                Hint {hint.ordinal} of {state.maxHints}
+              <div className="hint-label flex-btn">
+                <Lightbulb size={16} style={{ color: "var(--accent, #3b82f6)" }} />
+                <span>
+                  Hint {hint.ordinal} of {state.maxHints}
+                </span>
               </div>
               <RichText text={hint.text} />
             </div>
@@ -115,8 +124,13 @@ export const Room: React.FC = () => {
             {unlocked ? (
               // Revisited via the minimap after the code was accepted: show it
               // rather than making the player type it again.
-              <div className="code-display solved" id={`code-display-${roomNum}`}>
-                {ctx.quiz.roomCodes[String(roomNum)]}
+              <div
+                className="code-display solved flex-btn"
+                id={`code-display-${roomNum}`}
+                style={{ justifyContent: "center" }}
+              >
+                <LockOpenIcon size={22} style={{ color: "var(--green, #10b981)" }} />
+                <span>{ctx.quiz.roomCodes[String(roomNum)]}</span>
               </div>
             ) : (
               <CodePad

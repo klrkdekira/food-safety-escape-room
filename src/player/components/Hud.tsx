@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { CircleCheckIcon, ClockIcon, FlameIcon, KeyIcon, ShieldCheckIcon } from "lucide-animated";
+import { Lightbulb } from "lucide-react";
 import { useGame } from "../GameContext.ts";
 import { formatTime } from "../lib/quiz.ts";
 import { saveState } from "../lib/storage.ts";
@@ -24,32 +26,38 @@ export const Hud: React.FC = () => {
 
   return (
     <div id="hud" className="visible">
-      {/* Identity on the left, metrics on the right. A lone "Score 0" pinned to
-          the far edge left the bar looking unbalanced and told the player nothing
-          about where they were. */}
+      {/* Identity on the left, metrics on the right */}
       <div className="hud-group hud-identity">{ctx.quiz.config.titleLogo}</div>
 
       <div className="hud-group">
         <div className="hud-item">
-          <span className="hud-label">Score</span>
+          <span className="hud-label">
+            <ShieldCheckIcon size={14} className="hud-icon" /> Score
+          </span>
           <span className="hud-value" id="hud-score">
             {state.score}
           </span>
         </div>
         <div className="hud-item">
-          <span className="hud-label">Room</span>
+          <span className="hud-label">
+            <KeyIcon size={14} className="hud-icon" /> Room
+          </span>
           <span className="hud-value" id="hud-room">
             {state.currentRoom}
           </span>
         </div>
         <div className="hud-item">
-          <span className="hud-label">Time</span>
+          <span className="hud-label">
+            <ClockIcon size={14} className="hud-icon" /> Time
+          </span>
           <span className="hud-value" id="hud-time">
             {formatTime(state.timeElapsed)}
           </span>
         </div>
         <div className="hud-item">
-          <span className="hud-label">Solved</span>
+          <span className="hud-label">
+            <CircleCheckIcon size={14} className="hud-icon" /> Solved
+          </span>
           <span className="hud-value" id="hud-puzzles">
             {state.puzzlesCompleted}/{ctx.totalPuzzles}
           </span>
@@ -60,15 +68,16 @@ export const Hud: React.FC = () => {
         {debug && (
           <button
             type="button"
-            className="hud-btn btn-danger"
+            className="hud-btn btn-danger flex-btn"
             onClick={() => dispatch({ type: "DEBUG_NEXT" })}
           >
-            Dev next
+            <FlameIcon size={14} />
+            <span>Dev next</span>
           </button>
         )}
         <button
           type="button"
-          className="hud-btn"
+          className="hud-btn flex-btn"
           disabled={activePuzzleId == null || state.hintsUsed >= state.maxHints}
           onClick={() => {
             if (activePuzzleId != null) {
@@ -76,7 +85,8 @@ export const Hud: React.FC = () => {
             }
           }}
         >
-          Hint
+          <Lightbulb size={14} />
+          <span>Hint</span>
         </button>
         <button
           type="button"
@@ -88,8 +98,9 @@ export const Hud: React.FC = () => {
         {/* Saving into the studio preview would overwrite the real player's
             progress for this quiz id, so the control is hidden there. */}
         {!preview && (
-          <button type="button" className="hud-btn" onClick={onSave}>
-            {saved ? "Saved" : "Save"}
+          <button type="button" className="hud-btn flex-btn" onClick={onSave}>
+            <CircleCheckIcon size={14} />
+            <span>{saved ? "Saved" : "Save"}</span>
           </button>
         )}
       </div>

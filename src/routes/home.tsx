@@ -27,7 +27,10 @@ function Home() {
 
   return (
     <div id="title-screen" className="screen active">
-      <div className="title-sub">Escape room platform</div>
+      <div className="home-kicker">
+        <span>FS</span> Interactive training series
+      </div>
+      <div className="title-sub">Food science · Escape room platform</div>
       <div className="title-logo">Pick a room</div>
       <div className="title-divider"></div>
 
@@ -38,14 +41,20 @@ function Home() {
         </div>
       ) : (
         <div className="quiz-list">
-          {quizzes.map((quiz) => (
+          {quizzes.map((quiz, index) => (
             <Link
               to="/play/$quizId"
               params={{ quizId: quiz.id }}
               key={quiz.id}
               className="quiz-card"
             >
-              <div className="quiz-card-title">{quiz.titleLogo || quiz.pageTitle}</div>
+              <div className="quiz-card-number">{String(index + 1).padStart(2, "0")}</div>
+              <div className="quiz-card-header">
+                <div className="quiz-card-title">{quiz.titleLogo || quiz.pageTitle}</div>
+                <span className="quiz-card-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </div>
               <div className="quiz-card-sub">{quiz.titleSub}</div>
             </Link>
           ))}
@@ -54,7 +63,7 @@ function Home() {
 
       <div className="title-actions">
         <Link to="/editor" className="btn-secondary">
-          Authoring studio
+          Open authoring studio
         </Link>
       </div>
     </div>

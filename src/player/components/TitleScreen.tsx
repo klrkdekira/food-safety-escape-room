@@ -49,7 +49,7 @@ export const TitleScreen: React.FC<{ quizzes: QuizManifestItem[] }> = ({ quizzes
 
       <div className="title-actions">
         <button type="button" className="btn-primary" onClick={onStart}>
-          {hasSave ? "Resume" : "Begin"}
+          {hasSave ? "Resume assignment" : "Begin assignment"}
         </button>
         {hasSave && (
           <button
@@ -77,7 +77,12 @@ export const TitleScreen: React.FC<{ quizzes: QuizManifestItem[] }> = ({ quizzes
                 className="quiz-card"
                 aria-current={item.id === quizId}
               >
-                <div className="quiz-card-title">{item.titleLogo || item.pageTitle}</div>
+                <div className="quiz-card-header">
+                  <div className="quiz-card-title">{item.titleLogo || item.pageTitle}</div>
+                  <span className="quiz-card-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </div>
                 <div className="quiz-card-sub">{item.titleSub}</div>
               </Link>
             ))}

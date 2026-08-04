@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { CircleCheckIcon, KeyIcon, LockIcon } from "lucide-animated";
 import { useGame } from "../GameContext.ts";
 import { fadeIn } from "../lib/animate.ts";
+import { fireCodeSolvedConfetti, fireVictoryConfetti } from "../lib/confetti.ts";
 import { CodePad } from "./CodePad.tsx";
 import { RichText } from "./RichText.tsx";
 
@@ -19,8 +21,10 @@ export const FinalCode: React.FC = () => {
   useEffect(() => {
     if (status === "idle") return;
     const timer = setTimeout(() => {
-      if (status === "accepted") dispatch({ type: "WIN" });
-      else {
+      if (status === "accepted") {
+        fireVictoryConfetti();
+        dispatch({ type: "WIN" });
+      } else {
         setStatus("idle");
         setInput("");
       }
@@ -31,6 +35,7 @@ export const FinalCode: React.FC = () => {
   const submit = () => {
     if (input === finalCode) {
       setStatus("accepted");
+      fireCodeSolvedConfetti();
       dispatch({ type: "ANNOUNCE", text: "Master code accepted." });
     } else {
       setStatus("wrong");
@@ -41,8 +46,9 @@ export const FinalCode: React.FC = () => {
   return (
     <div id="final-code-panel" className="screen active" ref={screenRef}>
       <div className="final-code-panel">
-        <h3 id="final-escape-title">
-          {ctx.quiz.config.finalEscapeTerminalTitle ?? "Final override"}
+        <h3 id="final-escape-title" className="flex-btn" style={{ justifyContent: "center" }}>
+          <LockIcon size={24} style={{ color: "var(--accent, #3b82f6)" }} />
+          <span>{ctx.quiz.config.finalEscapeTerminalTitle ?? "Final override"}</span>
         </h3>
         {/* A div, not a <p>: authored prose may itself contain <p>, and a nested
             paragraph is invalid and gets reparented by the browser. */}
@@ -58,8 +64,15 @@ export const FinalCode: React.FC = () => {
               const solved = Boolean(state.codes[roomKey]);
               return (
                 <div className="code-slot" key={roomKey}>
-                  <span className="code-slot-label">
-                    {ctx.config.roomLabel} {roomKey}
+                  <span className="code-slot-label flex-btn">
+                    {solved ? (
+                      <CircleCheckIcon size={14} style={{ color: "var(--green, #10b981)" }} />
+                    ) : (
+                      <KeyIcon size={14} />
+                    )}
+                    <span>
+                      {ctx.config.roomLabel} {roomKey}
+                    </span>
                   </span>
                   <span className={`code-slot-value ${solved ? "solved" : "locked"}`}>
                     {solved ? roomCode : "???"}
