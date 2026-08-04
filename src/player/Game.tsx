@@ -54,6 +54,12 @@ export const Game: React.FC<GameProps> = ({
   }, [quiz.config.pageTitle]);
 
   useEffect(() => {
+    if (!debug) return;
+    (window as any).__gameDispatch = dispatch;
+    (window as any).__gameCtx = ctx;
+  }, [debug, dispatch, ctx]);
+
+  useEffect(() => {
     if (state.phase !== "playing" && state.phase !== "final") return;
     const timer = setInterval(() => dispatch({ type: "TICK" }), 1000);
     return () => clearInterval(timer);
