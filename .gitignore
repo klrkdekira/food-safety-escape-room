@@ -3,3 +3,5 @@ dist/
 public/quizzes/index.json
 .DS_Store
 *.log
+test-results/
+playwright-report/

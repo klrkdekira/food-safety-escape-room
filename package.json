@@ -14,11 +14,13 @@
     "test:accessibility": "tsx tools/test-accessibility.tsx",
     "test:route-recovery": "tsx tools/test-route-recovery.ts",
     "test:preview-contract": "tsx tools/test-preview-contract.ts",
+    "test:e2e": "tsx tools/test-e2e.tsx",
+    "test:playwright": "playwright test",
     "lint": "oxlint",
-    "fmt": "oxfmt src tools",
-    "fmt:check": "oxfmt --check src tools",
+    "fmt": "oxfmt src tools e2e",
+    "fmt:check": "oxfmt --check src tools e2e",
     "html:check": "html-validate index.html",
-    "test": "pnpm run validate && pnpm run test:schema && pnpm run test:game && pnpm run test:accessibility && pnpm run test:route-recovery && pnpm run test:preview-contract && pnpm run typecheck && pnpm run lint && pnpm run fmt:check && pnpm run html:check",
+    "test": "pnpm run validate && pnpm run test:schema && pnpm run test:game && pnpm run test:accessibility && pnpm run test:route-recovery && pnpm run test:preview-contract && pnpm run test:e2e && pnpm run test:playwright && pnpm run typecheck && pnpm run lint && pnpm run fmt:check && pnpm run html:check",
     "fetch-fonts": "tsx tools/fetch-fonts.ts"
   },
   "keywords": [
@@ -40,16 +42,8 @@
     "zod-to-json-schema": "^3.25.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@types/node": "^26.1.2",
-<<<<<<< HEAD
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.4",
-    "html-validate": "^11.5.6",
-    "oxfmt": "0.61.0",
-    "oxlint": "1.76.0",
-    "tsx": "^4.23.1",
-=======
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
@@ -58,7 +52,6 @@
     "oxfmt": "0.62.0",
     "oxlint": "1.77.0",
     "tsx": "^4.23.5",
->>>>>>> 1447b09 (update dev dependencies and rebuild docs)
     "typescript": "^7.0.2",
     "vite": "^8.2.0"
   }
