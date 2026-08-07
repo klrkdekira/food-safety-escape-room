@@ -455,33 +455,18 @@
       ]
     },
     "17": {
-      "type": "mcq",
+      "type": "text",
       "room": 3,
       "bloomLevel": "remember",
-      "correct": "b",
       "points": 80,
-      "hint": "The process uses electric pulses and works best for liquids.",
-      "explanation": "Pulsed Electric Field (PEF) processing applies short bursts of high-voltage electricity that electroporate microbial cell membranes. It is best suited to liquid foods (juice, milk alternatives) and preserves heat-sensitive nutrients better than pasteurisation.",
       "title": "PEF TECHNOLOGY",
-      "question": "Which novel processing method uses <strong>electric pulses</strong> and is best suited to liquids?",
-      "options": [
-        {
-          "key": "a",
-          "text": "High Pressure Processing (HPP)"
-        },
-        {
-          "key": "b",
-          "text": "Pulsed Electric Field (PEF)"
-        },
-        {
-          "key": "c",
-          "text": "UV treatment"
-        },
-        {
-          "key": "d",
-          "text": "Bacteriophages"
-        }
-      ]
+      "question": "Which novel processing method uses <strong>electric pulses</strong> and is best suited to liquids? Type the name of the technology (the full name or its abbreviation).",
+      "keywords": [
+        "pulsed electric field",
+        "pef"
+      ],
+      "hint": "The process uses electric pulses and works best for liquids.",
+      "explanation": "Pulsed Electric Field (PEF) processing applies short bursts of high-voltage electricity that electroporate microbial cell membranes. It is best suited to liquid foods (juice, milk alternatives) and preserves heat-sensitive nutrients better than pasteurisation."
     },
     "19": {
       "type": "mcq",

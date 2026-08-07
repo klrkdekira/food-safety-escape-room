@@ -588,31 +588,16 @@
       "explanation": "Hydrophilic colloids (literally 'water-loving') are colloidal systems whose dispersed phase has a strong affinity for water. Biopolymers such as proteins and polysaccharides form hydrophilic colloids because their polar and charged groups interact favourably with water molecules, keeping them dispersed. These systems are generally more stable than hydrophobic colloids because the water–particle interaction reduces the tendency for aggregation."
     },
     "18": {
-      "type": "mcq",
+      "type": "text",
       "room": 4,
       "bloomLevel": "remember",
       "points": 80,
       "title": "THERMODYNAMIC INSTABILITY",
-      "question": "Which instability mechanism involves <strong>thermodynamically driven growth</strong> of large particles at the expense of small ones?",
-      "options": [
-        {
-          "key": "a",
-          "text": "Flocculation"
-        },
-        {
-          "key": "b",
-          "text": "Sedimentation"
-        },
-        {
-          "key": "c",
-          "text": "Ostwald ripening"
-        },
-        {
-          "key": "d",
-          "text": "Creaming"
-        }
+      "question": "Which instability mechanism involves <strong>thermodynamically driven growth</strong> of large particles at the expense of small ones? Type the name of the mechanism.",
+      "keywords": [
+        "ostwald ripening",
+        "ostwald"
       ],
-      "correct": "c",
       "hint": "This process is named after a Nobel laureate and is driven by the Kelvin effect — small particles have higher chemical potential than large ones.",
       "explanation": "Ostwald ripening is a thermodynamically driven process based on the Kelvin (Gibbs–Thomson) effect: smaller droplets/particles have a higher chemical potential than larger ones due to their greater curvature. Molecules diffuse through the continuous phase from small to large particles, causing small ones to shrink and disappear while large ones grow, progressively coarsening the dispersion."
     },

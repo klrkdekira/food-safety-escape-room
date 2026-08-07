@@ -70,6 +70,15 @@ expectValid("site-local background music without attribution", (quiz) => {
 expectInvalid("duplicate option key", (quiz) => {
   quiz.puzzleData["2"].options[1].key = quiz.puzzleData["2"].options[0].key;
 });
+expectInvalid("text puzzle with blank keyword", (quiz) => {
+  quiz.puzzleData["18"].keywords = ["ostwald ripening", "   "];
+});
+expectInvalid("text puzzle with duplicate keywords (case-insensitive)", (quiz) => {
+  quiz.puzzleData["18"].keywords = ["Ostwald Ripening", "ostwald ripening"];
+});
+expectValid("text puzzle with unique keywords", (quiz) => {
+  quiz.puzzleData["18"].keywords = ["ostwald ripening", "coarsening"];
+});
 expectInvalid("incomplete match answer", (quiz) => {
   const match = Object.values(quiz.puzzleData).find(
     (puzzle: any) => puzzle.type === "match",

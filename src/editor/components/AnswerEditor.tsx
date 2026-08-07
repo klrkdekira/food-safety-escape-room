@@ -302,5 +302,39 @@ export const AnswerEditor: React.FC<AnswerEditorProps> = ({ puzzle, onChange }) 
     );
   }
 
+  if (puzzle.type === "text") {
+    const keywords = puzzle.keywords;
+
+    const commit = (next: string[]) => onChange({ ...puzzle, keywords: next });
+
+    return (
+      <div style={{ marginBottom: "0.75rem" }}>
+        {sectionLabel(
+          "Accepted keywords (correct if the typed answer contains any one, case-insensitive)",
+        )}
+        {keywords.map((keyword, idx) => (
+          <div key={idx} className="editor-row">
+            <input
+              className="editor-input editor-row-input"
+              value={keyword}
+              onChange={(e) => commit(keywords.map((k, i) => (i === idx ? e.target.value : k)))}
+            />
+            {keywords.length > 1 && (
+              <button
+                className="editor-btn btn-danger editor-shrink"
+                onClick={() => commit(keywords.filter((_, i) => i !== idx))}
+              >
+                Remove
+              </button>
+            )}
+          </div>
+        ))}
+        <button className="editor-btn" onClick={() => commit([...keywords, "new keyword"])}>
+          + Add keyword
+        </button>
+      </div>
+    );
+  }
+
   return null;
 };

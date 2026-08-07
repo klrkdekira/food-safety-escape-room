@@ -66,6 +66,12 @@ export function convertPuzzleType(puzzle: AnyPuzzle, newType: string): AnyPuzzle
         correct: Object.fromEntries(leftItems.map((l) => [l.id, rightItems[0].id])),
       };
     }
+    case "text":
+      return {
+        ...base,
+        type: "text",
+        keywords: "keywords" in puzzle && puzzle.keywords ? puzzle.keywords : ["keyword"],
+      };
     default:
       return puzzle;
   }
@@ -150,6 +156,7 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
                 <option value="multiselect">Multiselect (Multiple Answers)</option>
                 <option value="order">Order (Sequence)</option>
                 <option value="match">Match (Pairing)</option>
+                <option value="text">Free Text (Keyword Match)</option>
               </select>
             </div>
 

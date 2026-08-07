@@ -4,7 +4,7 @@
     "schemaVersion": {
       "type": "integer",
       "exclusiveMinimum": 0,
-      "maximum": 1
+      "maximum": 3
     },
     "config": {
       "type": "object",
@@ -121,6 +121,17 @@
         },
         "version": {
           "type": "string"
+        },
+        "musicUrl": {
+          "type": "string"
+        },
+        "musicVolume": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "musicAttribution": {
+          "type": "string"
         }
       },
       "required": [
@@ -164,6 +175,16 @@
               "question": {
                 "type": "string"
               },
+              "bloomLevel": {
+                "type": "string",
+                "enum": [
+                  "remember",
+                  "understand",
+                  "apply",
+                  "analyse",
+                  "evaluate"
+                ]
+              },
               "type": {
                 "type": "string",
                 "const": "mcq"
@@ -197,6 +218,7 @@
               "points",
               "title",
               "question",
+              "bloomLevel",
               "type",
               "options",
               "correct"
@@ -224,6 +246,16 @@
               },
               "question": {
                 "type": "string"
+              },
+              "bloomLevel": {
+                "type": "string",
+                "enum": [
+                  "remember",
+                  "understand",
+                  "apply",
+                  "analyse",
+                  "evaluate"
+                ]
               },
               "type": {
                 "type": "string",
@@ -262,6 +294,7 @@
               "points",
               "title",
               "question",
+              "bloomLevel",
               "type",
               "options",
               "correct"
@@ -289,6 +322,16 @@
               },
               "question": {
                 "type": "string"
+              },
+              "bloomLevel": {
+                "type": "string",
+                "enum": [
+                  "remember",
+                  "understand",
+                  "apply",
+                  "analyse",
+                  "evaluate"
+                ]
               },
               "type": {
                 "type": "string",
@@ -327,6 +370,7 @@
               "points",
               "title",
               "question",
+              "bloomLevel",
               "type",
               "items",
               "correctOrder"
@@ -354,6 +398,16 @@
               },
               "question": {
                 "type": "string"
+              },
+              "bloomLevel": {
+                "type": "string",
+                "enum": [
+                  "remember",
+                  "understand",
+                  "apply",
+                  "analyse",
+                  "evaluate"
+                ]
               },
               "type": {
                 "type": "string",
@@ -411,10 +465,66 @@
               "points",
               "title",
               "question",
+              "bloomLevel",
               "type",
               "leftItems",
               "rightItems",
               "correct"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "room": {
+                "type": "integer"
+              },
+              "points": {
+                "type": "integer",
+                "exclusiveMinimum": 0
+              },
+              "hint": {
+                "type": "string"
+              },
+              "explanation": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "bloomLevel": {
+                "type": "string",
+                "enum": [
+                  "remember",
+                  "understand",
+                  "apply",
+                  "analyse",
+                  "evaluate"
+                ]
+              },
+              "type": {
+                "type": "string",
+                "const": "text"
+              },
+              "keywords": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "room",
+              "points",
+              "title",
+              "question",
+              "bloomLevel",
+              "type",
+              "keywords"
             ],
             "additionalProperties": false
           }

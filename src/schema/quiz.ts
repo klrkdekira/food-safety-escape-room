@@ -67,12 +67,21 @@ export const MatchPuzzleSchema = BasePuzzleSchema.extend({
   correct: z.record(z.string(), z.string()),
 });
 
+// The player types a free-text answer; it's correct if it contains any one of
+// these keywords (case-insensitive, whitespace-normalised). Lenient on purpose
+// -- exact-string matching would fail on trivial wording differences.
+export const TextPuzzleSchema = BasePuzzleSchema.extend({
+  type: z.literal("text"),
+  keywords: z.array(z.string()).min(1),
+});
+
 // Discriminated union of puzzle types
 export const PuzzleSchema = z.discriminatedUnion("type", [
   McqPuzzleSchema,
   MultiselectPuzzleSchema,
   OrderPuzzleSchema,
   MatchPuzzleSchema,
+  TextPuzzleSchema,
 ]);
 
 export type Puzzle = z.infer<typeof PuzzleSchema>;
@@ -143,7 +152,7 @@ export const RoomDataSchema = z.object({
  * rejects anything newer than it understands, so an old checkout fails loudly
  * on a new quiz file instead of silently dropping fields.
  */
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 3;
 
 // Complete Base Quiz Schema
 export const BaseQuizSchema = z.object({
@@ -390,6 +399,22 @@ export const QuizSchema = BaseQuizSchema.superRefine((data, ctx) => {
           code: z.ZodIssueCode.custom,
           message: `Order Puzzle ${puzzleId} correctOrder [${puzzle.correctOrder.join(", ")}] is not a valid permutation of items ids [${itemIds.join(", ")}]`,
           path: ["puzzleData", puzzleId, "correctOrder"],
+        });
+      }
+    } else if (puzzle.type === "text") {
+      if (puzzle.keywords.some((k) => k.trim().length === 0)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Text Puzzle ${puzzleId} keywords must not be blank`,
+          path: ["puzzleData", puzzleId, "keywords"],
+        });
+      }
+      const normalized = puzzle.keywords.map((k) => k.trim().toLowerCase());
+      if (new Set(normalized).size !== normalized.length) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Text Puzzle ${puzzleId} keywords must be unique (case-insensitive)`,
+          path: ["puzzleData", puzzleId, "keywords"],
         });
       }
     }

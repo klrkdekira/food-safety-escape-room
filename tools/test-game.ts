@@ -14,7 +14,9 @@ const quiz = JSON.parse(
 ) as QuizData;
 
 function correctAnswer(puzzle: Puzzle) {
-  return puzzle.type === "order" ? puzzle.correctOrder : puzzle.correct;
+  if (puzzle.type === "order") return puzzle.correctOrder;
+  if (puzzle.type === "text") return puzzle.keywords[0];
+  return puzzle.correct;
 }
 
 function incorrectAnswer(puzzle: Puzzle) {
@@ -27,6 +29,8 @@ function incorrectAnswer(puzzle: Puzzle) {
       return [...puzzle.correctOrder].reverse();
     case "match":
       return {};
+    case "text":
+      return "this answer contains none of the keywords";
   }
 }
 

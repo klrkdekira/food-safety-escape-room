@@ -67,6 +67,12 @@ const METADATA_MAP: Record<
     category: "Player Flow",
     description: "Final lab room presenting colloid classification puzzles.",
   },
+  "10b-room4-text-puzzle-keyword-match.png": {
+    title: "Free Text Puzzle: Keyword Matching",
+    category: "Player Flow",
+    description:
+      'Typed-answer puzzle graded by keyword match -- a full sentence containing "Ostwald ripening" is accepted, not just the exact term.',
+  },
   "11-room4-codepad-unlocked.png": {
     title: "Room 4 CodePad Lock Terminal",
     category: "Player Flow",

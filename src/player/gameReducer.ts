@@ -352,7 +352,9 @@ export function gameReducer(ctx: GameContextData) {
                 ? puzzle.items.map((i: any) => String(i.id))
                 : puzzle.type === "match"
                   ? puzzle.leftItems.map((i: any) => String(i.id))
-                  : (puzzle.options?.map((o: any) => String(o.key)) ?? []),
+                  : puzzle.type === "text"
+                    ? []
+                    : (puzzle.options?.map((o: any) => String(o.key)) ?? []),
             );
 
             const existingOrder = (state.displayOrder[id] || []).filter((k) => validKeys.has(k));

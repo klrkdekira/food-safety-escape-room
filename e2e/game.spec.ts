@@ -47,6 +47,7 @@ test.describe("Escape Room Step-by-Step E2E Flow", () => {
           else if (puzzle.type === "multiselect") answer = puzzle.correct;
           else if (puzzle.type === "order") answer = puzzle.correctOrder;
           else if (puzzle.type === "match") answer = puzzle.correct;
+          else if (puzzle.type === "text") answer = puzzle.keywords[0];
 
           dispatch({ type: "SET_ANSWER", puzzleId: Number(pId), answer });
           dispatch({ type: "SUBMIT", puzzleId: Number(pId) });
@@ -117,6 +118,21 @@ test.describe("Escape Room Step-by-Step E2E Flow", () => {
     // Step 9: Room 4 (Master Control Lab)
     await expect(page.locator(".room-title")).toContainText(/MASTER CONTROL/i);
     await captureStep(page, "10-room4-master-control-lab.png");
+
+    // Step 9b: Free-text puzzle (keyword match). Puzzle 18 is the third puzzle
+    // solved in this room, not the one shown on entry, so jump the active
+    // puzzle to it directly rather than waiting through two real advance
+    // timers first -- the same debug dispatch already used by unlockRoom.
+    await page.evaluate(() => {
+      const win = window as any;
+      win.__gameDispatch({ type: "SHOW_PUZZLE", roomNum: 4, puzzleId: 18 });
+    });
+    const textInput = page.locator("#puzzle-18-text");
+    await expect(textInput).toBeVisible();
+    await textInput.fill("Ostwald ripening causes small droplets to shrink over time.");
+    await page.locator('button:has-text("Submit answer")').click();
+    await expect(page.locator("#result-18")).toContainText(/Correct/i);
+    await captureStep(page, "10b-room4-text-puzzle-keyword-match.png");
 
     // Step 10: Solve Room 4 Perfectly & Capture CodePad Unlock
     await solveRoomPuzzlesPerfectly(4);

@@ -80,6 +80,9 @@ for (const puzzleId of room1PuzzleIds) {
   } else if (puzzle.type === "match") {
     expect(handler.check(puzzle, puzzle.correct), "Match correct answer rejected");
     expect(!handler.check(puzzle, {}), "Match empty answer accepted");
+  } else if (puzzle.type === "text") {
+    expect(handler.check(puzzle, puzzle.keywords[0]), "Text correct keyword rejected");
+    expect(!handler.check(puzzle, "no keyword in here"), "Text wrong answer accepted");
   }
 }
 
@@ -99,6 +102,7 @@ if (firstPuzzle.type === "mcq")
 else if (firstPuzzle.type === "multiselect") wrongAns = [];
 else if (firstPuzzle.type === "order") wrongAns = [...firstPuzzle.correctOrder].reverse();
 else if (firstPuzzle.type === "match") wrongAns = {};
+else if (firstPuzzle.type === "text") wrongAns = "no keyword in here";
 
 state = { ...state, score: 50 };
 state = reduce(state, { type: "SET_ANSWER", puzzleId: firstPuzzleId, answer: wrongAns as any });
@@ -119,6 +123,7 @@ if (firstPuzzle.type === "mcq") correctAns = firstPuzzle.correct;
 else if (firstPuzzle.type === "multiselect") correctAns = firstPuzzle.correct;
 else if (firstPuzzle.type === "order") correctAns = firstPuzzle.correctOrder;
 else if (firstPuzzle.type === "match") correctAns = firstPuzzle.correct;
+else if (firstPuzzle.type === "text") correctAns = firstPuzzle.keywords[0];
 
 const scoreBeforeRetry = state.score;
 state = reduce(state, { type: "SET_ANSWER", puzzleId: firstPuzzleId, answer: correctAns as any });
@@ -165,6 +170,7 @@ for (let r = 1; r <= context.totalRooms; r++) {
     else if (p.type === "multiselect") ans = p.correct;
     else if (p.type === "order") ans = p.correctOrder;
     else if (p.type === "match") ans = p.correct;
+    else if (p.type === "text") ans = p.keywords[0];
 
     runState = reduce(runState, { type: "SET_ANSWER", puzzleId: pId, answer: ans as any });
     runState = reduce(runState, { type: "SUBMIT", puzzleId: pId });
