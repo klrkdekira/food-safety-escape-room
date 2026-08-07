@@ -37,6 +37,11 @@ export interface PuzzleResult {
   explanation?: string;
   penalty: number;
   /**
+   * Seconds between the puzzle first becoming active and being solved correctly.
+   * Only set once, on the submission that solves it.
+   */
+  timeSpent?: number;
+  /**
    * Increments on every submission of this puzzle. Effects that fire per attempt
    * -- the sound, the shake animation -- key off this, because two consecutive
    * wrong answers otherwise produce an identical result object and nothing reruns.
@@ -72,6 +77,8 @@ export interface GameState {
   roomCompleted: Record<string, boolean>;
   puzzleSolved: Record<string, boolean>;
   puzzleAttempts: Record<string, number>;
+  /** `timeElapsed` at the moment each puzzle first became active, for per-puzzle timing. */
+  puzzleStartedAt: Record<string, number>;
 
   // --- Session-only state, never persisted ---
   /** In-progress answers, keyed by puzzle id. */
@@ -108,6 +115,7 @@ export const PERSISTED_KEYS = [
   "roomCompleted",
   "puzzleSolved",
   "puzzleAttempts",
+  "puzzleStartedAt",
 ] as const;
 
 export type PersistedState = Pick<GameState, (typeof PERSISTED_KEYS)[number]>;

@@ -6,6 +6,8 @@
 
 interface ScorePdfOptions {
   title: string;
+  /** Left blank when the student did not enter one. */
+  studentName: string;
   score: number;
   maxScore: number;
   rank: string;
@@ -13,16 +15,46 @@ interface ScorePdfOptions {
   puzzlesCompleted: number;
   totalPuzzles: number;
   date: string;
+  /**
+   * One line per rank, e.g. "S: 95%+", already rendered in whatever unit this
+   * quiz's rankMode uses. Kept ASCII-only -- see escapePdfText.
+   */
+  rankCriteria: string[];
 }
 
+/**
+ * PDF text strings in this file's base-14 fonts are WinAnsi/Latin-1 -- each
+ * character becomes exactly one byte via charCodeAt() below. Anything outside
+ * that range (curly quotes, em dash, >=) would corrupt the stream, so callers
+ * must stick to plain ASCII in student-supplied and generated text alike.
+ */
 function escapePdfText(text: string): string {
   return text.replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
 }
 
+/** A student can type anything; codepoints outside Latin-1 would corrupt the byte stream above. */
+function toLatin1Safe(text: string): string {
+  return Array.from(text)
+    .map((ch) => ((ch.codePointAt(0) ?? 0) <= 0xff ? ch : "?"))
+    .join("");
+}
+
 export function generateScorePdf(options: ScorePdfOptions): Blob {
-  const { title, score, maxScore, rank, time, puzzlesCompleted, totalPuzzles, date } = options;
+  const {
+    title,
+    studentName,
+    score,
+    maxScore,
+    rank,
+    time,
+    puzzlesCompleted,
+    totalPuzzles,
+    date,
+    rankCriteria,
+  } = options;
 
   const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+  const safeName = toLatin1Safe(studentName.trim() || "Student");
 
   // Building PDF stream content
   // Page geometry: 595.28 x 841.89 pt (A4 portrait)
@@ -43,35 +75,55 @@ export function generateScorePdf(options: ScorePdfOptions): Blob {
     "0.4 0.4 0.4 rg",
     `100 705 Td (${escapePdfText("Food Safety Escape Room Experience")}) Tj`,
     "ET",
+    // Recipient -- the name is why this document exists, so it leads the
+    // quiz title rather than trailing after it.
     "BT",
-    "/F2 18 Tf",
+    "/F2 20 Tf",
     "0.1 0.2 0.4 rg",
-    `100 660 Td (${escapePdfText(title)}) Tj`,
+    `100 668 Td (${escapePdfText(`Awarded to: ${safeName}`)}) Tj`,
+    "ET",
+    "BT",
+    "/F1 13 Tf",
+    "0.3 0.3 0.3 rg",
+    `100 642 Td (${escapePdfText(`for completing: ${title}`)}) Tj`,
     "ET",
     // Divider line
     "BT",
     "/F1 12 Tf",
     "0.3 0.3 0.3 rg",
-    `100 620 Td (${escapePdfText(`Date Completed: ${date}`)}) Tj`,
+    `100 615 Td (${escapePdfText(`Date Completed: ${date}`)}) Tj`,
     "ET",
     // Grade / Rank Box
     "BT",
     "/F2 48 Tf",
     "0.1 0.5 0.3 rg",
-    `100 530 Td (${escapePdfText(`GRADE: ${rank}`)}) Tj`,
+    `100 525 Td (${escapePdfText(`GRADE: ${rank}`)}) Tj`,
     "ET",
     // Statistics breakdown
     "BT",
     "/F2 14 Tf",
     "0.2 0.2 0.2 rg",
-    `100 460 Td (${escapePdfText("PERFORMANCE SUMMARY")}) Tj`,
+    `100 455 Td (${escapePdfText("PERFORMANCE SUMMARY")}) Tj`,
     "ET",
     "BT",
     "/F1 12 Tf",
     "0.3 0.3 0.3 rg",
-    `100 430 Td (${escapePdfText(`Final Score: ${score} / ${maxScore} (${percentage}%)`)}) Tj`,
+    `100 425 Td (${escapePdfText(`Final Score: ${score} / ${maxScore} (${percentage}%)`)}) Tj`,
     `0 -25 Td (${escapePdfText(`Time Elapsed: ${time}`)}) Tj`,
     `0 -25 Td (${escapePdfText(`Puzzles Solved: ${puzzlesCompleted} / ${totalPuzzles}`)}) Tj`,
+    "ET",
+    // Grade criteria -- what score bands map to which letter grade, so the
+    // certificate itself explains what earned this rank.
+    "BT",
+    "/F2 12 Tf",
+    "0.2 0.2 0.2 rg",
+    "100 335 Td (GRADE CRITERIA) Tj",
+    "ET",
+    "BT",
+    "/F1 11 Tf",
+    "0.3 0.3 0.3 rg",
+    `100 315 Td (${escapePdfText(rankCriteria[0] ?? "")}) Tj`,
+    ...rankCriteria.slice(1).map((line) => `0 -18 Td (${escapePdfText(line)}) Tj`),
     "ET",
     // Footer / Verification statement
     "BT",

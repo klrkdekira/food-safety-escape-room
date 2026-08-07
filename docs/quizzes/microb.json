@@ -535,23 +535,23 @@
       "hint": "z = temperature difference ÷ (log D1 − log D2). Calculate the log difference first.",
       "explanation": "z = (T2 − T1) ÷ (log D1 − log D2) = (80 − 70) ÷ (log 1 − log 0.1) = 10 ÷ 1 = 10°C. The z-value represents the temperature change required to alter the D-value by one log unit.",
       "title": "Z-VALUE CALCULATION",
-      "question": "A pathogen has a D-value of 1 min at 70&deg;C and 0.1 min at 80&deg;C. What is the <strong>z-value</strong>?",
+      "question": "A pathogen has a D-value of 1 min at 70°C and 0.1 min at 80°C. What is the <strong>z-value</strong>?",
       "options": [
         {
           "key": "a",
-          "text": "5&deg;C"
+          "text": "5°C"
         },
         {
           "key": "b",
-          "text": "8&deg;C"
+          "text": "8°C"
         },
         {
           "key": "c",
-          "text": "10&deg;C"
+          "text": "10°C"
         },
         {
           "key": "d",
-          "text": "20&deg;C"
+          "text": "20°C"
         }
       ]
     },
@@ -564,7 +564,7 @@
       "hint": "A higher D-value means it takes more time to achieve a 90% reduction, indicating stronger resistance.",
       "explanation": "A higher D-value (6 minutes vs 2 minutes) means it takes longer to kill the pathogen at the same temperature. Therefore, the pathogen shows greater heat resistance in Product Y, likely because the food matrix (e.g., higher fat, lower moisture) offers more protection.",
       "title": "HEAT RESISTANCE COMPARISON",
-      "question": "When testing the same pathogen at 70&deg;C, Product X has a D-value of 2 minutes, while Product Y has a D-value of 6 minutes. How do you interpret this?",
+      "question": "When testing the same pathogen at 70°C, Product X has a D-value of 2 minutes, while Product Y has a D-value of 6 minutes. How do you interpret this?",
       "options": [
         {
           "key": "a",

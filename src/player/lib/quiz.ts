@@ -51,10 +51,34 @@ export function maxScore(data: QuizData): number {
   return Object.values(data.puzzleData).reduce((sum, p) => sum + p.points, 0);
 }
 
+/** The thresholds a rank is resolved against for this quiz's configured rank mode. */
+export function rankThresholds(config: EngineConfig): RankThreshold[] {
+  return config.rankMode === "percent" ? config.percentRanks : config.absoluteRanks;
+}
+
+/** The raw value (percent of max score, or absolute score) a rank is resolved from. */
+export function rankValue(config: EngineConfig, score: number, max: number): number {
+  return config.rankMode === "percent" ? (max > 0 ? (score / max) * 100 : 0) : score;
+}
+
 export function resolveRank(config: EngineConfig, score: number, max: number): string {
-  const thresholds = config.rankMode === "percent" ? config.percentRanks : config.absoluteRanks;
-  const value = config.rankMode === "percent" ? (max > 0 ? (score / max) * 100 : 0) : score;
-  return thresholds.find((t) => value >= t.min)?.rank ?? "E";
+  const value = rankValue(config, score, max);
+  return rankThresholds(config).find((t) => value >= t.min)?.rank ?? "E";
+}
+
+/**
+ * One line per rank explaining exactly what earns it, lowest cutoff last, plus
+ * a trailing "below every threshold" line for the unlabelled fallback rank.
+ * Plain ASCII throughout -- shared verbatim with the PDF certificate, whose
+ * base-14 fonts cannot render outside Latin-1.
+ */
+export function formatRankCriteria(config: EngineConfig): string[] {
+  const unit = config.rankMode === "percent" ? "%" : " pts";
+  const thresholds = rankThresholds(config);
+  const lines = thresholds.map((t) => `${t.rank}: ${t.min}${unit} or higher`);
+  const lowest = thresholds[thresholds.length - 1];
+  if (lowest) lines.push(`Below ${lowest.min}${unit}: no rank awarded`);
+  return lines;
 }
 
 export function formatTime(totalSeconds: number): string {
@@ -72,21 +96,38 @@ export interface BloomLevelStats {
   correctCount: number;
   maxPoints: number;
   earnedPoints: number;
+  /** Wrong submissions across every puzzle at this level, including ones later solved. */
+  mistakes: number;
+  /** Seconds spent solving puzzles at this level, from first shown to solved correctly. */
+  timeSpentSeconds: number;
 }
 
 /**
  * Score, per Bloom's Taxonomy cognitive level, from the quiz's authored
- * bloomLevel tags and the player's puzzle results. Levels with no puzzles in
- * this quiz are omitted rather than shown as an empty row.
+ * bloomLevel tags and the player's puzzle results. Every puzzle must be solved
+ * to finish the quiz, so this also rolls up how many wrong attempts and how
+ * much time each level cost -- the two signals raw correctness alone hides.
+ * Levels with no puzzles in this quiz are omitted rather than shown as an
+ * empty row.
  */
 export function computeBloomBreakdown(
   data: QuizData,
   results: Record<string, PuzzleResult | undefined>,
+  attempts: Record<string, number>,
 ): BloomLevelStats[] {
   const stats = new Map<BloomLevel, BloomLevelStats>(
     BLOOM_LEVELS.map(({ level, label }) => [
       level,
-      { level, label, totalPuzzles: 0, correctCount: 0, maxPoints: 0, earnedPoints: 0 },
+      {
+        level,
+        label,
+        totalPuzzles: 0,
+        correctCount: 0,
+        maxPoints: 0,
+        earnedPoints: 0,
+        mistakes: 0,
+        timeSpentSeconds: 0,
+      },
     ]),
   );
 
@@ -95,10 +136,12 @@ export function computeBloomBreakdown(
     if (!stat) continue;
     stat.totalPuzzles += 1;
     stat.maxPoints += puzzle.points;
+    stat.mistakes += Math.max(0, (attempts[puzzleId] ?? 0) - 1);
     const result = results[puzzleId];
     if (result?.correct) {
       stat.correctCount += 1;
       stat.earnedPoints += result.points;
+      stat.timeSpentSeconds += result.timeSpent ?? 0;
     }
   }
 

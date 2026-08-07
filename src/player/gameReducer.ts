@@ -50,6 +50,7 @@ export function createInitialState(ctx: GameContextData): GameState {
   const displayOrder: Record<string, string[]> = {};
   const puzzleSolved: Record<string, boolean> = {};
   const puzzleAttempts: Record<string, number> = {};
+  const puzzleStartedAt: Record<string, number> = {};
 
   for (const [id, puzzle] of Object.entries(ctx.quiz.puzzleData)) {
     puzzleSolved[id] = false;
@@ -78,6 +79,7 @@ export function createInitialState(ctx: GameContextData): GameState {
     roomCompleted: {},
     puzzleSolved,
     puzzleAttempts,
+    puzzleStartedAt,
     answers,
     displayOrder,
     results: {},
@@ -105,6 +107,13 @@ function announce(state: GameState, text: string): GameState["announcement"] {
   return { text, seq: state.announcement.seq + 1 };
 }
 
+/** Stamps the moment a puzzle first becomes active, so its solve time can be measured. */
+function stampStart(state: GameState, puzzleId: number | null): GameState["puzzleStartedAt"] {
+  const key = String(puzzleId);
+  if (puzzleId === null || key in state.puzzleStartedAt) return state.puzzleStartedAt;
+  return { ...state.puzzleStartedAt, [key]: state.timeElapsed };
+}
+
 /** Move into a room, choosing its active puzzle and clearing the previous hint. */
 function enterRoom(ctx: GameContextData, state: GameState, roomNum: number): GameState {
   const puzzleId = activePuzzleFor(ctx, state, roomNum);
@@ -118,6 +127,7 @@ function enterRoom(ctx: GameContextData, state: GameState, roomNum: number): Gam
     phase: "playing",
     currentRoom: roomNum,
     activePuzzles,
+    puzzleStartedAt: stampStart(state, puzzleId),
     hints,
     pendingAdvance: null,
   };
@@ -135,6 +145,7 @@ export function gameReducer(ctx: GameContextData) {
           const validIds = new Set(Object.keys(ctx.quiz.puzzleData));
           const puzzleSolved = { ...state.puzzleSolved };
           const puzzleAttempts = { ...state.puzzleAttempts };
+          const puzzleStartedAt = { ...state.puzzleStartedAt };
 
           for (const [id, solved] of Object.entries(action.saved.puzzleSolved ?? {})) {
             if (validIds.has(id)) puzzleSolved[id] = Boolean(solved);
@@ -142,12 +153,16 @@ export function gameReducer(ctx: GameContextData) {
           for (const [id, attempts] of Object.entries(action.saved.puzzleAttempts ?? {})) {
             if (validIds.has(id)) puzzleAttempts[id] = Number(attempts) || 0;
           }
+          for (const [id, startedAt] of Object.entries(action.saved.puzzleStartedAt ?? {})) {
+            if (validIds.has(id)) puzzleStartedAt[id] = Number(startedAt) || 0;
+          }
 
           next = {
             ...state,
             ...action.saved,
             puzzleSolved,
             puzzleAttempts,
+            puzzleStartedAt,
             maxHints: action.saved.maxHints ?? state.maxHints,
             // Session-only fields must survive the spread of a persisted save.
             answers: state.answers,
@@ -207,6 +222,10 @@ export function gameReducer(ctx: GameContextData) {
         const roomDone = ids.every((pid) => puzzleSolved[String(pid)]);
         const nextInRoom =
           ids[ids.indexOf(action.puzzleId) + 1] ?? ids.find((pid) => !puzzleSolved[String(pid)]);
+        const timeSpent = Math.max(
+          0,
+          state.timeElapsed - (state.puzzleStartedAt[key] ?? state.timeElapsed),
+        );
 
         return {
           ...state,
@@ -221,6 +240,7 @@ export function gameReducer(ctx: GameContextData) {
               points,
               penalty: 0,
               explanation: puzzle.explanation,
+              timeSpent,
               seq,
             },
           },
@@ -262,6 +282,7 @@ export function gameReducer(ctx: GameContextData) {
         return {
           ...state,
           activePuzzles: { ...state.activePuzzles, [String(action.roomNum)]: action.puzzleId },
+          puzzleStartedAt: stampStart(state, action.puzzleId),
           hints,
         };
       }
@@ -340,6 +361,7 @@ export function gameReducer(ctx: GameContextData) {
         const displayOrder: Record<string, string[]> = {};
         const puzzleSolved: Record<string, boolean> = {};
         const puzzleAttempts: Record<string, number> = {};
+        const puzzleStartedAt: Record<string, number> = {};
 
         for (const [id, puzzle] of Object.entries(ctx.quiz.puzzleData)) {
           const handler = getPuzzleType(puzzle.type);
@@ -391,6 +413,7 @@ export function gameReducer(ctx: GameContextData) {
 
           puzzleSolved[id] = state.puzzleSolved[id] ?? false;
           puzzleAttempts[id] = state.puzzleAttempts[id] ?? 0;
+          if (id in state.puzzleStartedAt) puzzleStartedAt[id] = state.puzzleStartedAt[id];
         }
 
         const clampedRoom = Math.max(1, Math.min(state.currentRoom, ctx.totalRooms));
@@ -402,6 +425,7 @@ export function gameReducer(ctx: GameContextData) {
           displayOrder,
           puzzleSolved,
           puzzleAttempts,
+          puzzleStartedAt,
         };
       }
 

@@ -1,7 +1,14 @@
-import React, { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import React, { useState } from "react";
 import { useGame } from "../GameContext.ts";
-import { clearSavedState, hasSavedState, loadBestScore, loadSavedState } from "../lib/storage.ts";
+import {
+  clearSavedState,
+  hasSavedState,
+  loadBestScore,
+  loadSavedState,
+  loadStudentName,
+  saveStudentName,
+} from "../lib/storage.ts";
 import type { QuizManifestItem } from "../types.ts";
 import { RichText } from "./RichText.tsx";
 
@@ -12,6 +19,12 @@ export const TitleScreen: React.FC<{ quizzes: QuizManifestItem[] }> = ({ quizzes
   const [best, setBest] = useState(() => (preview ? {} : loadBestScore(quizId)));
   const [hasSave, setHasSave] = useState(() => !preview && (hasSavedState(quizId) || !!best.score));
   const [cleared, setCleared] = useState(false);
+  const [studentName, setStudentName] = useState(() => (preview ? "" : loadStudentName()));
+
+  const onNameChange = (value: string) => {
+    setStudentName(value);
+    if (!preview) saveStudentName(value);
+  };
 
   const onStart = () => {
     dispatch({ type: "START", saved: preview ? null : loadSavedState(quizId) });
@@ -47,9 +60,23 @@ export const TitleScreen: React.FC<{ quizzes: QuizManifestItem[] }> = ({ quizzes
         <RichText text={config.missionBriefingText} />
       </div>
 
+      <div className="title-name-field">
+        <label htmlFor="student-name-input">Your name (for your certificate)</label>
+        <input
+          type="text"
+          id="student-name-input"
+          className="title-name-input"
+          placeholder="Enter your name"
+          value={studentName}
+          maxLength={80}
+          autoComplete="name"
+          onChange={(e) => onNameChange(e.target.value)}
+        />
+      </div>
+
       <div className="title-actions">
         <button type="button" className="btn-primary" onClick={onStart}>
-          {hasSave ? "Resume assignment" : "Begin assignment"}
+          {hasSave ? "Resume mission" : "Begin mission"}
         </button>
         {hasSave && (
           <button

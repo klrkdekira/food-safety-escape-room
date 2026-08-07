@@ -78,3 +78,25 @@ export function clearSavedState(quizId: string): void {
     // Non-fatal.
   }
 }
+
+/**
+ * A student's name is who they are, not a fact about any one quiz -- shared
+ * across every quiz on this browser rather than namespaced like state/best.
+ */
+const STUDENT_NAME_KEY = "escape-room:studentName";
+
+export function loadStudentName(): string {
+  try {
+    return localStorage.getItem(STUDENT_NAME_KEY) ?? "";
+  } catch {
+    return "";
+  }
+}
+
+export function saveStudentName(name: string): void {
+  try {
+    localStorage.setItem(STUDENT_NAME_KEY, name);
+  } catch {
+    // Non-fatal.
+  }
+}

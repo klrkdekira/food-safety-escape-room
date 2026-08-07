@@ -6,3 +6,4 @@ public/quizzes/index.json
 test-results/
 playwright-report/
 e2e-report/screenshots/
+e2e-report/certificates/

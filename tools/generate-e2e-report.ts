@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const SCREENSHOT_DIR = path.resolve("e2e-report/screenshots");
+const CERTIFICATE_DIR = path.resolve("e2e-report/certificates");
 const REPORT_FILE = path.resolve("e2e-report/index.html");
 
 interface ScreenshotItem {
@@ -11,6 +12,26 @@ interface ScreenshotItem {
   description: string;
   base64: string;
 }
+
+interface CertificateItem {
+  filename: string;
+  title: string;
+  description: string;
+  base64: string;
+}
+
+const CERTIFICATE_METADATA_MAP: Record<string, { title: string; description: string }> = {
+  "s-grade-certificate.pdf": {
+    title: "Certificate: Perfect Playthrough (Grade S)",
+    description:
+      "Downloaded via the real 'Download score record' button after every puzzle is solved correctly on the first try.",
+  },
+  "b-grade-certificate.pdf": {
+    title: "Certificate: Playthrough With Mistakes (Grade B)",
+    description:
+      "Downloaded after a run with genuine wrong-then-right answers, showing the grade criteria the score landed against.",
+  },
+};
 
 const METADATA_MAP: Record<
   string,
@@ -37,6 +58,18 @@ const METADATA_MAP: Record<
     category: "Player Flow",
     description: "Hint overlay displaying authored hint guidance.",
   },
+  "04b-room1-order-puzzle.png": {
+    title: "Order Puzzle: Sequence Reordering",
+    category: "Player Flow",
+    description:
+      "Drag-or-arrow reordering puzzle, solved through the real 'move up' controls -- the three stages of emulsion formation placed in the correct sequence.",
+  },
+  "04c-room1-match-puzzle.png": {
+    title: "Match Puzzle: Dropdown Pairing",
+    category: "Player Flow",
+    description:
+      "Native <select> matching puzzle pairing six emulsion instability mechanisms to their descriptions, filled in through the real dropdowns.",
+  },
   "05-room1-codepad-unlocked.png": {
     title: "Room 1 CodePad Lock Terminal",
     category: "Player Flow",
@@ -46,6 +79,12 @@ const METADATA_MAP: Record<
     title: "Room 2: Gel Laboratory View",
     category: "Player Flow",
     description: "Room 2 active view presenting gelation mechanism puzzles.",
+  },
+  "06b-room2-multiselect-puzzle.png": {
+    title: "Multiselect Puzzle: Multiple-Answer Checkboxes",
+    category: "Player Flow",
+    description:
+      "Select-all-that-apply puzzle identifying food hydrocolloids, answered by checking the real checkboxes.",
   },
   "07-room2-codepad-unlocked.png": {
     title: "Room 2 CodePad Lock Terminal",
@@ -109,6 +148,12 @@ const METADATA_MAP: Record<
     category: "Routing & Recovery",
     description: "GitHub Pages SPA redirect decoder recovering deep route paths.",
   },
+  "bgrade-victory-screen.png": {
+    title: "Victory Screen With Mistakes: Grade B",
+    category: "Player Flow",
+    description:
+      "A run with genuine wrong-then-right answers: cognitive skill record shows per-level mistakes and time spent, and the grade criteria panel highlights the B row the score landed on.",
+  },
 };
 
 function buildHtmlReport(): void {
@@ -143,6 +188,23 @@ function buildHtmlReport(): void {
       description: meta.description,
       base64,
     };
+  });
+
+  const certFiles = fs.existsSync(CERTIFICATE_DIR)
+    ? fs
+        .readdirSync(CERTIFICATE_DIR)
+        .filter((f) => f.endsWith(".pdf"))
+        .sort()
+    : [];
+
+  const certItems: CertificateItem[] = certFiles.map((file) => {
+    const buffer = fs.readFileSync(path.join(CERTIFICATE_DIR, file));
+    const base64 = `data:application/pdf;base64,${buffer.toString("base64")}`;
+    const meta = CERTIFICATE_METADATA_MAP[file] || {
+      title: file.replace(/\.pdf$/, "").replace(/-/g, " "),
+      description: "Certificate downloaded via the real 'Download score record' button.",
+    };
+    return { filename: file, title: meta.title, description: meta.description, base64 };
   });
 
   const timestamp = new Date().toLocaleString("en-US", {
@@ -261,6 +323,35 @@ function buildHtmlReport(): void {
       display: block;
     }
 
+    .section-heading {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 2rem 0 1rem;
+    }
+
+    .cert-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .cert-download {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.375rem;
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .cert-download:hover {
+      background: #334155;
+    }
+
     @media print {
       @page {
         size: A4 portrait;
@@ -297,7 +388,7 @@ function buildHtmlReport(): void {
   <header>
     <div>
       <h1>E2E Test Execution & Screenshots Report</h1>
-      <div class="sub">Food Safety Escape Room Platform | ${timestamp} | All 5 Tests Passed</div>
+      <div class="sub">Food Safety Escape Room Platform | ${timestamp} | All Playwright Tests Passed</div>
     </div>
     <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
   </header>
@@ -320,6 +411,30 @@ function buildHtmlReport(): void {
       )
       .join("")}
   </div>
+
+  ${
+    certItems.length > 0
+      ? `
+  <div class="section-heading">Downloadable Certificates</div>
+  <div class="cert-list">
+    ${certItems
+      .map(
+        (item) => `
+      <div class="step-item">
+        <div class="step-header">
+          <div class="step-title">${item.title}</div>
+          <span class="step-tag">Certificate</span>
+        </div>
+        <div class="step-desc">${item.description}</div>
+        <a class="cert-download" href="${item.base64}" download="${item.filename}">Download ${item.filename}</a>
+      </div>
+    `,
+      )
+      .join("")}
+  </div>
+  `
+      : ""
+  }
 </body>
 </html>`;
 

@@ -4,7 +4,15 @@ import vm from "node:vm";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { buildContext, createInitialState, gameReducer } from "../src/player/gameReducer.ts";
-import { formatTime, maxScore, readEngineConfig, resolveRank } from "../src/player/lib/quiz.ts";
+import { generateScorePdf } from "../src/player/lib/pdf.ts";
+import {
+  computeBloomBreakdown,
+  formatRankCriteria,
+  formatTime,
+  maxScore,
+  readEngineConfig,
+  resolveRank,
+} from "../src/player/lib/quiz.ts";
 import { MatchPuzzle } from "../src/player/puzzles/Match.tsx";
 import { McqPuzzle } from "../src/player/puzzles/Mcq.tsx";
 import { MultiselectPuzzle } from "../src/player/puzzles/Multiselect.tsx";
@@ -543,5 +551,237 @@ expect(
 expect(orderMarkup.includes('aria-disabled="true"'), "Order view missing aria-disabled at edge");
 
 console.log("  ✔ Route Recovery, CSP & Accessibility Markup passed!");
+
+// ============================================================================
+// 7. DEGREE SYMBOL & UNICODE RENDERING INTEGRITY
+// ============================================================================
+console.log("▶ Testing Degree Symbol & Unicode Rendering Integrity...");
+
+// 7.1 Degree symbol survives plain-text JSX rendering in a puzzle view
+const degreeMcqMarkup = renderToStaticMarkup(
+  <McqPuzzle.View
+    id={5}
+    disabled={false}
+    onChange={() => {}}
+    puzzle={{
+      title: "Temperature Check",
+      question: "What is the safe cold-holding temperature?",
+      options: [
+        { key: "a", text: "4°C or below" },
+        { key: "b", text: "20°C" },
+      ],
+    }}
+    answer={null}
+    displayOrder={["a", "b"]}
+  />,
+);
+expect(
+  degreeMcqMarkup.includes("4°C or below") && degreeMcqMarkup.includes("20°C"),
+  "Degree symbol was mangled or stripped when rendering MCQ option text",
+);
+expect(
+  !degreeMcqMarkup.includes("Â°") && !degreeMcqMarkup.includes("&deg;"),
+  "Degree symbol was mis-encoded (mojibake or HTML entity) in rendered MCQ markup",
+);
+expect("°".codePointAt(0) === 0xb0, "Degree symbol literal does not match U+00B0");
+
+// 7.2 Degree symbol survives disk -> UTF-8 read -> JSON.parse for authored quiz content
+const microbRaw = fs.readFileSync(path.resolve("public/quizzes/microb.json"), "utf-8");
+expect(
+  microbRaw.includes("°C") && !microbRaw.includes("Â°"),
+  "microb.json must contain a real '°C' reading, not mojibake",
+);
+
+const microbQuiz = JSON.parse(microbRaw) as QuizData;
+const degreePuzzle = Object.values(microbQuiz.puzzleData).find((p) =>
+  p.explanation?.includes("°C"),
+);
+expect(degreePuzzle !== undefined, "No puzzle explanation retained a °C reading after JSON.parse");
+expect(
+  degreePuzzle!.explanation!.codePointAt(degreePuzzle!.explanation!.indexOf("°")) === 0xb0,
+  "Degree symbol code point changed after JSON.parse",
+);
+
+// 7.3 No raw HTML entity should sit in a field that renders as plain JSX text.
+// `question`/`explanation`/`hint`/`narrative`/etc. go through <RichText>, whose
+// DOMParser-based sanitizer decodes entities -- but `options[].text`, `title`,
+// and similar fields render as bare {value} JSX text nodes, which never decode
+// entities at all. An authored "5&deg;C" there displays literally as "5&deg;C"
+// forever; the source must use the real character.
+const RICH_TEXT_FIELD_KEYS = new Set([
+  "question",
+  "explanation",
+  "hint",
+  "narrative",
+  "victoryText",
+  "missionBriefingText",
+  "finalEscapeTerminalText",
+]);
+const RAW_ENTITY_PATTERN = /&[a-zA-Z]+;|&#\d+;/;
+
+function findRawEntitiesInPlainFields(node: unknown, fieldPath: string, issues: string[]): void {
+  if (typeof node === "string") {
+    if (RAW_ENTITY_PATTERN.test(node)) issues.push(`${fieldPath}: "${node}"`);
+    return;
+  }
+  if (Array.isArray(node)) {
+    node.forEach((item, i) => findRawEntitiesInPlainFields(item, `${fieldPath}[${i}]`, issues));
+    return;
+  }
+  if (node && typeof node === "object") {
+    for (const [key, value] of Object.entries(node)) {
+      if (RICH_TEXT_FIELD_KEYS.has(key)) continue;
+      findRawEntitiesInPlainFields(value, fieldPath ? `${fieldPath}.${key}` : key, issues);
+    }
+  }
+}
+
+const shippedQuizFiles = fs
+  .readdirSync(path.resolve("public/quizzes"))
+  .filter((f) => f.endsWith(".json") && f !== "index.json");
+expect(shippedQuizFiles.length > 0, "No shipped quiz JSON files found under public/quizzes");
+
+for (const file of shippedQuizFiles) {
+  const quizData = JSON.parse(fs.readFileSync(path.resolve("public/quizzes", file), "utf-8"));
+  const issues: string[] = [];
+  findRawEntitiesInPlainFields(quizData, "", issues);
+  expect(
+    issues.length === 0,
+    `${file} has raw HTML entities in plain-text fields, which render literally instead of decoding:\n  ${issues.join("\n  ")}`,
+  );
+}
+
+console.log("  ✔ Degree Symbol & Unicode Rendering Integrity passed!");
+
+// ============================================================================
+// 8. COGNITIVE SKILL RECORD: TIME & MISTAKE ACCOUNTING
+// ============================================================================
+console.log("▶ Testing Cognitive Skill Record Time & Mistake Accounting...");
+
+// Every puzzle must be solved to finish the quiz, so the record has to reflect
+// how long each one took and how many wrong attempts it cost, not just whether
+// it was eventually answered correctly.
+let cogState = createInitialState(context);
+cogState = reduce(cogState, { type: "START", saved: null });
+
+const cogPuzzleId = room1PuzzleIds[0];
+const cogPuzzle = foodKitchenQuiz.puzzleData[String(cogPuzzleId)];
+const cogKey = String(cogPuzzleId);
+
+let cogWrongAns: unknown;
+if (cogPuzzle.type === "mcq")
+  cogWrongAns = cogPuzzle.options.find((o) => o.key !== cogPuzzle.correct)?.key;
+else if (cogPuzzle.type === "multiselect") cogWrongAns = [];
+else if (cogPuzzle.type === "order") cogWrongAns = [...cogPuzzle.correctOrder].reverse();
+else if (cogPuzzle.type === "match") cogWrongAns = {};
+else if (cogPuzzle.type === "text") cogWrongAns = "no keyword in here";
+
+// 5 seconds pass before the student answers at all, then one wrong attempt,
+// then 3 more seconds before the correct one -- 8 seconds of "time on task".
+for (let i = 0; i < 5; i++) cogState = reduce(cogState, { type: "TICK" });
+cogState = reduce(cogState, {
+  type: "SET_ANSWER",
+  puzzleId: cogPuzzleId,
+  answer: cogWrongAns as any,
+});
+cogState = reduce(cogState, { type: "SUBMIT", puzzleId: cogPuzzleId });
+for (let i = 0; i < 3; i++) cogState = reduce(cogState, { type: "TICK" });
+
+let cogCorrectAns: unknown;
+if (cogPuzzle.type === "mcq") cogCorrectAns = cogPuzzle.correct;
+else if (cogPuzzle.type === "multiselect") cogCorrectAns = cogPuzzle.correct;
+else if (cogPuzzle.type === "order") cogCorrectAns = cogPuzzle.correctOrder;
+else if (cogPuzzle.type === "match") cogCorrectAns = cogPuzzle.correct;
+else if (cogPuzzle.type === "text") cogCorrectAns = cogPuzzle.keywords[0];
+
+cogState = reduce(cogState, {
+  type: "SET_ANSWER",
+  puzzleId: cogPuzzleId,
+  answer: cogCorrectAns as any,
+});
+cogState = reduce(cogState, { type: "SUBMIT", puzzleId: cogPuzzleId });
+
+expect(
+  cogState.puzzleAttempts[cogKey] === 2,
+  "Expected exactly 2 attempts (1 mistake + 1 correct)",
+);
+expect(
+  cogState.results[cogKey]?.timeSpent === 8,
+  `Expected 8s of recorded time on puzzle ${cogKey}, got ${cogState.results[cogKey]?.timeSpent}`,
+);
+
+const cogBreakdown = computeBloomBreakdown(
+  foodKitchenQuiz,
+  cogState.results,
+  cogState.puzzleAttempts,
+);
+const cogStat = cogBreakdown.find((s) => s.level === cogPuzzle.bloomLevel);
+expect(cogStat !== undefined, "Bloom breakdown missing the level for the test puzzle");
+expect(cogStat!.mistakes === 1, "Bloom breakdown did not roll up the wrong attempt as a mistake");
+expect(cogStat!.timeSpentSeconds === 8, "Bloom breakdown did not roll up time spent on the puzzle");
+
+console.log("  ✔ Cognitive Skill Record Time & Mistake Accounting passed!");
+
+// ============================================================================
+// 9. STUDENT NAME CERTIFICATE GENERATION
+// ============================================================================
+console.log("▶ Testing Student Name Certificate Generation...");
+
+const sampleRankCriteria = formatRankCriteria(context.config);
+expect(sampleRankCriteria.length > 0, "Rank criteria formatting returned no lines");
+expect(
+  sampleRankCriteria.some((line) => line.startsWith("S:")),
+  "Rank criteria missing the top 'S' threshold",
+);
+
+const certOptions = {
+  title: foodKitchenQuiz.config.pageTitle,
+  score: 1450,
+  maxScore: maxScore(foodKitchenQuiz),
+  rank: "A",
+  time: "12:34",
+  puzzlesCompleted: context.totalPuzzles,
+  totalPuzzles: context.totalPuzzles,
+  date: "January 1, 2026",
+  rankCriteria: sampleRankCriteria,
+};
+
+const namedPdf = generateScorePdf({ ...certOptions, studentName: "Ada Lovelace" });
+expect(
+  namedPdf.type === "application/pdf",
+  "Certificate Blob missing the application/pdf MIME type",
+);
+const namedPdfText = await namedPdf.text();
+expect(namedPdfText.startsWith("%PDF-1.4"), "Certificate is missing the PDF header");
+expect(
+  namedPdfText.includes("Awarded to: Ada Lovelace"),
+  "Certificate did not embed the student's name",
+);
+expect(namedPdfText.includes("GRADE: A"), "Certificate did not embed the achieved grade");
+expect(
+  namedPdfText.includes("GRADE CRITERIA"),
+  "Certificate is missing the grade criteria section",
+);
+expect(
+  sampleRankCriteria.every((line) => namedPdfText.includes(line)),
+  "Certificate did not embed every grade criteria line",
+);
+
+// A blank name falls back to a safe, still-legible default.
+const blankPdfText = await generateScorePdf({ ...certOptions, studentName: "   " }).text();
+expect(
+  blankPdfText.includes("Awarded to: Student"),
+  "Blank student name did not fall back to 'Student'",
+);
+
+// Non-Latin-1 characters would corrupt the single-byte PDF text stream, so they
+// must be sanitized rather than passed through raw.
+const unicodePdfText = await generateScorePdf({ ...certOptions, studentName: "李雷" }).text();
+expect(
+  !unicodePdfText.includes("李雷") && unicodePdfText.includes("Awarded to: ??"),
+  "Non-Latin-1 name characters were not sanitized before entering the PDF stream",
+);
+
+console.log("  ✔ Student Name Certificate Generation passed!");
 
 console.log("\n🎉 ALL E2E TEST SCENARIOS PASSED SUCCESSFULLY!");

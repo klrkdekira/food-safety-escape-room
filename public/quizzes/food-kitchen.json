@@ -716,6 +716,43 @@
       "correct": "a",
       "hint": "Thixotropy is time-dependent structural breakdown and recovery.",
       "explanation": "Thixotropy is a time-dependent shear-thinning phenomenon where continuous shear breaks down internal physical networks over time, lowering viscosity until structure rebuilds during rest."
+    },
+    "23": {
+      "type": "multiselect",
+      "room": 2,
+      "bloomLevel": "remember",
+      "points": 90,
+      "title": "HYDROCOLLOID IDENTIFICATION",
+      "question": "Which of the following are <strong>hydrocolloids</strong> commonly used as gelling agents in food systems? (Select all that apply)",
+      "options": [
+        {
+          "key": "a",
+          "text": "Agar"
+        },
+        {
+          "key": "b",
+          "text": "Gelatin"
+        },
+        {
+          "key": "c",
+          "text": "Sodium chloride"
+        },
+        {
+          "key": "d",
+          "text": "Pectin"
+        },
+        {
+          "key": "e",
+          "text": "Sucrose"
+        }
+      ],
+      "correct": [
+        "a",
+        "b",
+        "d"
+      ],
+      "hint": "Two of the five options are common seasonings, not hydrocolloids.",
+      "explanation": "Agar, gelatin, and pectin are all hydrocolloids that form gel networks in food. Sodium chloride (salt) and sucrose (sugar) are small-molecule solutes that influence gelation indirectly but are not themselves gelling hydrocolloids."
     }
   },
   "roomCodes": {
