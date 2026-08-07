@@ -16,6 +16,20 @@ export const MatchItemSchema = z.object({
   text: z.string(),
 });
 
+// Bloom's Taxonomy cognitive level a puzzle targets, used to gauge which
+// levels a student is strong or weak at once the quiz is scored.
+export const BloomLevelSchema = z.enum(["remember", "understand", "apply", "analyse", "evaluate"]);
+export type BloomLevel = z.infer<typeof BloomLevelSchema>;
+
+/** Bloom levels, lowest to highest cognitive demand, with a display label for each. */
+export const BLOOM_LEVELS: { level: BloomLevel; label: string }[] = [
+  { level: "remember", label: "Remember" },
+  { level: "understand", label: "Understand" },
+  { level: "apply", label: "Apply" },
+  { level: "analyse", label: "Analyse" },
+  { level: "evaluate", label: "Evaluate" },
+];
+
 // Common fields across all puzzle types
 const BasePuzzleSchema = z.object({
   room: z.number().int(),
@@ -24,6 +38,7 @@ const BasePuzzleSchema = z.object({
   explanation: z.string().optional(),
   title: z.string(),
   question: z.string(),
+  bloomLevel: BloomLevelSchema,
 });
 
 // Individual Puzzle Schemas
@@ -94,6 +109,16 @@ export const ConfigSchema = z.object({
   victorySubtitle: z.string().optional(),
   victoryText: z.string().optional(),
   version: z.string().optional(),
+  // Looping background music for the whole playthrough. Same site-local-or-HTTPS
+  // rule as room artwork; see the imageUrl precedent below.
+  musicUrl: z
+    .string()
+    .refine((value) => value.startsWith("/") || value.startsWith("https://"), {
+      message: "musicUrl must be a site-local path or an HTTPS URL",
+    })
+    .optional(),
+  musicVolume: z.number().min(0).max(1).optional(),
+  musicAttribution: z.string().optional(),
 });
 
 // Room Data Schema
@@ -118,7 +143,7 @@ export const RoomDataSchema = z.object({
  * rejects anything newer than it understands, so an old checkout fails loudly
  * on a new quiz file instead of silently dropping fields.
  */
-export const CURRENT_SCHEMA_VERSION = 1;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 // Complete Base Quiz Schema
 export const BaseQuizSchema = z.object({
@@ -192,6 +217,14 @@ export const QuizSchema = BaseQuizSchema.superRefine((data, ctx) => {
         path: ["roomData", roomKey, "imageAttribution"],
       });
     }
+  }
+
+  if (data.config.musicUrl?.startsWith("https://") && !data.config.musicAttribution?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "HTTPS background music requires musicAttribution",
+      path: ["config", "musicAttribution"],
+    });
   }
 
   if (data.config.minimapRooms.length !== roomKeys.length) {

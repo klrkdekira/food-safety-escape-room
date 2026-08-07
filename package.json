@@ -22,7 +22,8 @@
     "fmt:check": "oxfmt --check src tools e2e",
     "html:check": "html-validate index.html",
     "test": "pnpm run validate && pnpm run test:schema && pnpm run test:game && pnpm run test:accessibility && pnpm run test:route-recovery && pnpm run test:preview-contract && pnpm run test:e2e && pnpm run test:playwright && tsx tools/generate-e2e-report.ts && pnpm run typecheck && pnpm run lint && pnpm run fmt:check && pnpm run html:check",
-    "fetch-fonts": "tsx tools/fetch-fonts.ts"
+    "fetch-fonts": "tsx tools/fetch-fonts.ts",
+    "fetch-music": "tsx tools/fetch-music.ts"
   },
   "keywords": [
     "education",

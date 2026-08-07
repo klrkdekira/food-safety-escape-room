@@ -1,4 +1,9 @@
 import React from "react";
+import {
+  DEFAULT_MUSIC_ATTRIBUTION,
+  DEFAULT_MUSIC_URL,
+  DEFAULT_MUSIC_VOLUME,
+} from "../../lib/musicDefaults.ts";
 import type { QuizData } from "../../schema/quiz.ts";
 
 interface ConfigEditorProps {
@@ -117,6 +122,86 @@ export const ConfigEditor: React.FC<ConfigEditorProps> = ({ data, onChange }) =>
             onChange={handleChange}
           />
         </div>
+      </div>
+
+      <div className="editor-subcard">
+        <div className="editor-row">
+          <label className="editor-label" style={{ marginBottom: 0 }}>
+            Background Music
+          </label>
+          <button
+            type="button"
+            className="editor-btn editor-shrink"
+            onClick={() => {
+              onChange("musicUrl", DEFAULT_MUSIC_URL);
+              onChange("musicVolume", DEFAULT_MUSIC_VOLUME);
+              onChange("musicAttribution", DEFAULT_MUSIC_ATTRIBUTION);
+            }}
+          >
+            Use default track (CC BY 3.0)
+          </button>
+          {config.musicUrl && (
+            <button
+              type="button"
+              className="editor-btn btn-danger editor-shrink"
+              onClick={() => {
+                onChange("musicUrl", undefined);
+                onChange("musicVolume", undefined);
+                onChange("musicAttribution", undefined);
+              }}
+            >
+              Remove
+            </button>
+          )}
+        </div>
+
+        <div className="editor-grid-2">
+          <div>
+            <label className="editor-label">Track URL (site-local path or HTTPS)</label>
+            <input
+              className="editor-input"
+              name="musicUrl"
+              placeholder="/audio/track.mp3"
+              value={config.musicUrl ?? ""}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div>
+            <label className="editor-label">
+              Volume ({Math.round((config.musicVolume ?? DEFAULT_MUSIC_VOLUME) * 100)}%)
+            </label>
+            <input
+              type="range"
+              className="editor-input"
+              min={0}
+              max={1}
+              step={0.05}
+              value={config.musicVolume ?? DEFAULT_MUSIC_VOLUME}
+              onChange={(e) => onChange("musicVolume", Number(e.target.value))}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="editor-label">
+            Attribution (required if the track URL is HTTPS, not a site-local path)
+          </label>
+          <input
+            className="editor-input"
+            name="musicAttribution"
+            placeholder='"Track title" by Artist, licensed under CC BY ...'
+            value={config.musicAttribution ?? ""}
+            onChange={handleChange}
+          />
+        </div>
+
+        {config.musicUrl && (
+          <div>
+            <label className="editor-label">Preview</label>
+            <audio className="editor-audio-preview" controls src={config.musicUrl} />
+          </div>
+        )}
       </div>
     </div>
   );

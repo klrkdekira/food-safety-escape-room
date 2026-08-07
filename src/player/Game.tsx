@@ -4,6 +4,7 @@ import type { GameContextValue } from "./GameContext.ts";
 import { buildContext, createInitialState, gameReducer } from "./gameReducer.ts";
 import { formatTime } from "./lib/quiz.ts";
 import { recordBestScore } from "./lib/storage.ts";
+import { BackgroundMusic } from "./components/BackgroundMusic.tsx";
 import { FinalCode } from "./components/FinalCode.tsx";
 import { Hud } from "./components/Hud.tsx";
 import { LiveRegion } from "./components/LiveRegion.tsx";
@@ -99,6 +100,7 @@ export const Game: React.FC<GameProps> = ({
 
   return (
     <GameContextProvider value={value}>
+      <BackgroundMusic />
       <Overlays />
       <LiveRegion announcement={state.announcement} />
 

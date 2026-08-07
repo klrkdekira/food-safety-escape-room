@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "state": {
     "currentRoom": 0,
     "score": 0,
@@ -33,6 +33,7 @@
     "1": {
       "type": "order",
       "room": 1,
+      "bloomLevel": "understand",
       "correctOrder": [
         "attachment",
         "growth",
@@ -66,6 +67,7 @@
     "2": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "remember",
       "correct": "b",
       "points": 80,
       "hint": "This organism survives in refrigerators. Its name means \"living in lists\".",
@@ -94,6 +96,7 @@
     "3": {
       "type": "multiselect",
       "room": 1,
+      "bloomLevel": "remember",
       "correct": [
         "a",
         "c"
@@ -125,6 +128,7 @@
     "4": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "apply",
       "correct": "b",
       "points": 80,
       "hint": "Each D-value = 90% reduction. For 5-log reduction, multiply D-value by 5.",
@@ -153,6 +157,7 @@
     "5": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "remember",
       "correct": "a",
       "points": 80,
       "hint": "This rapid test uses the energy molecule Adenosine Triphosphate to generate light.",
@@ -181,6 +186,7 @@
     "6": {
       "type": "order",
       "room": 2,
+      "bloomLevel": "understand",
       "correctOrder": [
         "raw",
         "clean",
@@ -214,6 +220,7 @@
     "7": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "evaluate",
       "correct": "b",
       "points": 80,
       "hint": "Fruit jam has natural low pH. Think about what preserves jam: high sugar reduces water activity, plus heat.",
@@ -242,6 +249,7 @@
     "8": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "remember",
       "correct": "b",
       "points": 80,
       "hint": "The answer is in the name. Think about extreme pressure, not electricity or UV.",
@@ -270,6 +278,7 @@
     "9": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "remember",
       "correct": "b",
       "points": 80,
       "hint": "Nisin is produced by a bacterium and is used in cheese.",
@@ -298,6 +307,7 @@
     "10": {
       "type": "mcq",
       "room": 4,
+      "bloomLevel": "understand",
       "correct": "b",
       "points": 80,
       "hint": "Non-culturable = cannot grow on standard media. Routine tests would miss them.",
@@ -326,6 +336,7 @@
     "11": {
       "type": "order",
       "room": 4,
+      "bloomLevel": "understand",
       "correctOrder": [
         "animal",
         "resist",
@@ -359,6 +370,7 @@
     "12": {
       "type": "mcq",
       "room": 4,
+      "bloomLevel": "apply",
       "correct": "b",
       "points": 80,
       "hint": "Fresh-cut foods are one of the examples of higher-risk emerging food systems.",
@@ -387,6 +399,7 @@
     "13": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "apply",
       "correct": "b",
       "points": 80,
       "hint": "Think about survival in high sugar foods.",
@@ -415,6 +428,7 @@
     "15": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "understand",
       "correct": "a",
       "points": 80,
       "hint": "This step proves the cleaning process consistently reaches the required standard.",
@@ -443,6 +457,7 @@
     "17": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "remember",
       "correct": "b",
       "points": 80,
       "hint": "The process uses electric pulses and works best for liquids.",
@@ -471,6 +486,7 @@
     "19": {
       "type": "mcq",
       "room": 4,
+      "bloomLevel": "remember",
       "correct": "b",
       "points": 80,
       "hint": "Climate change can shift microbial ecology and pathogen distribution.",
@@ -499,6 +515,7 @@
     "20": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "remember",
       "correct": "b",
       "points": 80,
       "hint": "Think about the proteins rapidly produced when bacteria experience temperature stress.",
@@ -527,6 +544,7 @@
     "21": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "apply",
       "correct": "c",
       "points": 80,
       "hint": "z = temperature difference ÷ (log D1 − log D2). Calculate the log difference first.",
@@ -555,6 +573,7 @@
     "22": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "analyse",
       "correct": "b",
       "points": 80,
       "hint": "A higher D-value means it takes more time to achieve a 90% reduction, indicating stronger resistance.",
@@ -583,6 +602,7 @@
     "23": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "analyse",
       "correct": "d",
       "points": 80,
       "hint": "Think about how deep each treatment can reach into a food product.",
@@ -611,6 +631,7 @@
     "24": {
       "type": "multiselect",
       "room": 3,
+      "bloomLevel": "analyse",
       "correct": [
         "a",
         "b",
@@ -643,6 +664,7 @@
     "25": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "understand",
       "correct": "b",
       "points": 90,
       "hint": "Mild acid exposure induces stress proteins that increase resistance.",
@@ -671,6 +693,7 @@
     "26": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "remember",
       "correct": "c",
       "points": 90,
       "hint": "Staphylococcus aureus is unusually osmotolerant compared to Gram-negative pathogens.",
@@ -699,6 +722,7 @@
     "27": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "evaluate",
       "correct": "b",
       "points": 90,
       "hint": "Think about micro-crevices in seals and slicing equipment.",
@@ -770,6 +794,9 @@
     "wrongPenalty": 0,
     "rankMode": "absolute",
     "roomLabel": "Room",
+    "musicUrl": "/audio/apprehension.mp3",
+    "musicVolume": 0.35,
+    "musicAttribution": "\"Apprehension\" by Kevin MacLeod (incompetech.com), licensed under CC BY 3.0 (creativecommons.org/licenses/by/3.0)",
     "pageTitle": "FOOD SAFETY FACILITY - Escape Room",
     "titleLogo": "FOOD SAFETY FACILITY",
     "titleSub": "Escape Room Challenge",

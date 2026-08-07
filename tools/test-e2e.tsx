@@ -276,6 +276,7 @@ const newPuzzle: Puzzle = {
   points: 120,
   title: "ZONE 3 TEST",
   question: "What is the critical limit?",
+  bloomLevel: "remember",
   options: [
     { key: "A", text: "4°C or below" },
     { key: "B", text: "20°C" },
@@ -375,6 +376,7 @@ editedQuiz.puzzleData[String(nextId)] = {
   points: 50,
   title: "NEW EDITED PUZZLE",
   question: "New question text?",
+  bloomLevel: "remember",
   options: [
     { key: "1", text: "Option 1" },
     { key: "2", text: "Option 2" },

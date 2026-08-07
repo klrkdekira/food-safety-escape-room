@@ -48,6 +48,25 @@ expectValid("attributed HTTPS artwork", (quiz) => {
 expectValid("site-local artwork without attribution", (quiz) => {
   quiz.roomData["1"].imageUrl = "/images/artwork.png";
 });
+expectInvalid("unattributed HTTPS background music", (quiz) => {
+  quiz.config.musicUrl = "https://example.test/track.mp3";
+  delete quiz.config.musicAttribution;
+});
+expectInvalid("insecure HTTP background music", (quiz) => {
+  quiz.config.musicUrl = "http://example.test/track.mp3";
+  quiz.config.musicAttribution = "Example track";
+});
+expectInvalid("music volume out of range", (quiz) => {
+  quiz.config.musicVolume = 1.5;
+});
+expectValid("attributed HTTPS background music", (quiz) => {
+  quiz.config.musicUrl = "https://example.test/track.mp3";
+  quiz.config.musicAttribution = "Example track";
+});
+expectValid("site-local background music without attribution", (quiz) => {
+  quiz.config.musicUrl = "/audio/track.mp3";
+  delete quiz.config.musicAttribution;
+});
 expectInvalid("duplicate option key", (quiz) => {
   quiz.puzzleData["2"].options[1].key = quiz.puzzleData["2"].options[0].key;
 });

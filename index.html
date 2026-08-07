@@ -13,7 +13,7 @@
     style attributes, which cannot be nonce'd.
     frame-src 'self' is required by the author studio's live preview, which frames
     the /preview route.
-    Fonts are self-hosted (`public/fonts/`). HTTPS remains permitted only for optional author-selected Creative Commons artwork and the studio's Commons search; it is not a runtime library dependency.
+    Fonts are self-hosted (`public/fonts/`). HTTPS remains permitted only for optional author-selected Creative Commons artwork and background music, and the studio's Commons search; it is not a runtime library dependency.
     frame-ancestors is intentionally absent: it is ignored in a <meta> CSP and
     must be sent as a real header by the host.
   -->
@@ -23,6 +23,7 @@
     style-src 'self' 'unsafe-inline';
     font-src 'self';
     img-src 'self' data: https: blob:;
+    media-src 'self' https:;
     connect-src 'self' https:;
     frame-src 'self';
     manifest-src 'self';

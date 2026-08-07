@@ -13,7 +13,7 @@
     style attributes, which cannot be nonce'd.
     frame-src 'self' is required by the author studio's live preview, which frames
     the /preview route.
-    Fonts are self-hosted (`public/fonts/`). HTTPS remains permitted only for optional author-selected Creative Commons artwork and the studio's Commons search; it is not a runtime library dependency.
+    Fonts are self-hosted (`public/fonts/`). HTTPS remains permitted only for optional author-selected Creative Commons artwork and background music, and the studio's Commons search; it is not a runtime library dependency.
     frame-ancestors is intentionally absent: it is ignored in a <meta> CSP and
     must be sent as a real header by the host.
   -->
@@ -23,6 +23,7 @@
     style-src 'self' 'unsafe-inline';
     font-src 'self';
     img-src 'self' data: https: blob:;
+    media-src 'self' https:;
     connect-src 'self' https:;
     frame-src 'self';
     manifest-src 'self';
@@ -37,11 +38,11 @@
   <link rel="stylesheet" href="fonts/fonts.css">
   <link rel="manifest" href="manifest.webmanifest">
   <script src="/route-recovery.js"></script>
-  <script type="module" crossorigin src="/assets/index-HElfcNrl.js"></script>
+  <script type="module" crossorigin src="/assets/index-DYBJe2N5.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-B0Z9INg1.js">
   <link rel="modulepreload" crossorigin href="/assets/useRouteContext-CooHRUc2.js">
   <link rel="modulepreload" crossorigin href="/assets/Match-DjscMjQS.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-DqJff_Tg.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-D6Pwgqsr.css">
 </head>
 
 <body>

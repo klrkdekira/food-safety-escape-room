@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BLOOM_LEVELS } from "../../schema/quiz.ts";
 import type { QuizData } from "../../schema/quiz.ts";
 import { AnswerEditor } from "./AnswerEditor.tsx";
 
@@ -15,6 +16,7 @@ export function convertPuzzleType(puzzle: AnyPuzzle, newType: string): AnyPuzzle
     points: puzzle.points,
     title: puzzle.title,
     question: puzzle.question,
+    bloomLevel: puzzle.bloomLevel,
     ...(puzzle.hint === undefined ? {} : { hint: puzzle.hint }),
     ...(puzzle.explanation === undefined ? {} : { explanation: puzzle.explanation }),
   };
@@ -95,6 +97,7 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
       points: 100,
       title: "NEW PUZZLE",
       question: "Enter question text here:",
+      bloomLevel: "remember",
       options: [
         { key: "A", text: "Option A" },
         { key: "B", text: "Option B" },
@@ -168,6 +171,21 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
                 value={currentPuzzle.points}
                 onChange={(e) => updateCurrent("points", Number(e.target.value))}
               />
+            </div>
+
+            <div>
+              <label className="editor-label">Bloom's Level</label>
+              <select
+                className="editor-input"
+                value={currentPuzzle.bloomLevel}
+                onChange={(e) => updateCurrent("bloomLevel", e.target.value)}
+              >
+                {BLOOM_LEVELS.map(({ level, label }) => (
+                  <option key={level} value={level}>
+                    {label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 

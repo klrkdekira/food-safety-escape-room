@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useGame } from "../GameContext.ts";
 import { fadeIn } from "../lib/animate.ts";
 import { generateScorePdf } from "../lib/pdf.ts";
-import { formatTime, maxScore, resolveRank } from "../lib/quiz.ts";
+import { computeBloomBreakdown, formatTime, maxScore, resolveRank } from "../lib/quiz.ts";
 import { RichText } from "./RichText.tsx";
 
 export const Victory: React.FC = () => {
@@ -13,6 +13,10 @@ export const Victory: React.FC = () => {
 
   const rank = resolveRank(ctx.config, state.score, maxScore(ctx.quiz));
   const timeStr = formatTime(state.timeElapsed);
+  const bloomBreakdown = useMemo(
+    () => computeBloomBreakdown(ctx.quiz, state.results),
+    [ctx.quiz, state.results],
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -78,6 +82,27 @@ export const Victory: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {bloomBreakdown.length > 0 && (
+        <div className="victory-bloom" id="victory-bloom">
+          <div className="victory-bloom-title">Cognitive skill record</div>
+          {bloomBreakdown.map((stat) => {
+            const pct =
+              stat.totalPuzzles > 0 ? Math.round((stat.correctCount / stat.totalPuzzles) * 100) : 0;
+            return (
+              <div className="bloom-row" key={stat.level}>
+                <div className="bloom-row-label">{stat.label}</div>
+                <div className="bloom-row-track">
+                  <div className="bloom-row-fill" style={{ width: `${pct}%` }} />
+                </div>
+                <div className="bloom-row-value">
+                  {stat.correctCount}/{stat.totalPuzzles}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       <RichText id="victory-text" className="victory-text" text={config.victoryText} />
 

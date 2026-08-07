@@ -664,6 +664,12 @@ strong {
   border-top: 1px solid var(--border-color);
 }
 
+.music-credit {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
 /* Build version */
 .version-display {
   position: fixed;
@@ -1909,6 +1915,51 @@ body {
 }
 .victory-stat {
   background: #fffdf7;
+}
+
+.victory-bloom {
+  width: 100%;
+  margin: 0.5rem 0 1rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  background: #fffdf7;
+  text-align: left;
+}
+.victory-bloom-title {
+  margin-bottom: 0.75rem;
+  font: 700 0.7rem/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.bloom-row {
+  display: grid;
+  grid-template-columns: 6rem 1fr 3rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.3rem 0;
+}
+.bloom-row-label {
+  font-size: 0.813rem;
+  color: var(--text-secondary);
+}
+.bloom-row-track {
+  height: 0.5rem;
+  background: var(--border-color);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+.bloom-row-fill {
+  height: 100%;
+  background: var(--yellow);
+  border-radius: var(--r-sm);
+}
+.bloom-row-value {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.813rem;
+  color: var(--text-primary);
 }
 
 @media (max-width: 768px) {

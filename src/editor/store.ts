@@ -1,11 +1,16 @@
 import { enablePatches } from "immer";
+import {
+  DEFAULT_MUSIC_ATTRIBUTION,
+  DEFAULT_MUSIC_URL,
+  DEFAULT_MUSIC_VOLUME,
+} from "../lib/musicDefaults.ts";
 import type { QuizData } from "../schema/quiz.ts";
 import type { EditorAction } from "./types.ts";
 
 enablePatches();
 
 export const DEFAULT_TEMPLATE: QuizData = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   config: {
     pageTitle: "NEW ESCAPE ROOM - Author Studio",
     titleLogo: "NEW ESCAPE ROOM",
@@ -21,6 +26,9 @@ export const DEFAULT_TEMPLATE: QuizData = {
     victorySubtitle: "ALL ZONES CLEARED",
     victoryText: "Congratulations! You have completed the facility escape.",
     version: "v1.0.0",
+    musicUrl: DEFAULT_MUSIC_URL,
+    musicVolume: DEFAULT_MUSIC_VOLUME,
+    musicAttribution: DEFAULT_MUSIC_ATTRIBUTION,
   },
   state: {
     currentRoom: 1,
@@ -42,6 +50,7 @@ export const DEFAULT_TEMPLATE: QuizData = {
       points: 100,
       title: "INITIAL PROTOCOL",
       question: "Select the primary safety protocol:",
+      bloomLevel: "remember",
       options: [
         { key: "A", text: "Sanitise all contact surfaces" },
         { key: "B", text: "Ignore temperature logs" },
@@ -58,6 +67,7 @@ export const DEFAULT_TEMPLATE: QuizData = {
       points: 100,
       title: "SECOND PROTOCOL",
       question: "Select the correct storage practice:",
+      bloomLevel: "understand",
       options: [
         { key: "A", text: "Store raw meat above ready-to-eat food" },
         { key: "B", text: "Store raw meat below ready-to-eat food" },

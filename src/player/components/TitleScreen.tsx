@@ -64,6 +64,10 @@ export const TitleScreen: React.FC<{ quizzes: QuizManifestItem[] }> = ({ quizzes
         )}
       </div>
 
+      {config.musicUrl && config.musicAttribution && (
+        <div className="music-credit">Music: {config.musicAttribution}</div>
+      )}
+
       {/* Switching quiz is a navigation, not a page reload rewriting ?quiz=. */}
       {!preview && quizzes.length > 1 && (
         <div id="quiz-selector-container" className="title-switcher">

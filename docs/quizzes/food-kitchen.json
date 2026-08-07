@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "state": {
     "currentRoom": 0,
     "score": 0,
@@ -33,6 +33,7 @@
     "1": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "understand",
       "points": 80,
       "title": "CONTINUOUS & DISPERSED PHASE",
       "question": "In a <strong>mayonnaise</strong> system, which statement correctly identifies the continuous and dispersed phases?",
@@ -61,6 +62,7 @@
     "2": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "understand",
       "points": 80,
       "title": "EMULSIFIER MECHANISM",
       "question": "How does <strong>lecithin</strong> stabilise an emulsion?",
@@ -89,6 +91,7 @@
     "3": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "apply",
       "points": 80,
       "title": "EMULSION TYPE",
       "question": "<strong>Milk</strong> is best classified as which type of emulsion?",
@@ -117,6 +120,7 @@
     "4": {
       "type": "order",
       "room": 1,
+      "bloomLevel": "understand",
       "points": 100,
       "title": "EMULSION FORMATION",
       "question": "Arrange the three stages of <strong>emulsion formation</strong> in the correct order:",
@@ -145,6 +149,7 @@
     "5": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "understand",
       "points": 80,
       "title": "FACTORS AFFECTING EMULSION",
       "question": "Which factor is <strong>NOT</strong> directly important in emulsion formation and stability?",
@@ -173,6 +178,7 @@
     "6": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "apply",
       "points": 80,
       "title": "DROPLET SIZE & STABILITY",
       "question": "In an emulsion, <strong>smaller droplet size</strong> generally leads to:",
@@ -201,6 +207,7 @@
     "7": {
       "type": "match",
       "room": 1,
+      "bloomLevel": "analyse",
       "points": 100,
       "title": "EMULSION INSTABILITY",
       "question": "Match each <strong>emulsion instability mechanism</strong> to its correct description:",
@@ -270,6 +277,7 @@
     "8": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "remember",
       "points": 80,
       "title": "GEL STRUCTURE",
       "question": "In a <strong>gel system</strong>, which phase forms the continuous network?",
@@ -298,6 +306,7 @@
     "9": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "remember",
       "points": 80,
       "title": "GEL TYPE",
       "question": "Which description best characterises a <strong>homogeneous gel</strong>?",
@@ -326,6 +335,7 @@
     "10": {
       "type": "match",
       "room": 2,
+      "bloomLevel": "remember",
       "points": 100,
       "title": "GEL NETWORK FORMATION",
       "question": "Match each <strong>gel network mechanism</strong> to its correct description:",
@@ -377,6 +387,7 @@
     "11": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "understand",
       "points": 80,
       "title": "GEL FORMATION FACTORS",
       "question": "Which factor does <strong>NOT</strong> directly influence gelation?",
@@ -405,6 +416,7 @@
     "12": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "apply",
       "points": 80,
       "title": "FOAM PHASES",
       "question": "Whipped cream is best classified as which type of colloidal system?",
@@ -433,6 +445,7 @@
     "13": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "apply",
       "points": 80,
       "title": "FOAM CLASSIFICATION",
       "question": "Bread is an example of which colloidal foam type?",
@@ -461,6 +474,7 @@
     "14": {
       "type": "order",
       "room": 3,
+      "bloomLevel": "understand",
       "points": 100,
       "title": "FOAM FORMATION",
       "question": "Arrange the three stages of <strong>food foam formation</strong> in the correct order:",
@@ -489,6 +503,7 @@
     "15": {
       "type": "mcq",
       "room": 3,
+      "bloomLevel": "analyse",
       "points": 80,
       "title": "FOAM STABILITY FACTORS",
       "question": "Which factor <strong>improves</strong> food foam stability?",
@@ -517,6 +532,7 @@
     "16": {
       "type": "mcq",
       "room": 4,
+      "bloomLevel": "analyse",
       "points": 80,
       "title": "COLLOID TYPES",
       "question": "Which of the following is <strong>NOT</strong> classified as a colloidal system?",
@@ -545,6 +561,7 @@
     "17": {
       "type": "mcq",
       "room": 4,
+      "bloomLevel": "remember",
       "points": 80,
       "title": "COLLOID CLASSIFICATION",
       "question": "<strong>Hydrophilic colloids</strong> are best described as:",
@@ -573,6 +590,7 @@
     "18": {
       "type": "mcq",
       "room": 4,
+      "bloomLevel": "remember",
       "points": 80,
       "title": "THERMODYNAMIC INSTABILITY",
       "question": "Which instability mechanism involves <strong>thermodynamically driven growth</strong> of large particles at the expense of small ones?",
@@ -601,6 +619,7 @@
     "19": {
       "type": "mcq",
       "room": 4,
+      "bloomLevel": "evaluate",
       "points": 80,
       "title": "HYDROCOLLOID SELECTION",
       "question": "Which factor is <strong>MOST important</strong> when selecting a hydrocolloid for a food application?",
@@ -629,6 +648,7 @@
     "20": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "understand",
       "points": 90,
       "title": "NON-NEWTONIAN RHEOLOGY",
       "question": "Most food emulsions and sauces display <strong>shear-thinning (pseudoplastic) behavior</strong>. How does viscosity change as shear rate increases?",
@@ -657,6 +677,7 @@
     "21": {
       "type": "mcq",
       "room": 1,
+      "bloomLevel": "apply",
       "points": 90,
       "title": "PHASE INVERSION TEMPERATURE",
       "question": "What occurs when a non-ionic surfactant-stabilised O/W emulsion is heated above its <strong>Phase Inversion Temperature (PIT)</strong>?",
@@ -685,6 +706,7 @@
     "22": {
       "type": "mcq",
       "room": 2,
+      "bloomLevel": "understand",
       "points": 90,
       "title": "THIXOTROPIC BEHAVIOUR",
       "question": "Ketchup and hydrocolloid sauces exhibit <strong>thixotropy</strong>. How do thixotropic fluids behave under constant shear over time?",
@@ -756,6 +778,9 @@
     "wrongPenalty": 10,
     "rankMode": "percent",
     "roomLabel": "Zone",
+    "musicUrl": "/audio/apprehension.mp3",
+    "musicVolume": 0.35,
+    "musicAttribution": "\"Apprehension\" by Kevin MacLeod (incompetech.com), licensed under CC BY 3.0 (creativecommons.org/licenses/by/3.0)",
     "pageTitle": "FOOD COLLOIDS KITCHEN - Escape Room",
     "titleLogo": "FOOD COLLOIDS KITCHEN",
     "titleSub": "Escape Room Challenge",

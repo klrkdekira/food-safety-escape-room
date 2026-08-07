@@ -1,4 +1,6 @@
-import type { EngineConfig, QuizData, RankThreshold } from "../types.ts";
+import { BLOOM_LEVELS } from "../../schema/quiz.ts";
+import type { BloomLevel } from "../../schema/quiz.ts";
+import type { EngineConfig, PuzzleResult, QuizData, RankThreshold } from "../types.ts";
 
 const DEFAULT_ABSOLUTE_RANKS: RankThreshold[] = [
   { min: 1800, rank: "S" },
@@ -61,4 +63,46 @@ export function formatTime(totalSeconds: number): string {
     .padStart(2, "0");
   const s = (totalSeconds % 60).toString().padStart(2, "0");
   return `${m}:${s}`;
+}
+
+export interface BloomLevelStats {
+  level: BloomLevel;
+  label: string;
+  totalPuzzles: number;
+  correctCount: number;
+  maxPoints: number;
+  earnedPoints: number;
+}
+
+/**
+ * Score, per Bloom's Taxonomy cognitive level, from the quiz's authored
+ * bloomLevel tags and the player's puzzle results. Levels with no puzzles in
+ * this quiz are omitted rather than shown as an empty row.
+ */
+export function computeBloomBreakdown(
+  data: QuizData,
+  results: Record<string, PuzzleResult | undefined>,
+): BloomLevelStats[] {
+  const stats = new Map<BloomLevel, BloomLevelStats>(
+    BLOOM_LEVELS.map(({ level, label }) => [
+      level,
+      { level, label, totalPuzzles: 0, correctCount: 0, maxPoints: 0, earnedPoints: 0 },
+    ]),
+  );
+
+  for (const [puzzleId, puzzle] of Object.entries(data.puzzleData)) {
+    const stat = stats.get(puzzle.bloomLevel);
+    if (!stat) continue;
+    stat.totalPuzzles += 1;
+    stat.maxPoints += puzzle.points;
+    const result = results[puzzleId];
+    if (result?.correct) {
+      stat.correctCount += 1;
+      stat.earnedPoints += result.points;
+    }
+  }
+
+  return BLOOM_LEVELS.map(({ level }) => stats.get(level)).filter(
+    (stat): stat is BloomLevelStats => stat !== undefined && stat.totalPuzzles > 0,
+  );
 }
