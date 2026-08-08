@@ -5,6 +5,20 @@ const SCREENSHOT_DIR = path.resolve("e2e-report/screenshots");
 const CERTIFICATE_DIR = path.resolve("e2e-report/certificates");
 const REPORT_FILE = path.resolve("e2e-report/index.html");
 
+/**
+ * Every title/description below is interpolated into the HTML template as raw
+ * markup, not text. A stray `<` (e.g. writing `<select>` in a description) is
+ * parsed as a real tag and can swallow the rest of the page -- escape before
+ * every interpolation, not just the ones that look risky today.
+ */
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 interface ScreenshotItem {
   filename: string;
   title: string;
@@ -399,12 +413,12 @@ function buildHtmlReport(): void {
         (item, idx) => `
       <div class="step-item">
         <div class="step-header">
-          <div class="step-title">Step ${idx + 1}: ${item.title}</div>
-          <span class="step-tag">${item.category}</span>
+          <div class="step-title">Step ${idx + 1}: ${escapeHtml(item.title)}</div>
+          <span class="step-tag">${escapeHtml(item.category)}</span>
         </div>
-        <div class="step-desc">${item.description}</div>
+        <div class="step-desc">${escapeHtml(item.description)}</div>
         <div class="img-box">
-          <img src="${item.base64}" alt="${item.title}" />
+          <img src="${item.base64}" alt="${escapeHtml(item.title)}" />
         </div>
       </div>
     `,
@@ -422,11 +436,11 @@ function buildHtmlReport(): void {
         (item) => `
       <div class="step-item">
         <div class="step-header">
-          <div class="step-title">${item.title}</div>
+          <div class="step-title">${escapeHtml(item.title)}</div>
           <span class="step-tag">Certificate</span>
         </div>
-        <div class="step-desc">${item.description}</div>
-        <a class="cert-download" href="${item.base64}" download="${item.filename}">Download ${item.filename}</a>
+        <div class="step-desc">${escapeHtml(item.description)}</div>
+        <a class="cert-download" href="${item.base64}" download="${escapeHtml(item.filename)}">Download ${escapeHtml(item.filename)}</a>
       </div>
     `,
       )
