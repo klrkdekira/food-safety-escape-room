@@ -48,16 +48,16 @@ export const DEFAULT_TEMPLATE: QuizData = {
       type: "mcq",
       room: 1,
       points: 100,
-      title: "INITIAL PROTOCOL",
-      question: "Select the primary safety protocol:",
+      title: "SAMPLE PUZZLE 1",
+      question: "Enter your first question here:",
       bloomLevel: "remember",
       options: [
-        { key: "A", text: "Sanitise all contact surfaces" },
-        { key: "B", text: "Ignore temperature logs" },
+        { key: "A", text: "Correct answer text" },
+        { key: "B", text: "Incorrect answer text" },
       ],
       correct: "A",
-      hint: "Sanitation prevents cross-contamination.",
-      explanation: "Surface sanitation removes biofilm risks.",
+      hint: "Hint text to help the player.",
+      explanation: "Explanation shown after the puzzle is solved.",
     },
     // Room 2 needs at least one puzzle: a room with none is unreachable, and the
     // schema rejects the whole quiz for it.
@@ -65,16 +65,16 @@ export const DEFAULT_TEMPLATE: QuizData = {
       type: "mcq",
       room: 2,
       points: 100,
-      title: "SECOND PROTOCOL",
-      question: "Select the correct storage practice:",
+      title: "SAMPLE PUZZLE 2",
+      question: "Enter your second question here:",
       bloomLevel: "understand",
       options: [
-        { key: "A", text: "Store raw meat above ready-to-eat food" },
-        { key: "B", text: "Store raw meat below ready-to-eat food" },
+        { key: "A", text: "Incorrect answer text" },
+        { key: "B", text: "Correct answer text" },
       ],
       correct: "B",
-      hint: "Think about which way drips travel.",
-      explanation: "Storing raw meat below prevents drip contamination onto ready-to-eat food.",
+      hint: "Hint text to help the player.",
+      explanation: "Explanation shown after the puzzle is solved.",
     },
   },
   roomCodes: {
@@ -119,10 +119,10 @@ export function editorReducer(draft: QuizData, action: EditorAction): QuizData |
     case "ADD_ROOM":
       draft.roomData[action.roomKey] = {
         number: action.roomKey.padStart(2, "0"),
-        title: `ZONE ${action.roomKey}: NEW ROOM`,
-        subtitle: "Subsystem Area",
+        title: `ZONE ${action.roomKey}: UNTITLED ROOM`,
+        subtitle: "Describe this room's role in one line",
         svg: "",
-        narrative: "New room description.",
+        narrative: "Describe what the player sees and needs to do in this room.",
         codeHint: `Code: CODE${action.roomKey}`,
       };
       draft.roomCodes[action.roomKey] = `CODE${action.roomKey}`;

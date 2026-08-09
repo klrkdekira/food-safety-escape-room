@@ -20,6 +20,7 @@ export const EditorLayout: React.FC = () => {
   const [data, dispatch, history] = useHistoryReducer(editorReducer, DEFAULT_TEMPLATE);
   const [saveStatus, setSaveStatus] = useState("Loading draft...");
   const [draftReady, setDraftReady] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
   const validation = QuizSchema.safeParse(data);
 
   // Load a saved draft before autosave starts, so an initial template render
@@ -73,6 +74,7 @@ export const EditorLayout: React.FC = () => {
 
   const handleExport = () => {
     if (!validation.success) {
+      setShowValidation(true);
       alert("Resolve validation issues before exporting this quiz.");
       return;
     }
@@ -169,6 +171,14 @@ export const EditorLayout: React.FC = () => {
             </label>
 
             <button
+              className="editor-btn"
+              onClick={() => setShowValidation((v) => !v)}
+              title="Check the current draft for schema and referential-integrity issues"
+            >
+              {showValidation ? "Hide validation" : "Check validation"}
+            </button>
+
+            <button
               className="editor-btn editor-btn-primary"
               onClick={handleExport}
               disabled={!validation.success}
@@ -185,7 +195,7 @@ export const EditorLayout: React.FC = () => {
 
         <div className="editor-body">
           <div className="editor-main">
-            <ValidationPanel data={data} />
+            {showValidation && <ValidationPanel data={data} />}
 
             {/* Tabs are routes now, so a section is linkable and survives reload. */}
             <nav className="editor-tabs">

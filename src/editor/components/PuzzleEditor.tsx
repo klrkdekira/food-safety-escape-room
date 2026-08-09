@@ -25,8 +25,8 @@ export function convertPuzzleType(puzzle: AnyPuzzle, newType: string): AnyPuzzle
     "options" in puzzle && puzzle.options
       ? puzzle.options
       : [
-          { key: "A", text: "Opt 1" },
-          { key: "B", text: "Opt 2" },
+          { key: "A", text: "Correct answer text" },
+          { key: "B", text: "Incorrect answer text" },
         ];
 
   switch (newType) {
@@ -44,8 +44,8 @@ export function convertPuzzleType(puzzle: AnyPuzzle, newType: string): AnyPuzzle
         "items" in puzzle && puzzle.items
           ? puzzle.items
           : [
-              { id: "step1", text: "Step 1" },
-              { id: "step2", text: "Step 2" },
+              { id: "step1", text: "First step" },
+              { id: "step2", text: "Second step" },
             ];
       return { ...base, type: "order", items, correctOrder: items.map((i) => i.id) };
     }
@@ -53,24 +53,33 @@ export function convertPuzzleType(puzzle: AnyPuzzle, newType: string): AnyPuzzle
       const leftItems =
         "leftItems" in puzzle && puzzle.leftItems
           ? puzzle.leftItems
-          : [{ id: "l1", text: "Left 1" }];
+          : [
+              { id: "l1", text: "Term 1" },
+              { id: "l2", text: "Term 2" },
+            ];
       const rightItems =
         "rightItems" in puzzle && puzzle.rightItems
           ? puzzle.rightItems
-          : [{ id: "r1", text: "Right 1" }];
+          : [
+              { id: "r1", text: "Definition 1" },
+              { id: "r2", text: "Definition 2" },
+            ];
       return {
         ...base,
         type: "match",
         leftItems,
         rightItems,
-        correct: Object.fromEntries(leftItems.map((l) => [l.id, rightItems[0].id])),
+        correct: Object.fromEntries(
+          leftItems.map((l, i) => [l.id, rightItems[i % rightItems.length].id]),
+        ),
       };
     }
     case "text":
       return {
         ...base,
         type: "text",
-        keywords: "keywords" in puzzle && puzzle.keywords ? puzzle.keywords : ["keyword"],
+        keywords:
+          "keywords" in puzzle && puzzle.keywords ? puzzle.keywords : ["keyword1", "keyword2"],
       };
     default:
       return puzzle;
@@ -97,20 +106,24 @@ export const PuzzleEditor: React.FC<PuzzleEditorProps> = ({
 
   const handleAdd = () => {
     const nextId = (Math.max(...puzzleIds.map(Number), 0) + 1).toString();
+    // Default to the room of the puzzle the author is currently looking at,
+    // rather than always room 1, so adding a puzzle while reviewing room 3
+    // doesn't silently drop it into room 1.
+    const defaultRoom = currentPuzzle?.room ?? Math.min(...Object.keys(data.roomData).map(Number));
     const newPuzzle = {
       type: "mcq",
-      room: 1,
+      room: defaultRoom,
       points: 100,
       title: "NEW PUZZLE",
       question: "Enter question text here:",
       bloomLevel: "remember",
       options: [
-        { key: "A", text: "Option A" },
-        { key: "B", text: "Option B" },
+        { key: "A", text: "Correct answer text" },
+        { key: "B", text: "Incorrect answer text" },
       ],
       correct: "A",
-      hint: "Hint text.",
-      explanation: "Explanation text.",
+      hint: "Hint text to help the player.",
+      explanation: "Explanation shown after the puzzle is solved.",
     };
     onAddPuzzle(nextId, newPuzzle);
     setSelectedId(nextId);

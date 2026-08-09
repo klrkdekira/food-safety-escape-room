@@ -61,7 +61,7 @@ export const TitleScreen: React.FC<{ quizzes: QuizManifestItem[] }> = ({ quizzes
       </div>
 
       <div className="title-name-field">
-        <label htmlFor="student-name-input">Your name (for your certificate)</label>
+        <label htmlFor="student-name-input">Your name</label>
         <input
           type="text"
           id="student-name-input"

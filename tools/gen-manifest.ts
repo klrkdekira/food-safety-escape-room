@@ -10,6 +10,10 @@ export interface QuizManifestItem {
   path: string;
 }
 
+// Display order on the room-selection screen (room 1, room 2, ...). Quiz ids
+// not listed here fall back to alphabetical order after the listed ones.
+const ROOM_ORDER = ["microb", "food-kitchen"];
+
 export function generateQuizManifest(): QuizManifestItem[] {
   const quizzesDir = path.resolve("public/quizzes");
   if (!fs.existsSync(quizzesDir)) {
@@ -40,6 +44,15 @@ export function generateQuizManifest(): QuizManifestItem[] {
       console.error(`Warning: Failed to parse ${filePath} for manifest:`, err);
     }
   }
+
+  manifest.sort((a, b) => {
+    const ai = ROOM_ORDER.indexOf(a.id);
+    const bi = ROOM_ORDER.indexOf(b.id);
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1;
+    if (bi !== -1) return 1;
+    return a.id.localeCompare(b.id);
+  });
 
   const manifestPath = path.join(quizzesDir, "index.json");
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
